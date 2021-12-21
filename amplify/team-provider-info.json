@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-lipimsonaws-dev-110237-authRole",
+      "UnauthRoleArn": "arn:aws:iam::099970169462:role/amplify-lipimsonaws-dev-110237-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::099970169462:role/amplify-lipimsonaws-dev-110237-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-lipimsonaws-dev-110237-deployment",
+      "UnauthRoleName": "amplify-lipimsonaws-dev-110237-unauthRole",
+      "StackName": "amplify-lipimsonaws-dev-110237",
+      "StackId": "arn:aws:cloudformation:us-east-1:099970169462:stack/amplify-lipimsonaws-dev-110237/cde79e40-627f-11ec-bed5-0a41de8661b1",
+      "AmplifyAppId": "d3fygypgafjp3b"
+    }
+  }
+}
