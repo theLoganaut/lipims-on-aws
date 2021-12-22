@@ -1,70 +1,38 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# site frontpage or portal icon?
 
-## Available Scripts
+<h3 align="center"> Logan's Infinite Portal Inventory Management System </h3>
 
-In the project directory, you can run:
+<h3 align="center"> or </h3>
 
-### `npm start`
+<h1 align="center"> L.I.P.I.M.S </h1>
+<p> 
+LIPIMS is my fun twist on making an business management system, the twist being its made for a fake business in a Steampunk Sci-Fi world (think Arcane). It's a webapp that helps Logan (me!) handle running his banking business. He's discovered a portal system that allows an infinite amount of things to be stored, but they must be neat for easy employee retrieval. 
+</p>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+LIPIMS goal is to acheive a number of things, both inside and outside the world it's being 'created for';
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Create a real-world applicable a business management clone with Locations, Employees, Cost Overhead & Profit, Customer Banking.
+- Further develop frontend skills in React and linking that to AWS services.
+- Gain a stronger hands-on knowledge of creating and managing services in the AWS Cloud.
+- Display this on my portfolio as a showcase to my software engineering skillset.
+- Along the way get a better understanding of what working with a team would be like.
 
-### `npm test`
+<h3 align="center"> Roadmap </h3>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<li> Changing base AWS CRUD to the base LIPIMS CRUD with business locations and their employee data. </li>
 
-### `npm run build`
+<li> Adding CRUD for a customer ledger that just holds info on gold and any items stored. </li>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<li> Add customer transaction and storage logs to database and give businesses and employees related data for analytics.  </li>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<li> Give managers a BI dashboard to see cost. </li>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<li> Add Authentication with AWS Cognito that only allows verified users to log in, with roles for different user needs.  </li>
 
-### `npm run eject`
+<li> Serve a different view for non-managers and another for customers. </li>
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+<li> Revamp the view so it doesn't look like a framework. </li>
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+<li> Develop a seperate branch that would allow other businesses to use the Infinite Portals through an API. </li>
+ 
