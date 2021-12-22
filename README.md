@@ -20,19 +20,19 @@ LIPIMS goal is to acheive a number of things, both inside and outside the world 
 
 <h3 align="center"> Roadmap </h3>
 
-<li> Changing base AWS CRUD to the base LIPIMS CRUD with business locations and their employee data. </li>
+- Changing base AWS CRUD to the base LIPIMS CRUD with business locations and their employee data. 
 
-<li> Adding CRUD for a customer ledger that just holds info on gold and any items stored. </li>
+- Adding CRUD for a customer ledger that just holds info on gold and any items stored. 
 
-<li> Add customer transaction and storage logs to database and give businesses and employees related data for analytics.  </li>
+- Add customer transaction and storage logs to database and give businesses and employees related data for analytics.  
 
-<li> Give managers a BI dashboard to see cost. </li>
+- Give managers a BI dashboard to see cost. 
 
-<li> Add Authentication with AWS Cognito that only allows verified users to log in, with roles for different user needs.  </li>
+- Add Authentication with AWS Cognito that only allows verified users to log in, with roles for different user needs.  
 
-<li> Serve a different view for non-managers and another for customers. </li>
+- Serve a different view for non-managers and another for customers. 
 
-<li> Revamp the view so it doesn't look like a framework. </li>
+- Revamp the view so it doesn't look like a framework. 
 
-<li> Develop a seperate branch that would allow other businesses to use the Infinite Portals through an API. </li>
+- Develop a seperate branch that would allow other businesses to use the Infinite Portals through an API. 
  
