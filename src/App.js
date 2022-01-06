@@ -1,8 +1,8 @@
 /* src/App.js */
 import React, { useEffect, useState } from "react";
 import Amplify, { API, graphqlOperation } from "aws-amplify";
-import { createTodo } from "./graphql/mutations";
-import { listTodos } from "./graphql/queries";
+import { createLocation } from "./graphql/mutations";
+import { listLocations } from "./graphql/queries";
 import {
   Container,
   Row,
@@ -24,7 +24,7 @@ import awsExports from "./aws-exports";
 import LocationCardList from "./Components/LocationCardList";
 Amplify.configure(awsExports);
 
-const initialState = { name: "", description: "" };
+const initialState = { city: "", address: "", image: "", region: "", id: "" };
 
 const App = () => {
   const [showCreationModal, setShowCreationModal] = useState(false);
@@ -34,43 +34,78 @@ const App = () => {
   };
 
   const [formState, setFormState] = useState(initialState);
-  const [todos, setTodos] = useState([]);
+  const [Locations, setLocations] = useState([]);
 
   useEffect(() => {
-    fetchTodos();
+    fetchLocations();
   }, []);
 
   function setInput(key, value) {
     setFormState({ ...formState, [key]: value });
   }
 
-  async function fetchTodos() {
+  const myAPIkey = "da2-mqiv6wevm5b53dybwqtwtc533u";
+
+  //testing this solution https://aws.amazon.com/blogs/mobile/appsync-graphiql-local/
+  // function graphQLFetcher() {
+  //   const APPSYNC_API_URL =
+  //     "https://at52yi2amzc5dla5svvqghbmoe.appsync-api.us-east-1.amazonaws.com/graphql";
+  //   const credentialsAppSync = {
+  //     "x-api-key": "da2-mqiv6wevm5b53dybwqtwtc533u",
+  //   };
+  //   return fetch(APPSYNC_API_URL, {
+  //     method: "get",
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Content-Type": "application/json",
+  //       ...credentialsAppSync,
+  //     },
+  //     credentials: "omit",
+  //   }).then(function (response) {
+  //     return response.json().catch(function () {
+  //       return console.log(response); //response.text();
+  //     });
+  //   });
+  // }
+
+  async function fetchLocations() {
     try {
-      const todoData = await API.graphql(graphqlOperation(listTodos));
-      const todos = todoData.data.listTodos.items;
-      setTodos(todos);
+      const LocationData = await API.graphql(graphqlOperation(listLocations));
+      const Locations = LocationData.data.listLocations.items;
+      setLocations(Locations);
+      console.log(LocationData);
+      console.log(Locations);
     } catch (err) {
-      console.log("error fetching todos");
+      console.log(err, "error fetching Locations");
     }
   }
 
-  async function addTodo() {
+  async function addLocation() {
     try {
-      if (!formState.name || !formState.description) return;
-      const todo = { ...formState };
-      setTodos([...todos, todo]);
+      if (!formState.city) return;
+      const Location = { ...formState };
+      setLocations([...Locations, Location]);
       setFormState(initialState);
-      await API.graphql(graphqlOperation(createTodo, { input: todo }));
+      await API.graphql(graphqlOperation(createLocation, { input: Location }));
     } catch (err) {
-      console.log("error creating todo:", err);
+      console.log("error creating Location:", err);
     }
   }
+
+  console.log(Locations);
 
   return (
     <Container fluid>
       <CreationModal
         closeCreationModal={closeCreationModal}
         showCreationModal={showCreationModal}
+        initialState={initialState}
+        addLocation={addLocation}
+        setLocations={setLocations}
+        Locations={Locations}
+        API={API}
+        createLocation={createLocation}
+        graphqlOperation={graphqlOperation}
       />
       <Navbar bg="light" expand="lg" style={{ borderBottomStyle: "solid" }}>
         <Container>
@@ -140,7 +175,7 @@ const App = () => {
         </Col>
 
         <Col>
-          <LocationCardList />
+          <LocationCardList Locations={Locations} />
         </Col>
         <Col></Col>
       </Row>
