@@ -19,6 +19,7 @@ import {
   Button,
 } from "react-bootstrap";
 import CreationModal from "./Components/CreationModal";
+import GenericCreationModal from "./Components/GenericCreationModal";
 
 import awsExports from "./aws-exports";
 import LocationCardList from "./Components/LocationCardList";
@@ -96,7 +97,7 @@ const App = () => {
 
   return (
     <Container fluid>
-      <CreationModal
+      <GenericCreationModal
         closeCreationModal={closeCreationModal}
         showCreationModal={showCreationModal}
         initialState={initialState}
