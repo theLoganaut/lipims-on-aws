@@ -25,8 +25,6 @@ import awsExports from "./aws-exports";
 import LocationCardList from "./Components/LocationCardList";
 Amplify.configure(awsExports);
 
-const initialState = { city: "", address: "", image: "", region: "", id: "" };
-
 const App = () => {
   const [showCreationModal, setShowCreationModal] = useState(false);
 
@@ -34,16 +32,11 @@ const App = () => {
     setShowCreationModal(false);
   };
 
-  const [formState, setFormState] = useState(initialState);
   const [Locations, setLocations] = useState([]);
 
   useEffect(() => {
     fetchLocations();
   }, []);
-
-  function setInput(key, value) {
-    setFormState({ ...formState, [key]: value });
-  }
 
   const myAPIkey = "da2-mqiv6wevm5b53dybwqtwtc533u";
 
@@ -81,17 +74,63 @@ const App = () => {
     }
   }
 
-  async function addLocation() {
-    try {
-      if (!formState.city) return;
-      const Location = { ...formState };
-      setLocations([...Locations, Location]);
-      setFormState(initialState);
-      await API.graphql(graphqlOperation(createLocation, { input: Location }));
-    } catch (err) {
-      console.log("error creating Location:", err);
-    }
-  }
+  // async function addLocation() {
+  //   try {
+  //     if (!formState.city) return;
+  //     const Location = { ...formState };
+  //     setLocations([...Locations, Location]);
+  //     setFormState(initialState);
+  //     await API.graphql(graphqlOperation(createLocation, { input: Location }));
+  //   } catch (err) {
+  //     console.log("error creating Location:", err);
+  //   }
+  // }
+
+  const inputsTypes = {
+    employee: {
+      input1: {
+        title: "Employee Full Name",
+        value: "name",
+      },
+      input2: {
+        title: "Employee Title",
+        value: "title",
+      },
+      input3: {
+        title: "Pay Rate",
+        value: "payRate",
+      },
+      input4: {
+        title: "Employement Location",
+        value: "location",
+      },
+    },
+    location: {
+      input1: {
+        title: "City Name",
+        value: "city",
+      },
+      input2: {
+        title: "Region",
+        value: "region",
+      },
+      input3: {
+        title: "Address",
+        value: "address",
+      },
+      input4: {
+        title: "Image",
+        value: "image",
+      },
+    },
+  };
+
+  const [currentInputGroup, setCurrentInputGroup] = useState("");
+
+  const changeGenericInput = (buttonArg) => {
+    setCurrentInputGroup(inputsTypes[buttonArg]);
+    setShowCreationModal(true);
+  };
 
   console.log(Locations);
 
@@ -100,13 +139,14 @@ const App = () => {
       <GenericCreationModal
         closeCreationModal={closeCreationModal}
         showCreationModal={showCreationModal}
-        initialState={initialState}
-        addLocation={addLocation}
+        // initialState={initialState}
+        // addLocation={addLocation}
         setLocations={setLocations}
         Locations={Locations}
         API={API}
         createLocation={createLocation}
         graphqlOperation={graphqlOperation}
+        currentInputGroup={currentInputGroup}
       />
       <Navbar bg="light" expand="lg" style={{ borderBottomStyle: "solid" }}>
         <Container>
@@ -160,19 +200,19 @@ const App = () => {
           </Form>
           <Button
             style={{ width: "100%", marginBottom: "2%" }}
-            onClick={() => setShowCreationModal(true)}
+            onClick={() => changeGenericInput("location")}
           >
             {" "}
             Add Location{" "}
           </Button>
 
-          {/* <Button
+          <Button
             style={{ width: "100%" }}
-            onClick={() => setShowCreationModal(true)}
+            onClick={() => changeGenericInput("employee")}
           >
             {" "}
             Add Employee{" "}
-          </Button> */}
+          </Button>
         </Col>
 
         <Col>
