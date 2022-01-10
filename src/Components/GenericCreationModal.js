@@ -52,8 +52,8 @@ const GenericCreationModal = ({
 
     const showDataChange = (input, value) => {
 
-      console.log(input, value)   
-      
+      console.log(input, value)
+
       // setFormState(prevState => (prevState.input = value))
     }
     
