@@ -52,6 +52,7 @@ export const getEmployee = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      employeeLocationId
     }
   }
 `;
@@ -78,6 +79,7 @@ export const listEmployees = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        employeeLocationId
       }
       nextToken
     }
@@ -184,6 +186,7 @@ export const getItem = /* GraphQL */ `
           pay
           createdAt
           updatedAt
+          employeeLocationId
         }
         createdAt
         id
@@ -206,6 +209,7 @@ export const getItem = /* GraphQL */ `
           pay
           createdAt
           updatedAt
+          employeeLocationId
         }
         createdAt
         id
@@ -280,6 +284,7 @@ export const getDepositData = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        employeeLocationId
       }
       createdAt
       id
@@ -311,6 +316,7 @@ export const listDepositData = /* GraphQL */ `
           pay
           createdAt
           updatedAt
+          employeeLocationId
         }
         createdAt
         id
@@ -348,6 +354,7 @@ export const getWithdrawData = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        employeeLocationId
       }
       createdAt
       id
@@ -379,6 +386,7 @@ export const listWithdrawData = /* GraphQL */ `
           pay
           createdAt
           updatedAt
+          employeeLocationId
         }
         createdAt
         id

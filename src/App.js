@@ -109,7 +109,7 @@ const App = () => {
       },
       input4: {
         title: "Employement Location",
-        value: "location",
+        value: "employeeLocationId",
         select: true,
         options: Locations,
       },
@@ -138,7 +138,9 @@ const App = () => {
     },
   };
 
-  const [currentInputGroup, setCurrentInputGroup] = useState("");
+  const [currentInputGroup, setCurrentInputGroup] = useState(
+    inputsTypes.location
+  );
 
   const changeGenericInput = (buttonArg) => {
     setCurrentInputGroup(inputsTypes[buttonArg]);

@@ -70,6 +70,7 @@ export const createEmployee = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      employeeLocationId
     }
   }
 `;
@@ -94,6 +95,7 @@ export const updateEmployee = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      employeeLocationId
     }
   }
 `;
@@ -118,6 +120,7 @@ export const deleteEmployee = /* GraphQL */ `
       }
       createdAt
       updatedAt
+      employeeLocationId
     }
   }
 `;
@@ -282,6 +285,7 @@ export const createItem = /* GraphQL */ `
           pay
           createdAt
           updatedAt
+          employeeLocationId
         }
         createdAt
         id
@@ -304,6 +308,7 @@ export const createItem = /* GraphQL */ `
           pay
           createdAt
           updatedAt
+          employeeLocationId
         }
         createdAt
         id
@@ -355,6 +360,7 @@ export const updateItem = /* GraphQL */ `
           pay
           createdAt
           updatedAt
+          employeeLocationId
         }
         createdAt
         id
@@ -377,6 +383,7 @@ export const updateItem = /* GraphQL */ `
           pay
           createdAt
           updatedAt
+          employeeLocationId
         }
         createdAt
         id
@@ -428,6 +435,7 @@ export const deleteItem = /* GraphQL */ `
           pay
           createdAt
           updatedAt
+          employeeLocationId
         }
         createdAt
         id
@@ -450,6 +458,7 @@ export const deleteItem = /* GraphQL */ `
           pay
           createdAt
           updatedAt
+          employeeLocationId
         }
         createdAt
         id
@@ -491,6 +500,7 @@ export const createDepositData = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        employeeLocationId
       }
       createdAt
       id
@@ -529,6 +539,7 @@ export const updateDepositData = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        employeeLocationId
       }
       createdAt
       id
@@ -567,6 +578,7 @@ export const deleteDepositData = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        employeeLocationId
       }
       createdAt
       id
@@ -605,6 +617,7 @@ export const createWithdrawData = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        employeeLocationId
       }
       createdAt
       id
@@ -643,6 +656,7 @@ export const updateWithdrawData = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        employeeLocationId
       }
       createdAt
       id
@@ -681,6 +695,7 @@ export const deleteWithdrawData = /* GraphQL */ `
         }
         createdAt
         updatedAt
+        employeeLocationId
       }
       createdAt
       id

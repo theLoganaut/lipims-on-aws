@@ -17,7 +17,7 @@ type Employee @model {
   fullName: String!
   title: String
   pay: String
-  location: Location
+  location: Location @hasOne
 }
 type Customer @model {
   id: ID

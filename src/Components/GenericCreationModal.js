@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, InputGroup } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
+import Select from "react-select";
 
 const GenericCreationModal = ({
   closeCreationModal,
@@ -22,7 +23,7 @@ const GenericCreationModal = ({
     setPreGenID(uuidv4());
   };
 
-  const [formState, setFormState] = useState(currentInputGroup);
+  const [formState, setFormState] = useState([]);
 
   async function addEmployee() {
     try {
@@ -30,7 +31,7 @@ const GenericCreationModal = ({
       const Employee = { ...formState };
       console.log(Employee);
       // setEmployees([...Employees, Employee]);
-      setFormState(currentInputGroup);
+      setFormState([]);
       await API.graphql(graphqlOperation(createEmployee, { input: Employee }));
     } catch (err) {
       console.log("error creating Location:", err);
@@ -42,12 +43,44 @@ const GenericCreationModal = ({
       if (!formState.city) return;
       const Location = { ...formState };
       setLocations([...Locations, Location]);
-      setFormState(currentInputGroup);
+      setFormState([]);
       await API.graphql(graphqlOperation(createLocation, { input: Location }));
     } catch (err) {
       console.log("error creating Location:", err);
     }
   }
+
+  //figuring out the select on change
+  // function handleChange(e) {
+  //   let { name, value } = e.target;
+  //   this.setState({
+  //     [name]: value,
+  //   });
+  // }
+
+  // { value: "", label: "" }
+
+  const [selectOptions, setSelectOptions] = useState([]);
+
+  const setSelected = (selected, value) => {
+    console.log(selected, value);
+    console.log(currentInputGroup);
+    setFormState({ ...formState, [value]: selected.value });
+    console.log(formState);
+  };
+
+  let newOptions = [];
+
+  newOptions = Locations.map((l) => {
+    return { value: l.id, label: l.city };
+  });
+
+  console.log(formState);
+
+  const closeAndDeleteData = () => {
+    setFormState([]);
+    closeCreationModal();
+  };
 
   return (
     <Modal
@@ -61,25 +94,29 @@ const GenericCreationModal = ({
         <Form>
           {Object.values(currentInputGroup).map((i) => {
             return (
-              <Form.Group className="mb-3">
+              <Form.Group key={i.title} className="mb-3">
                 <Form.Label>{i.title}</Form.Label>
                 {i.select ? (
-                  <Form.Select>
-                    {i.options.map((o) => {
-                      return (
-                        <option
-                          defaultValue={"Select A City"}
-                          value={o}
-                          onChange={setFormState({
-                            ...formState,
-                            [i.value]: o,
-                          })}
-                        >
-                          {o.city}
-                        </option>
-                      );
-                    })}
-                  </Form.Select>
+                  // <Form.Select>
+                  //   {i.options.map((o) => {
+                  //     return (
+                  //       <option
+                  //         key={o.city}
+                  //         // defaultValue={`Select ${i.title}`}
+                  //         onChange={setFormState({
+                  //           ...formState,
+                  //           [i.value]: o,
+                  //         })}
+                  //       >
+                  //         {o.city}
+                  //       </option>
+                  //     );
+                  //   })}
+                  // </Form.Select>
+                  <Select
+                    options={newOptions}
+                    onChange={(e) => setSelected(e, i.value)}
+                  />
                 ) : (
                   <Form.Control
                     type="text"
@@ -107,7 +144,7 @@ const GenericCreationModal = ({
       <Modal.Footer>
         <Button onClick={addEmployee}>Tester</Button>
         <Button onClick={addLocation}>Save?</Button>
-        <Button onClick={closeCreationModal}>Close?</Button>
+        <Button onClick={closeAndDeleteData}>Close?</Button>
       </Modal.Footer>
     </Modal>
   );
