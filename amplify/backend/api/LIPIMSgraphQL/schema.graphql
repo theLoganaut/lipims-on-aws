@@ -9,4 +9,38 @@ type Location @model {
   region: String
   image: String
   address: String
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+type Employee @model {
+  id: ID
+  fullName: String!
+  title: String
+  pay: String
+  location: Location
+}
+type Customer @model {
+  id: ID
+  fullName: String!
+  membership: Boolean
+  paymentTotal: Int
+  storedItems: [Item]
+}
+type Item @model {
+  id: ID
+  itemName: String!
+  quickTransfer: Boolean
+  owner: Customer!
+  deposit: [DepositData]
+  withdraw: [WithdrawData]
+}
+type DepositData @model {
+  location: Location
+  employee: Employee
+  createdAt: AWSDateTime
+}
+type WithdrawData @model {
+  location: Location
+  employee: Employee
+  createdAt: AWSDateTime
 }

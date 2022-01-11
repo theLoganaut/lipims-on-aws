@@ -1,8 +1,8 @@
 /* src/App.js */
 import React, { useEffect, useState } from "react";
 import Amplify, { API, graphqlOperation } from "aws-amplify";
-import { createLocation } from "./graphql/mutations";
-import { listLocations } from "./graphql/queries";
+import { createLocation, createEmployee } from "./graphql/mutations";
+import { listLocations, listEmployees } from "./graphql/queries";
 import {
   Container,
   Row,
@@ -33,9 +33,10 @@ const App = () => {
   };
 
   const [Locations, setLocations] = useState([]);
+  const [Employees, setEmployees] = useState([]);
 
   useEffect(() => {
-    fetchLocations();
+    fetchData();
   }, []);
 
   const myAPIkey = "da2-mqiv6wevm5b53dybwqtwtc533u";
@@ -62,13 +63,16 @@ const App = () => {
   //   });
   // }
 
-  async function fetchLocations() {
+  async function fetchData() {
     try {
       const LocationData = await API.graphql(graphqlOperation(listLocations));
       const Locations = LocationData.data.listLocations.items;
       setLocations(Locations);
-      console.log(LocationData);
-      console.log(Locations);
+      // console.log(LocationData);
+      // console.log(Locations);
+      const EmployeeData = await API.graphql(graphqlOperation(listEmployees));
+      const Employees = EmployeeData.data.listEmployees.items;
+      setEmployees(Employees);
     } catch (err) {
       console.log(err, "error fetching Locations");
     }
@@ -90,37 +94,46 @@ const App = () => {
     employee: {
       input1: {
         title: "Employee Full Name",
-        value: "name",
+        value: "fullName",
+        select: false,
       },
       input2: {
         title: "Employee Title",
         value: "title",
+        select: false,
       },
       input3: {
         title: "Pay Rate",
-        value: "payRate",
+        value: "pay",
+        select: false,
       },
       input4: {
         title: "Employement Location",
         value: "location",
+        select: true,
+        options: Locations,
       },
     },
     location: {
       input1: {
         title: "City Name",
         value: "city",
+        select: false,
       },
       input2: {
         title: "Region",
         value: "region",
+        select: false,
       },
       input3: {
         title: "Address",
         value: "address",
+        select: false,
       },
       input4: {
         title: "Image",
         value: "image",
+        select: false,
       },
     },
   };
@@ -144,9 +157,11 @@ const App = () => {
         setLocations={setLocations}
         Locations={Locations}
         API={API}
+        createEmployee={createEmployee}
         createLocation={createLocation}
         graphqlOperation={graphqlOperation}
         currentInputGroup={currentInputGroup}
+        Employees={Employees}
       />
       <Navbar bg="light" expand="lg" style={{ borderBottomStyle: "solid" }}>
         <Container>
