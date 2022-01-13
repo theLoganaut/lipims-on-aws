@@ -12,6 +12,19 @@ export const createLocation = /* GraphQL */ `
       region
       image
       address
+      employeeList
+      employees {
+        items {
+          id
+          fullName
+          title
+          pay
+          cityLocation
+          hireTime
+          updatedTime
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -28,6 +41,19 @@ export const updateLocation = /* GraphQL */ `
       region
       image
       address
+      employeeList
+      employees {
+        items {
+          id
+          fullName
+          title
+          pay
+          cityLocation
+          hireTime
+          updatedTime
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -44,6 +70,19 @@ export const deleteLocation = /* GraphQL */ `
       region
       image
       address
+      employeeList
+      employees {
+        items {
+          id
+          fullName
+          title
+          pay
+          cityLocation
+          hireTime
+          updatedTime
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -59,18 +98,22 @@ export const createEmployee = /* GraphQL */ `
       fullName
       title
       pay
+      cityLocation
       location {
         id
         city
         region
         image
         address
+        employeeList
+        employees {
+          nextToken
+        }
         createdAt
         updatedAt
       }
-      createdAt
-      updatedAt
-      employeeLocationId
+      hireTime
+      updatedTime
     }
   }
 `;
@@ -84,18 +127,22 @@ export const updateEmployee = /* GraphQL */ `
       fullName
       title
       pay
+      cityLocation
       location {
         id
         city
         region
         image
         address
+        employeeList
+        employees {
+          nextToken
+        }
         createdAt
         updatedAt
       }
-      createdAt
-      updatedAt
-      employeeLocationId
+      hireTime
+      updatedTime
     }
   }
 `;
@@ -109,18 +156,22 @@ export const deleteEmployee = /* GraphQL */ `
       fullName
       title
       pay
+      cityLocation
       location {
         id
         city
         region
         image
         address
+        employeeList
+        employees {
+          nextToken
+        }
         createdAt
         updatedAt
       }
-      createdAt
-      updatedAt
-      employeeLocationId
+      hireTime
+      updatedTime
     }
   }
 `;
@@ -133,34 +184,20 @@ export const createCustomer = /* GraphQL */ `
       id
       fullName
       membership
-      paymentTotal
-      storedItems {
-        id
-        itemName
-        quickTransfer
-        owner {
+      outstandingPayments
+      storedItems
+      item {
+        items {
           id
-          fullName
-          membership
-          paymentTotal
-          createdAt
-          updatedAt
+          itemName
+          quickTransfer
+          owner
+          storageData
         }
-        deposit {
-          createdAt
-          id
-          updatedAt
-        }
-        withdraw {
-          createdAt
-          id
-          updatedAt
-        }
-        createdAt
-        updatedAt
+        nextToken
       }
-      createdAt
-      updatedAt
+      startTime
+      latestUpdateTime
     }
   }
 `;
@@ -173,34 +210,20 @@ export const updateCustomer = /* GraphQL */ `
       id
       fullName
       membership
-      paymentTotal
-      storedItems {
-        id
-        itemName
-        quickTransfer
-        owner {
+      outstandingPayments
+      storedItems
+      item {
+        items {
           id
-          fullName
-          membership
-          paymentTotal
-          createdAt
-          updatedAt
+          itemName
+          quickTransfer
+          owner
+          storageData
         }
-        deposit {
-          createdAt
-          id
-          updatedAt
-        }
-        withdraw {
-          createdAt
-          id
-          updatedAt
-        }
-        createdAt
-        updatedAt
+        nextToken
       }
-      createdAt
-      updatedAt
+      startTime
+      latestUpdateTime
     }
   }
 `;
@@ -213,34 +236,20 @@ export const deleteCustomer = /* GraphQL */ `
       id
       fullName
       membership
-      paymentTotal
-      storedItems {
-        id
-        itemName
-        quickTransfer
-        owner {
+      outstandingPayments
+      storedItems
+      item {
+        items {
           id
-          fullName
-          membership
-          paymentTotal
-          createdAt
-          updatedAt
+          itemName
+          quickTransfer
+          owner
+          storageData
         }
-        deposit {
-          createdAt
-          id
-          updatedAt
-        }
-        withdraw {
-          createdAt
-          id
-          updatedAt
-        }
-        createdAt
-        updatedAt
+        nextToken
       }
-      createdAt
-      updatedAt
+      startTime
+      latestUpdateTime
     }
   }
 `;
@@ -253,28 +262,31 @@ export const createItem = /* GraphQL */ `
       id
       itemName
       quickTransfer
-      owner {
+      owner
+      customer {
         id
         fullName
         membership
-        paymentTotal
-        storedItems {
-          id
-          itemName
-          quickTransfer
-          createdAt
-          updatedAt
+        outstandingPayments
+        storedItems
+        item {
+          nextToken
         }
-        createdAt
-        updatedAt
+        startTime
+        latestUpdateTime
       }
-      deposit {
+      storageData
+      holdingData {
+        id
+        city
+        helpedByEmployee
         location {
           id
           city
           region
           image
           address
+          employeeList
           createdAt
           updatedAt
         }
@@ -283,39 +295,13 @@ export const createItem = /* GraphQL */ `
           fullName
           title
           pay
-          createdAt
-          updatedAt
-          employeeLocationId
+          cityLocation
+          hireTime
+          updatedTime
         }
-        createdAt
-        id
-        updatedAt
+        deposited
+        withdrawn
       }
-      withdraw {
-        location {
-          id
-          city
-          region
-          image
-          address
-          createdAt
-          updatedAt
-        }
-        employee {
-          id
-          fullName
-          title
-          pay
-          createdAt
-          updatedAt
-          employeeLocationId
-        }
-        createdAt
-        id
-        updatedAt
-      }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -328,28 +314,31 @@ export const updateItem = /* GraphQL */ `
       id
       itemName
       quickTransfer
-      owner {
+      owner
+      customer {
         id
         fullName
         membership
-        paymentTotal
-        storedItems {
-          id
-          itemName
-          quickTransfer
-          createdAt
-          updatedAt
+        outstandingPayments
+        storedItems
+        item {
+          nextToken
         }
-        createdAt
-        updatedAt
+        startTime
+        latestUpdateTime
       }
-      deposit {
+      storageData
+      holdingData {
+        id
+        city
+        helpedByEmployee
         location {
           id
           city
           region
           image
           address
+          employeeList
           createdAt
           updatedAt
         }
@@ -358,39 +347,13 @@ export const updateItem = /* GraphQL */ `
           fullName
           title
           pay
-          createdAt
-          updatedAt
-          employeeLocationId
+          cityLocation
+          hireTime
+          updatedTime
         }
-        createdAt
-        id
-        updatedAt
+        deposited
+        withdrawn
       }
-      withdraw {
-        location {
-          id
-          city
-          region
-          image
-          address
-          createdAt
-          updatedAt
-        }
-        employee {
-          id
-          fullName
-          title
-          pay
-          createdAt
-          updatedAt
-          employeeLocationId
-        }
-        createdAt
-        id
-        updatedAt
-      }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -403,28 +366,31 @@ export const deleteItem = /* GraphQL */ `
       id
       itemName
       quickTransfer
-      owner {
+      owner
+      customer {
         id
         fullName
         membership
-        paymentTotal
-        storedItems {
-          id
-          itemName
-          quickTransfer
-          createdAt
-          updatedAt
+        outstandingPayments
+        storedItems
+        item {
+          nextToken
         }
-        createdAt
-        updatedAt
+        startTime
+        latestUpdateTime
       }
-      deposit {
+      storageData
+      holdingData {
+        id
+        city
+        helpedByEmployee
         location {
           id
           city
           region
           image
           address
+          employeeList
           createdAt
           updatedAt
         }
@@ -433,54 +399,35 @@ export const deleteItem = /* GraphQL */ `
           fullName
           title
           pay
-          createdAt
-          updatedAt
-          employeeLocationId
+          cityLocation
+          hireTime
+          updatedTime
         }
-        createdAt
-        id
-        updatedAt
+        deposited
+        withdrawn
       }
-      withdraw {
-        location {
-          id
-          city
-          region
-          image
-          address
-          createdAt
-          updatedAt
-        }
-        employee {
-          id
-          fullName
-          title
-          pay
-          createdAt
-          updatedAt
-          employeeLocationId
-        }
-        createdAt
-        id
-        updatedAt
-      }
-      createdAt
-      updatedAt
     }
   }
 `;
-export const createDepositData = /* GraphQL */ `
-  mutation CreateDepositData(
-    $input: CreateDepositDataInput!
-    $condition: ModelDepositDataConditionInput
+export const createHoldingData = /* GraphQL */ `
+  mutation CreateHoldingData(
+    $input: CreateHoldingDataInput!
+    $condition: ModelHoldingDataConditionInput
   ) {
-    createDepositData(input: $input, condition: $condition) {
+    createHoldingData(input: $input, condition: $condition) {
+      id
+      city
+      helpedByEmployee
       location {
         id
         city
         region
         image
         address
+        employeeList
+        employees {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -489,37 +436,44 @@ export const createDepositData = /* GraphQL */ `
         fullName
         title
         pay
+        cityLocation
         location {
           id
           city
           region
           image
           address
+          employeeList
           createdAt
           updatedAt
         }
-        createdAt
-        updatedAt
-        employeeLocationId
+        hireTime
+        updatedTime
       }
-      createdAt
-      id
-      updatedAt
+      deposited
+      withdrawn
     }
   }
 `;
-export const updateDepositData = /* GraphQL */ `
-  mutation UpdateDepositData(
-    $input: UpdateDepositDataInput!
-    $condition: ModelDepositDataConditionInput
+export const updateHoldingData = /* GraphQL */ `
+  mutation UpdateHoldingData(
+    $input: UpdateHoldingDataInput!
+    $condition: ModelHoldingDataConditionInput
   ) {
-    updateDepositData(input: $input, condition: $condition) {
+    updateHoldingData(input: $input, condition: $condition) {
+      id
+      city
+      helpedByEmployee
       location {
         id
         city
         region
         image
         address
+        employeeList
+        employees {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -528,37 +482,44 @@ export const updateDepositData = /* GraphQL */ `
         fullName
         title
         pay
+        cityLocation
         location {
           id
           city
           region
           image
           address
+          employeeList
           createdAt
           updatedAt
         }
-        createdAt
-        updatedAt
-        employeeLocationId
+        hireTime
+        updatedTime
       }
-      createdAt
-      id
-      updatedAt
+      deposited
+      withdrawn
     }
   }
 `;
-export const deleteDepositData = /* GraphQL */ `
-  mutation DeleteDepositData(
-    $input: DeleteDepositDataInput!
-    $condition: ModelDepositDataConditionInput
+export const deleteHoldingData = /* GraphQL */ `
+  mutation DeleteHoldingData(
+    $input: DeleteHoldingDataInput!
+    $condition: ModelHoldingDataConditionInput
   ) {
-    deleteDepositData(input: $input, condition: $condition) {
+    deleteHoldingData(input: $input, condition: $condition) {
+      id
+      city
+      helpedByEmployee
       location {
         id
         city
         region
         image
         address
+        employeeList
+        employees {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -567,139 +528,22 @@ export const deleteDepositData = /* GraphQL */ `
         fullName
         title
         pay
+        cityLocation
         location {
           id
           city
           region
           image
           address
+          employeeList
           createdAt
           updatedAt
         }
-        createdAt
-        updatedAt
-        employeeLocationId
+        hireTime
+        updatedTime
       }
-      createdAt
-      id
-      updatedAt
-    }
-  }
-`;
-export const createWithdrawData = /* GraphQL */ `
-  mutation CreateWithdrawData(
-    $input: CreateWithdrawDataInput!
-    $condition: ModelWithdrawDataConditionInput
-  ) {
-    createWithdrawData(input: $input, condition: $condition) {
-      location {
-        id
-        city
-        region
-        image
-        address
-        createdAt
-        updatedAt
-      }
-      employee {
-        id
-        fullName
-        title
-        pay
-        location {
-          id
-          city
-          region
-          image
-          address
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-        employeeLocationId
-      }
-      createdAt
-      id
-      updatedAt
-    }
-  }
-`;
-export const updateWithdrawData = /* GraphQL */ `
-  mutation UpdateWithdrawData(
-    $input: UpdateWithdrawDataInput!
-    $condition: ModelWithdrawDataConditionInput
-  ) {
-    updateWithdrawData(input: $input, condition: $condition) {
-      location {
-        id
-        city
-        region
-        image
-        address
-        createdAt
-        updatedAt
-      }
-      employee {
-        id
-        fullName
-        title
-        pay
-        location {
-          id
-          city
-          region
-          image
-          address
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-        employeeLocationId
-      }
-      createdAt
-      id
-      updatedAt
-    }
-  }
-`;
-export const deleteWithdrawData = /* GraphQL */ `
-  mutation DeleteWithdrawData(
-    $input: DeleteWithdrawDataInput!
-    $condition: ModelWithdrawDataConditionInput
-  ) {
-    deleteWithdrawData(input: $input, condition: $condition) {
-      location {
-        id
-        city
-        region
-        image
-        address
-        createdAt
-        updatedAt
-      }
-      employee {
-        id
-        fullName
-        title
-        pay
-        location {
-          id
-          city
-          region
-          image
-          address
-          createdAt
-          updatedAt
-        }
-        createdAt
-        updatedAt
-        employeeLocationId
-      }
-      createdAt
-      id
-      updatedAt
+      deposited
+      withdrawn
     }
   }
 `;

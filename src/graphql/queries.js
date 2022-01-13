@@ -9,6 +9,19 @@ export const getLocation = /* GraphQL */ `
       region
       image
       address
+      employeeList
+      employees {
+        items {
+          id
+          fullName
+          title
+          pay
+          cityLocation
+          hireTime
+          updatedTime
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -27,6 +40,10 @@ export const listLocations = /* GraphQL */ `
         region
         image
         address
+        employeeList
+        employees {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -41,18 +58,22 @@ export const getEmployee = /* GraphQL */ `
       fullName
       title
       pay
+      cityLocation
       location {
         id
         city
         region
         image
         address
+        employeeList
+        employees {
+          nextToken
+        }
         createdAt
         updatedAt
       }
-      createdAt
-      updatedAt
-      employeeLocationId
+      hireTime
+      updatedTime
     }
   }
 `;
@@ -68,18 +89,19 @@ export const listEmployees = /* GraphQL */ `
         fullName
         title
         pay
+        cityLocation
         location {
           id
           city
           region
           image
           address
+          employeeList
           createdAt
           updatedAt
         }
-        createdAt
-        updatedAt
-        employeeLocationId
+        hireTime
+        updatedTime
       }
       nextToken
     }
@@ -91,34 +113,20 @@ export const getCustomer = /* GraphQL */ `
       id
       fullName
       membership
-      paymentTotal
-      storedItems {
-        id
-        itemName
-        quickTransfer
-        owner {
+      outstandingPayments
+      storedItems
+      item {
+        items {
           id
-          fullName
-          membership
-          paymentTotal
-          createdAt
-          updatedAt
+          itemName
+          quickTransfer
+          owner
+          storageData
         }
-        deposit {
-          createdAt
-          id
-          updatedAt
-        }
-        withdraw {
-          createdAt
-          id
-          updatedAt
-        }
-        createdAt
-        updatedAt
+        nextToken
       }
-      createdAt
-      updatedAt
+      startTime
+      latestUpdateTime
     }
   }
 `;
@@ -133,16 +141,13 @@ export const listCustomers = /* GraphQL */ `
         id
         fullName
         membership
-        paymentTotal
-        storedItems {
-          id
-          itemName
-          quickTransfer
-          createdAt
-          updatedAt
+        outstandingPayments
+        storedItems
+        item {
+          nextToken
         }
-        createdAt
-        updatedAt
+        startTime
+        latestUpdateTime
       }
       nextToken
     }
@@ -154,28 +159,31 @@ export const getItem = /* GraphQL */ `
       id
       itemName
       quickTransfer
-      owner {
+      owner
+      customer {
         id
         fullName
         membership
-        paymentTotal
-        storedItems {
-          id
-          itemName
-          quickTransfer
-          createdAt
-          updatedAt
+        outstandingPayments
+        storedItems
+        item {
+          nextToken
         }
-        createdAt
-        updatedAt
+        startTime
+        latestUpdateTime
       }
-      deposit {
+      storageData
+      holdingData {
+        id
+        city
+        helpedByEmployee
         location {
           id
           city
           region
           image
           address
+          employeeList
           createdAt
           updatedAt
         }
@@ -184,39 +192,13 @@ export const getItem = /* GraphQL */ `
           fullName
           title
           pay
-          createdAt
-          updatedAt
-          employeeLocationId
+          cityLocation
+          hireTime
+          updatedTime
         }
-        createdAt
-        id
-        updatedAt
+        deposited
+        withdrawn
       }
-      withdraw {
-        location {
-          id
-          city
-          region
-          image
-          address
-          createdAt
-          updatedAt
-        }
-        employee {
-          id
-          fullName
-          title
-          pay
-          createdAt
-          updatedAt
-          employeeLocationId
-        }
-        createdAt
-        id
-        updatedAt
-      }
-      createdAt
-      updatedAt
     }
   }
 `;
@@ -231,40 +213,45 @@ export const listItems = /* GraphQL */ `
         id
         itemName
         quickTransfer
-        owner {
+        owner
+        customer {
           id
           fullName
           membership
-          paymentTotal
-          createdAt
-          updatedAt
+          outstandingPayments
+          storedItems
+          startTime
+          latestUpdateTime
         }
-        deposit {
-          createdAt
+        storageData
+        holdingData {
           id
-          updatedAt
+          city
+          helpedByEmployee
+          deposited
+          withdrawn
         }
-        withdraw {
-          createdAt
-          id
-          updatedAt
-        }
-        createdAt
-        updatedAt
       }
       nextToken
     }
   }
 `;
-export const getDepositData = /* GraphQL */ `
-  query GetDepositData($id: ID!) {
-    getDepositData(id: $id) {
+export const getHoldingData = /* GraphQL */ `
+  query GetHoldingData($id: ID!) {
+    getHoldingData(id: $id) {
+      id
+      city
+      helpedByEmployee
       location {
         id
         city
         region
         image
         address
+        employeeList
+        employees {
+          nextToken
+        }
         createdAt
         updatedAt
       }
@@ -273,39 +260,43 @@ export const getDepositData = /* GraphQL */ `
         fullName
         title
         pay
+        cityLocation
         location {
           id
           city
           region
           image
           address
+          employeeList
           createdAt
           updatedAt
         }
-        createdAt
-        updatedAt
-        employeeLocationId
+        hireTime
+        updatedTime
       }
-      createdAt
-      id
-      updatedAt
+      deposited
+      withdrawn
     }
   }
 `;
-export const listDepositData = /* GraphQL */ `
-  query ListDepositData(
-    $filter: ModelDepositDataFilterInput
+export const listHoldingData = /* GraphQL */ `
+  query ListHoldingData(
+    $filter: ModelHoldingDataFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listDepositData(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listHoldingData(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
+        id
+        city
+        helpedByEmployee
         location {
           id
           city
           region
           image
           address
+          employeeList
           createdAt
           updatedAt
         }
@@ -314,83 +305,163 @@ export const listDepositData = /* GraphQL */ `
           fullName
           title
           pay
-          createdAt
-          updatedAt
-          employeeLocationId
+          cityLocation
+          hireTime
+          updatedTime
+        }
+        deposited
+        withdrawn
+      }
+      nextToken
+    }
+  }
+`;
+export const byCity = /* GraphQL */ `
+  query ByCity(
+    $id: ID
+    $city: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelLocationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    byCity(
+      id: $id
+      city: $city
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        city
+        region
+        image
+        address
+        employeeList
+        employees {
+          nextToken
         }
         createdAt
-        id
         updatedAt
       }
       nextToken
     }
   }
 `;
-export const getWithdrawData = /* GraphQL */ `
-  query GetWithdrawData($id: ID!) {
-    getWithdrawData(id: $id) {
-      location {
-        id
-        city
-        region
-        image
-        address
-        createdAt
-        updatedAt
-      }
-      employee {
+export const byEmployeeName = /* GraphQL */ `
+  query ByEmployeeName(
+    $id: ID
+    $fullName: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelEmployeeFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    byEmployeeName(
+      id: $id
+      fullName: $fullName
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
         id
         fullName
         title
         pay
+        cityLocation
         location {
           id
           city
           region
           image
           address
+          employeeList
           createdAt
           updatedAt
         }
-        createdAt
-        updatedAt
-        employeeLocationId
+        hireTime
+        updatedTime
       }
-      createdAt
-      id
-      updatedAt
+      nextToken
     }
   }
 `;
-export const listWithdrawData = /* GraphQL */ `
-  query ListWithdrawData(
-    $filter: ModelWithdrawDataFilterInput
+export const byCustomerName = /* GraphQL */ `
+  query ByCustomerName(
+    $id: ID
+    $fullName: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelCustomerFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listWithdrawData(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    byCustomerName(
+      id: $id
+      fullName: $fullName
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
       items {
-        location {
-          id
-          city
-          region
-          image
-          address
-          createdAt
-          updatedAt
+        id
+        fullName
+        membership
+        outstandingPayments
+        storedItems
+        item {
+          nextToken
         }
-        employee {
+        startTime
+        latestUpdateTime
+      }
+      nextToken
+    }
+  }
+`;
+export const byItemName = /* GraphQL */ `
+  query ByItemName(
+    $id: ID
+    $itemNameOwner: ModelItemByItemNameCompositeKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelItemFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    byItemName(
+      id: $id
+      itemNameOwner: $itemNameOwner
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        itemName
+        quickTransfer
+        owner
+        customer {
           id
           fullName
-          title
-          pay
-          createdAt
-          updatedAt
-          employeeLocationId
+          membership
+          outstandingPayments
+          storedItems
+          startTime
+          latestUpdateTime
         }
-        createdAt
-        id
-        updatedAt
+        storageData
+        holdingData {
+          id
+          city
+          helpedByEmployee
+          deposited
+          withdrawn
+        }
       }
       nextToken
     }
