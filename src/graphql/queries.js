@@ -318,16 +318,16 @@ export const listHoldingData = /* GraphQL */ `
 `;
 export const byCity = /* GraphQL */ `
   query ByCity(
-    $id: ID
-    $city: ModelStringKeyConditionInput
+    $city: String
+    $id: ModelIDKeyConditionInput
     $sortDirection: ModelSortDirection
     $filter: ModelLocationFilterInput
     $limit: Int
     $nextToken: String
   ) {
     byCity(
-      id: $id
       city: $city
+      id: $id
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit
@@ -352,16 +352,16 @@ export const byCity = /* GraphQL */ `
 `;
 export const byEmployeeName = /* GraphQL */ `
   query ByEmployeeName(
-    $id: ID
-    $fullName: ModelStringKeyConditionInput
+    $fullName: String
+    $id: ModelIDKeyConditionInput
     $sortDirection: ModelSortDirection
     $filter: ModelEmployeeFilterInput
     $limit: Int
     $nextToken: String
   ) {
     byEmployeeName(
-      id: $id
       fullName: $fullName
+      id: $id
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit
@@ -392,16 +392,16 @@ export const byEmployeeName = /* GraphQL */ `
 `;
 export const byCustomerName = /* GraphQL */ `
   query ByCustomerName(
-    $id: ID
-    $fullName: ModelStringKeyConditionInput
+    $fullName: String
+    $id: ModelIDKeyConditionInput
     $sortDirection: ModelSortDirection
     $filter: ModelCustomerFilterInput
     $limit: Int
     $nextToken: String
   ) {
     byCustomerName(
-      id: $id
       fullName: $fullName
+      id: $id
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit
@@ -425,16 +425,16 @@ export const byCustomerName = /* GraphQL */ `
 `;
 export const byItemName = /* GraphQL */ `
   query ByItemName(
-    $id: ID
-    $itemNameOwner: ModelItemByItemNameCompositeKeyConditionInput
+    $itemName: String
+    $idOwner: ModelItemByItemNameCompositeKeyConditionInput
     $sortDirection: ModelSortDirection
     $filter: ModelItemFilterInput
     $limit: Int
     $nextToken: String
   ) {
     byItemName(
-      id: $id
-      itemNameOwner: $itemNameOwner
+      itemName: $itemName
+      idOwner: $idOwner
       sortDirection: $sortDirection
       filter: $filter
       limit: $limit

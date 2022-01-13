@@ -1,6 +1,6 @@
 {
   "api": {
-    "LIPIMSgraphQL": {
+    "lipimsonaws": {
       "service": "AppSync",
       "providerPlugin": "awscloudformation",
       "output": {
@@ -8,9 +8,7 @@
           "defaultAuthentication": {
             "authenticationType": "API_KEY",
             "apiKeyConfig": {
-              "apiKeyExpirationDays": 7,
-              "apiKeyExpirationDate": "2022-01-18T17:24:14.946Z",
-              "description": "jan 11"
+              "apiKeyExpirationDays": 7
             }
           },
           "additionalAuthenticationProviders": []

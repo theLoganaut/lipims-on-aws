@@ -1,7 +1,0 @@
-{
-  "AppSyncApiName": "LIPIMSgraphQL",
-  "DynamoDBBillingMode": "PAY_PER_REQUEST",
-  "DynamoDBEnableServerSideEncryption": false,
-  "APIKeyExpirationEpoch": -1,
-  "AuthModeLastUpdated": "2022-01-11T17:24:17.942Z"
-}
