@@ -13,20 +13,20 @@ export const createLocation = /* GraphQL */ `
       image
       address
       employeeList
-      employees {
+      employeeConnection {
         items {
           id
           fullName
           title
           pay
-          cityLocation
+          workingAt
           hireTime
           updatedTime
         }
         nextToken
       }
-      createdAt
-      updatedAt
+      openTime
+      lastestUpdateTime
     }
   }
 `;
@@ -42,20 +42,20 @@ export const updateLocation = /* GraphQL */ `
       image
       address
       employeeList
-      employees {
+      employeeConnection {
         items {
           id
           fullName
           title
           pay
-          cityLocation
+          workingAt
           hireTime
           updatedTime
         }
         nextToken
       }
-      createdAt
-      updatedAt
+      openTime
+      lastestUpdateTime
     }
   }
 `;
@@ -71,20 +71,20 @@ export const deleteLocation = /* GraphQL */ `
       image
       address
       employeeList
-      employees {
+      employeeConnection {
         items {
           id
           fullName
           title
           pay
-          cityLocation
+          workingAt
           hireTime
           updatedTime
         }
         nextToken
       }
-      createdAt
-      updatedAt
+      openTime
+      lastestUpdateTime
     }
   }
 `;
@@ -98,19 +98,19 @@ export const createEmployee = /* GraphQL */ `
       fullName
       title
       pay
-      cityLocation
-      location {
+      workingAt
+      employeeConnection {
         id
         city
         region
         image
         address
         employeeList
-        employees {
+        employeeConnection {
           nextToken
         }
-        createdAt
-        updatedAt
+        openTime
+        lastestUpdateTime
       }
       hireTime
       updatedTime
@@ -127,19 +127,19 @@ export const updateEmployee = /* GraphQL */ `
       fullName
       title
       pay
-      cityLocation
-      location {
+      workingAt
+      employeeConnection {
         id
         city
         region
         image
         address
         employeeList
-        employees {
+        employeeConnection {
           nextToken
         }
-        createdAt
-        updatedAt
+        openTime
+        lastestUpdateTime
       }
       hireTime
       updatedTime
@@ -156,19 +156,19 @@ export const deleteEmployee = /* GraphQL */ `
       fullName
       title
       pay
-      cityLocation
-      location {
+      workingAt
+      employeeConnection {
         id
         city
         region
         image
         address
         employeeList
-        employees {
+        employeeConnection {
           nextToken
         }
-        createdAt
-        updatedAt
+        openTime
+        lastestUpdateTime
       }
       hireTime
       updatedTime
@@ -186,17 +186,21 @@ export const createCustomer = /* GraphQL */ `
       membership
       outstandingPayments
       storedItems
-      item {
+      itemConnection {
         items {
           id
           itemName
           quickTransfer
           owner
-          storageData
+          depositLocation
+          withdrawnLocation
+          helpedBy
+          deposited
+          withdrawn
         }
         nextToken
       }
-      startTime
+      joinTime
       latestUpdateTime
     }
   }
@@ -212,17 +216,21 @@ export const updateCustomer = /* GraphQL */ `
       membership
       outstandingPayments
       storedItems
-      item {
+      itemConnection {
         items {
           id
           itemName
           quickTransfer
           owner
-          storageData
+          depositLocation
+          withdrawnLocation
+          helpedBy
+          deposited
+          withdrawn
         }
         nextToken
       }
-      startTime
+      joinTime
       latestUpdateTime
     }
   }
@@ -238,17 +246,21 @@ export const deleteCustomer = /* GraphQL */ `
       membership
       outstandingPayments
       storedItems
-      item {
+      itemConnection {
         items {
           id
           itemName
           quickTransfer
           owner
-          storageData
+          depositLocation
+          withdrawnLocation
+          helpedBy
+          deposited
+          withdrawn
         }
         nextToken
       }
-      startTime
+      joinTime
       latestUpdateTime
     }
   }
@@ -263,45 +275,35 @@ export const createItem = /* GraphQL */ `
       itemName
       quickTransfer
       owner
-      customer {
+      customerConnection {
         id
         fullName
         membership
         outstandingPayments
         storedItems
-        item {
+        itemConnection {
           nextToken
         }
-        startTime
+        joinTime
         latestUpdateTime
       }
-      storageData
-      holdingData {
-        id
-        city
-        helpedByEmployee
-        location {
-          id
-          city
-          region
-          image
-          address
-          employeeList
-          createdAt
-          updatedAt
-        }
-        employee {
+      depositLocation
+      withdrawnLocation
+      helpedBy
+      employeeConnection {
+        items {
           id
           fullName
           title
           pay
-          cityLocation
+          workingAt
           hireTime
           updatedTime
         }
-        deposited
-        withdrawn
+        nextToken
       }
+      deposited
+      withdrawn
     }
   }
 `;
@@ -315,45 +317,35 @@ export const updateItem = /* GraphQL */ `
       itemName
       quickTransfer
       owner
-      customer {
+      customerConnection {
         id
         fullName
         membership
         outstandingPayments
         storedItems
-        item {
+        itemConnection {
           nextToken
         }
-        startTime
+        joinTime
         latestUpdateTime
       }
-      storageData
-      holdingData {
-        id
-        city
-        helpedByEmployee
-        location {
-          id
-          city
-          region
-          image
-          address
-          employeeList
-          createdAt
-          updatedAt
-        }
-        employee {
+      depositLocation
+      withdrawnLocation
+      helpedBy
+      employeeConnection {
+        items {
           id
           fullName
           title
           pay
-          cityLocation
+          workingAt
           hireTime
           updatedTime
         }
-        deposited
-        withdrawn
+        nextToken
       }
+      deposited
+      withdrawn
     }
   }
 `;
@@ -367,183 +359,188 @@ export const deleteItem = /* GraphQL */ `
       itemName
       quickTransfer
       owner
-      customer {
+      customerConnection {
         id
         fullName
         membership
         outstandingPayments
         storedItems
-        item {
+        itemConnection {
           nextToken
         }
-        startTime
+        joinTime
         latestUpdateTime
       }
-      storageData
-      holdingData {
-        id
-        city
-        helpedByEmployee
-        location {
-          id
-          city
-          region
-          image
-          address
-          employeeList
-          createdAt
-          updatedAt
-        }
-        employee {
+      depositLocation
+      withdrawnLocation
+      helpedBy
+      employeeConnection {
+        items {
           id
           fullName
           title
           pay
-          cityLocation
+          workingAt
           hireTime
           updatedTime
+        }
+        nextToken
+      }
+      deposited
+      withdrawn
+    }
+  }
+`;
+export const createPayments = /* GraphQL */ `
+  mutation CreatePayments(
+    $input: CreatePaymentsInput!
+    $condition: ModelPaymentsConditionInput
+  ) {
+    createPayments(input: $input, condition: $condition) {
+      id
+      amount
+      itemID {
+        id
+        itemName
+        quickTransfer
+        owner
+        customerConnection {
+          id
+          fullName
+          membership
+          outstandingPayments
+          storedItems
+          joinTime
+          latestUpdateTime
+        }
+        depositLocation
+        withdrawnLocation
+        helpedBy
+        employeeConnection {
+          nextToken
         }
         deposited
         withdrawn
       }
+      customerID {
+        id
+        fullName
+        membership
+        outstandingPayments
+        storedItems
+        itemConnection {
+          nextToken
+        }
+        joinTime
+        latestUpdateTime
+      }
+      outstanding
+      paymentStartDate
+      paidDate
+      paymentsItemIDId
+      paymentsCustomerIDId
     }
   }
 `;
-export const createHoldingData = /* GraphQL */ `
-  mutation CreateHoldingData(
-    $input: CreateHoldingDataInput!
-    $condition: ModelHoldingDataConditionInput
+export const updatePayments = /* GraphQL */ `
+  mutation UpdatePayments(
+    $input: UpdatePaymentsInput!
+    $condition: ModelPaymentsConditionInput
   ) {
-    createHoldingData(input: $input, condition: $condition) {
+    updatePayments(input: $input, condition: $condition) {
       id
-      city
-      helpedByEmployee
-      location {
+      amount
+      itemID {
         id
-        city
-        region
-        image
-        address
-        employeeList
-        employees {
+        itemName
+        quickTransfer
+        owner
+        customerConnection {
+          id
+          fullName
+          membership
+          outstandingPayments
+          storedItems
+          joinTime
+          latestUpdateTime
+        }
+        depositLocation
+        withdrawnLocation
+        helpedBy
+        employeeConnection {
           nextToken
         }
-        createdAt
-        updatedAt
+        deposited
+        withdrawn
       }
-      employee {
+      customerID {
         id
         fullName
-        title
-        pay
-        cityLocation
-        location {
-          id
-          city
-          region
-          image
-          address
-          employeeList
-          createdAt
-          updatedAt
+        membership
+        outstandingPayments
+        storedItems
+        itemConnection {
+          nextToken
         }
-        hireTime
-        updatedTime
+        joinTime
+        latestUpdateTime
       }
-      deposited
-      withdrawn
+      outstanding
+      paymentStartDate
+      paidDate
+      paymentsItemIDId
+      paymentsCustomerIDId
     }
   }
 `;
-export const updateHoldingData = /* GraphQL */ `
-  mutation UpdateHoldingData(
-    $input: UpdateHoldingDataInput!
-    $condition: ModelHoldingDataConditionInput
+export const deletePayments = /* GraphQL */ `
+  mutation DeletePayments(
+    $input: DeletePaymentsInput!
+    $condition: ModelPaymentsConditionInput
   ) {
-    updateHoldingData(input: $input, condition: $condition) {
+    deletePayments(input: $input, condition: $condition) {
       id
-      city
-      helpedByEmployee
-      location {
+      amount
+      itemID {
         id
-        city
-        region
-        image
-        address
-        employeeList
-        employees {
+        itemName
+        quickTransfer
+        owner
+        customerConnection {
+          id
+          fullName
+          membership
+          outstandingPayments
+          storedItems
+          joinTime
+          latestUpdateTime
+        }
+        depositLocation
+        withdrawnLocation
+        helpedBy
+        employeeConnection {
           nextToken
         }
-        createdAt
-        updatedAt
+        deposited
+        withdrawn
       }
-      employee {
+      customerID {
         id
         fullName
-        title
-        pay
-        cityLocation
-        location {
-          id
-          city
-          region
-          image
-          address
-          employeeList
-          createdAt
-          updatedAt
-        }
-        hireTime
-        updatedTime
-      }
-      deposited
-      withdrawn
-    }
-  }
-`;
-export const deleteHoldingData = /* GraphQL */ `
-  mutation DeleteHoldingData(
-    $input: DeleteHoldingDataInput!
-    $condition: ModelHoldingDataConditionInput
-  ) {
-    deleteHoldingData(input: $input, condition: $condition) {
-      id
-      city
-      helpedByEmployee
-      location {
-        id
-        city
-        region
-        image
-        address
-        employeeList
-        employees {
+        membership
+        outstandingPayments
+        storedItems
+        itemConnection {
           nextToken
         }
-        createdAt
-        updatedAt
+        joinTime
+        latestUpdateTime
       }
-      employee {
-        id
-        fullName
-        title
-        pay
-        cityLocation
-        location {
-          id
-          city
-          region
-          image
-          address
-          employeeList
-          createdAt
-          updatedAt
-        }
-        hireTime
-        updatedTime
-      }
-      deposited
-      withdrawn
+      outstanding
+      paymentStartDate
+      paidDate
+      paymentsItemIDId
+      paymentsCustomerIDId
     }
   }
 `;

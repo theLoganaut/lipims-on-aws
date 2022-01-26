@@ -10,20 +10,20 @@ export const onCreateLocation = /* GraphQL */ `
       image
       address
       employeeList
-      employees {
+      employeeConnection {
         items {
           id
           fullName
           title
           pay
-          cityLocation
+          workingAt
           hireTime
           updatedTime
         }
         nextToken
       }
-      createdAt
-      updatedAt
+      openTime
+      lastestUpdateTime
     }
   }
 `;
@@ -36,20 +36,20 @@ export const onUpdateLocation = /* GraphQL */ `
       image
       address
       employeeList
-      employees {
+      employeeConnection {
         items {
           id
           fullName
           title
           pay
-          cityLocation
+          workingAt
           hireTime
           updatedTime
         }
         nextToken
       }
-      createdAt
-      updatedAt
+      openTime
+      lastestUpdateTime
     }
   }
 `;
@@ -62,20 +62,20 @@ export const onDeleteLocation = /* GraphQL */ `
       image
       address
       employeeList
-      employees {
+      employeeConnection {
         items {
           id
           fullName
           title
           pay
-          cityLocation
+          workingAt
           hireTime
           updatedTime
         }
         nextToken
       }
-      createdAt
-      updatedAt
+      openTime
+      lastestUpdateTime
     }
   }
 `;
@@ -86,19 +86,19 @@ export const onCreateEmployee = /* GraphQL */ `
       fullName
       title
       pay
-      cityLocation
-      location {
+      workingAt
+      employeeConnection {
         id
         city
         region
         image
         address
         employeeList
-        employees {
+        employeeConnection {
           nextToken
         }
-        createdAt
-        updatedAt
+        openTime
+        lastestUpdateTime
       }
       hireTime
       updatedTime
@@ -112,19 +112,19 @@ export const onUpdateEmployee = /* GraphQL */ `
       fullName
       title
       pay
-      cityLocation
-      location {
+      workingAt
+      employeeConnection {
         id
         city
         region
         image
         address
         employeeList
-        employees {
+        employeeConnection {
           nextToken
         }
-        createdAt
-        updatedAt
+        openTime
+        lastestUpdateTime
       }
       hireTime
       updatedTime
@@ -138,19 +138,19 @@ export const onDeleteEmployee = /* GraphQL */ `
       fullName
       title
       pay
-      cityLocation
-      location {
+      workingAt
+      employeeConnection {
         id
         city
         region
         image
         address
         employeeList
-        employees {
+        employeeConnection {
           nextToken
         }
-        createdAt
-        updatedAt
+        openTime
+        lastestUpdateTime
       }
       hireTime
       updatedTime
@@ -165,17 +165,21 @@ export const onCreateCustomer = /* GraphQL */ `
       membership
       outstandingPayments
       storedItems
-      item {
+      itemConnection {
         items {
           id
           itemName
           quickTransfer
           owner
-          storageData
+          depositLocation
+          withdrawnLocation
+          helpedBy
+          deposited
+          withdrawn
         }
         nextToken
       }
-      startTime
+      joinTime
       latestUpdateTime
     }
   }
@@ -188,17 +192,21 @@ export const onUpdateCustomer = /* GraphQL */ `
       membership
       outstandingPayments
       storedItems
-      item {
+      itemConnection {
         items {
           id
           itemName
           quickTransfer
           owner
-          storageData
+          depositLocation
+          withdrawnLocation
+          helpedBy
+          deposited
+          withdrawn
         }
         nextToken
       }
-      startTime
+      joinTime
       latestUpdateTime
     }
   }
@@ -211,17 +219,21 @@ export const onDeleteCustomer = /* GraphQL */ `
       membership
       outstandingPayments
       storedItems
-      item {
+      itemConnection {
         items {
           id
           itemName
           quickTransfer
           owner
-          storageData
+          depositLocation
+          withdrawnLocation
+          helpedBy
+          deposited
+          withdrawn
         }
         nextToken
       }
-      startTime
+      joinTime
       latestUpdateTime
     }
   }
@@ -233,45 +245,35 @@ export const onCreateItem = /* GraphQL */ `
       itemName
       quickTransfer
       owner
-      customer {
+      customerConnection {
         id
         fullName
         membership
         outstandingPayments
         storedItems
-        item {
+        itemConnection {
           nextToken
         }
-        startTime
+        joinTime
         latestUpdateTime
       }
-      storageData
-      holdingData {
-        id
-        city
-        helpedByEmployee
-        location {
-          id
-          city
-          region
-          image
-          address
-          employeeList
-          createdAt
-          updatedAt
-        }
-        employee {
+      depositLocation
+      withdrawnLocation
+      helpedBy
+      employeeConnection {
+        items {
           id
           fullName
           title
           pay
-          cityLocation
+          workingAt
           hireTime
           updatedTime
         }
-        deposited
-        withdrawn
+        nextToken
       }
+      deposited
+      withdrawn
     }
   }
 `;
@@ -282,45 +284,35 @@ export const onUpdateItem = /* GraphQL */ `
       itemName
       quickTransfer
       owner
-      customer {
+      customerConnection {
         id
         fullName
         membership
         outstandingPayments
         storedItems
-        item {
+        itemConnection {
           nextToken
         }
-        startTime
+        joinTime
         latestUpdateTime
       }
-      storageData
-      holdingData {
-        id
-        city
-        helpedByEmployee
-        location {
-          id
-          city
-          region
-          image
-          address
-          employeeList
-          createdAt
-          updatedAt
-        }
-        employee {
+      depositLocation
+      withdrawnLocation
+      helpedBy
+      employeeConnection {
+        items {
           id
           fullName
           title
           pay
-          cityLocation
+          workingAt
           hireTime
           updatedTime
         }
-        deposited
-        withdrawn
+        nextToken
       }
+      deposited
+      withdrawn
     }
   }
 `;
@@ -331,174 +323,179 @@ export const onDeleteItem = /* GraphQL */ `
       itemName
       quickTransfer
       owner
-      customer {
+      customerConnection {
         id
         fullName
         membership
         outstandingPayments
         storedItems
-        item {
+        itemConnection {
           nextToken
         }
-        startTime
+        joinTime
         latestUpdateTime
       }
-      storageData
-      holdingData {
-        id
-        city
-        helpedByEmployee
-        location {
-          id
-          city
-          region
-          image
-          address
-          employeeList
-          createdAt
-          updatedAt
-        }
-        employee {
+      depositLocation
+      withdrawnLocation
+      helpedBy
+      employeeConnection {
+        items {
           id
           fullName
           title
           pay
-          cityLocation
+          workingAt
           hireTime
           updatedTime
+        }
+        nextToken
+      }
+      deposited
+      withdrawn
+    }
+  }
+`;
+export const onCreatePayments = /* GraphQL */ `
+  subscription OnCreatePayments {
+    onCreatePayments {
+      id
+      amount
+      itemID {
+        id
+        itemName
+        quickTransfer
+        owner
+        customerConnection {
+          id
+          fullName
+          membership
+          outstandingPayments
+          storedItems
+          joinTime
+          latestUpdateTime
+        }
+        depositLocation
+        withdrawnLocation
+        helpedBy
+        employeeConnection {
+          nextToken
         }
         deposited
         withdrawn
       }
+      customerID {
+        id
+        fullName
+        membership
+        outstandingPayments
+        storedItems
+        itemConnection {
+          nextToken
+        }
+        joinTime
+        latestUpdateTime
+      }
+      outstanding
+      paymentStartDate
+      paidDate
+      paymentsItemIDId
+      paymentsCustomerIDId
     }
   }
 `;
-export const onCreateHoldingData = /* GraphQL */ `
-  subscription OnCreateHoldingData {
-    onCreateHoldingData {
+export const onUpdatePayments = /* GraphQL */ `
+  subscription OnUpdatePayments {
+    onUpdatePayments {
       id
-      city
-      helpedByEmployee
-      location {
+      amount
+      itemID {
         id
-        city
-        region
-        image
-        address
-        employeeList
-        employees {
+        itemName
+        quickTransfer
+        owner
+        customerConnection {
+          id
+          fullName
+          membership
+          outstandingPayments
+          storedItems
+          joinTime
+          latestUpdateTime
+        }
+        depositLocation
+        withdrawnLocation
+        helpedBy
+        employeeConnection {
           nextToken
         }
-        createdAt
-        updatedAt
+        deposited
+        withdrawn
       }
-      employee {
+      customerID {
         id
         fullName
-        title
-        pay
-        cityLocation
-        location {
-          id
-          city
-          region
-          image
-          address
-          employeeList
-          createdAt
-          updatedAt
+        membership
+        outstandingPayments
+        storedItems
+        itemConnection {
+          nextToken
         }
-        hireTime
-        updatedTime
+        joinTime
+        latestUpdateTime
       }
-      deposited
-      withdrawn
+      outstanding
+      paymentStartDate
+      paidDate
+      paymentsItemIDId
+      paymentsCustomerIDId
     }
   }
 `;
-export const onUpdateHoldingData = /* GraphQL */ `
-  subscription OnUpdateHoldingData {
-    onUpdateHoldingData {
+export const onDeletePayments = /* GraphQL */ `
+  subscription OnDeletePayments {
+    onDeletePayments {
       id
-      city
-      helpedByEmployee
-      location {
+      amount
+      itemID {
         id
-        city
-        region
-        image
-        address
-        employeeList
-        employees {
+        itemName
+        quickTransfer
+        owner
+        customerConnection {
+          id
+          fullName
+          membership
+          outstandingPayments
+          storedItems
+          joinTime
+          latestUpdateTime
+        }
+        depositLocation
+        withdrawnLocation
+        helpedBy
+        employeeConnection {
           nextToken
         }
-        createdAt
-        updatedAt
+        deposited
+        withdrawn
       }
-      employee {
+      customerID {
         id
         fullName
-        title
-        pay
-        cityLocation
-        location {
-          id
-          city
-          region
-          image
-          address
-          employeeList
-          createdAt
-          updatedAt
-        }
-        hireTime
-        updatedTime
-      }
-      deposited
-      withdrawn
-    }
-  }
-`;
-export const onDeleteHoldingData = /* GraphQL */ `
-  subscription OnDeleteHoldingData {
-    onDeleteHoldingData {
-      id
-      city
-      helpedByEmployee
-      location {
-        id
-        city
-        region
-        image
-        address
-        employeeList
-        employees {
+        membership
+        outstandingPayments
+        storedItems
+        itemConnection {
           nextToken
         }
-        createdAt
-        updatedAt
+        joinTime
+        latestUpdateTime
       }
-      employee {
-        id
-        fullName
-        title
-        pay
-        cityLocation
-        location {
-          id
-          city
-          region
-          image
-          address
-          employeeList
-          createdAt
-          updatedAt
-        }
-        hireTime
-        updatedTime
-      }
-      deposited
-      withdrawn
+      outstanding
+      paymentStartDate
+      paidDate
+      paymentsItemIDId
+      paymentsCustomerIDId
     }
   }
 `;
