@@ -27,7 +27,7 @@ const ItemCardList = ({ Items }) => {
                 {i.owner.fullName}
               </Card.Subtitle>
               <Card.Subtitle className="mb-2 text-muted">
-                {i.transaction}
+                {/* {i.transaction} */}transaction id here
               </Card.Subtitle>
             </Card.Body>
           </Card>

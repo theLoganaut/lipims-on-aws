@@ -152,8 +152,6 @@ const App = () => {
       <GenericCreationModal
         closeCreationModal={closeCreationModal}
         showCreationModal={showCreationModal}
-        // initialState={initialState}
-        // addLocation={addLocation}
         setLocations={setLocations}
         Locations={Locations}
         API={API}
