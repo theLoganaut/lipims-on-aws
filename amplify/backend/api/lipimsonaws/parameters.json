@@ -2,5 +2,5 @@
   "AppSyncApiName": "lipimsonaws",
   "DynamoDBBillingMode": "PAY_PER_REQUEST",
   "DynamoDBEnableServerSideEncryption": false,
-  "AuthModeLastUpdated": "2022-01-18T19:43:34.802Z"
+  "AuthModeLastUpdated": "2022-01-27T20:40:25.875Z"
 }

@@ -36,32 +36,6 @@ const LocationCardList = ({ Locations }) => {
           </Card>
         );
       })}
-      {/* {locationJSON.map((l) => {
-        return (
-          <Card
-            style={{ marginRight: "1em", background: "#dee2e6" }}
-            key={l.locationID}
-          >
-            <Card.Img variant="top" src="holder.js/100px180" />
-            <Card.Body>
-              <Card.Title>{l.locationInfo.city}</Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">
-                {l.locationInfo.address}
-              </Card.Subtitle>
-              <Card.Subtitle className="mb-3">
-                {l.locationInfo.manager.name}
-              </Card.Subtitle>
-              <Card.Text style={{ marginLeft: "1%", overflowY: "scroll" }}>
-                {l.locationInfo.employees.map((e) => {
-                  return <li key={e.id}> {e.name} </li>;
-                })}
-              </Card.Text>
-
-              change to open location modal one day <Button variant="primary">Go somewhere</Button>
-            </Card.Body>
-          </Card>
-        );
-      })} */}
     </div>
   );
 };

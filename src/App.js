@@ -20,9 +20,9 @@ import {
 } from "react-bootstrap";
 import CreationModal from "./Components/CreationModal";
 import GenericCreationModal from "./Components/GenericCreationModal";
-
-import awsExports from "./aws-exports";
+import CustomNavBar from "./Components/CustomNavBar";
 import LocationCardList from "./Components/LocationCardList";
+import awsExports from "./aws-exports";
 Amplify.configure(awsExports);
 
 const App = () => {
@@ -68,8 +68,6 @@ const App = () => {
       const LocationData = await API.graphql(graphqlOperation(listLocations));
       const Locations = LocationData.data.listLocations.items;
       setLocations(Locations);
-      // console.log(LocationData);
-      // console.log(Locations);
       const EmployeeData = await API.graphql(graphqlOperation(listEmployees));
       const Employees = EmployeeData.data.listEmployees.items;
       setEmployees(Employees);
@@ -165,25 +163,7 @@ const App = () => {
         currentInputGroup={currentInputGroup}
         Employees={Employees}
       />
-      <Navbar bg="light" expand="lg" style={{ borderBottomStyle: "solid" }}>
-        <Container>
-          <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="me-auto">
-              <Nav.Link href="#home">To Business Manager</Nav.Link>
-              <Nav.Link href="#link">To Business Inteligence</Nav.Link>
-              <Nav.Link href="#link">To Storage Solution</Nav.Link>
-            </Nav>
-            <Nav.Link href="#link" className="justify-content-end">
-              Log Out
-            </Nav.Link>
-            <Nav.Link href="#link" className="justify-content-end">
-              PFP/Settings
-            </Nav.Link>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
+      <CustomNavBar />
       <Row>
         <Col
           style={{

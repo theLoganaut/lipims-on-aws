@@ -4,45 +4,45 @@ input AMPLIFY {
   globalAuthRule: AuthRule = { allow: public, provider: apiKey }
 } # FOR TESTING ONLY!
 type Location @model(timestamps: { createdAt: "openTime", updatedAt: "lastestUpdateTime"}) {
-  id: ID 
+  id: ID
   city: String @index(name: "byCity")
   region: String
   image: String
   address: String
-  employeeList: [String]
-  employeeConnection: [Employee] @hasMany(indexName: "byEmployeeNameAndPay", fields: ["employeeList"])
+  employeeList: [Employee] @hasMany
 }
 type Employee @model(timestamps: { createdAt: "hireTime", updatedAt: "updatedTime"}) {
-  id: ID 
-  fullName: String @index(name: "byEmployeeNameAndPay", sortKeyFields: "pay")
+  id: ID
+  fullName: String @index(name: "byEmployeeNameAndPay", queryField: "filterNameAndPay" sortKeyFields: ["pay", "recentlyHelped"])
   title: String
   pay: String
-  workingAt: ID
-  employeeConnection: Location @belongsTo(fields: "workingAt")
+  recentlyHelped: Int
+  workingAt: Location @belongsTo
+  transactions: [Transactions] @manyToMany(relationName: "employeeTransactions")
 }
 type Customer @model(timestamps: { createdAt: "joinTime", updatedAt: "latestUpdateTime"}) {
-  id: ID 
-  fullName: String @index(name:"customerName", sortKeyFields: "id")
+  id: ID
+  fullName: String @index(name: "customerName", sortKeyFields: "id")
   membership: Boolean
-  outstandingPayments: Boolean 
-  storedItems: [String]
-  itemConnection: [Item] @hasMany(indexName: "byItemName", fields: ["storedItems"])
+  outstandingPayments: Boolean
+	allTransactions: [Transactions] @hasMany
+  storedItems: [Item] @hasMany
 }
-type Item @model(timestamps: { createdAt: "deposited", updatedAt: "withdrawn"}) {
-  id: ID 
-  itemName: String @index(name: "byItemName")
+type Item @model(timestamps: null) {
+  id: ID
+  itemName: String @index(name: "byItemName", queryField: "itemByName", sortKeyFields: ["id"]) 
   quickTransfer: Boolean
-  owner: ID
-  customerConnection: Customer @belongsTo(fields: "owner")
-  depositLocation: String
-  withdrawnLocation: String
-  helpedBy: [String]
-  employeeConnection: [Employee] @hasMany(indexName: "byEmployeeNameAndPay", fields: ["helpedBy"])
+  owner: Customer @belongsTo
+	transactions: Transactions @hasOne
 }
-type Payments @model(timestamps: {createdAt: "paymentStartDate", updatedAt: "paidDate"}) {
-  id: ID 
-  amount: Int
-  itemID: Item @hasOne
-  customerID: Customer @hasOne
-  outstanding: Int @index(name: "byOutstanding")
+type Transactions @model(timestamps: null) {
+	id: ID
+	itemID: Item @hasOne
+	isInStorage: String @index(name: "byStorageTime", queryField: "filterTransactionsByStorageTime", sortKeyFields: ["deposited", "withdrawn", "id"]) 
+	customerID: Customer @belongsTo
+	employee: [Employee] @manyToMany(relationName: "employeeTransactions")
+	locationStart: Location @hasOne
+	locationEnd: Location @hasOne
+	deposited: String 
+	withdrawn: String
 }
