@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
+import { useReducer, useState } from "react";
 
 const newCustomerDefaultId = uuidv4();
 
@@ -6,134 +7,151 @@ const newItemDefaultId = uuidv4();
 
 const newTransactionDefaultId = uuidv4();
 
+// the current input
+let currentInput = [];
+// function to import that returns the input group
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "addEmployee":
+      currentInput = [addEmployee];
+      return console.log(currentInput);
+    case "addLocation":
+      currentInput = [addLocation];
+      return console.log(currentInput);
+    case "newCustomerWithItem":
+      currentInput = [newCustomerInput, newItemInput, newTransactionInput];
+      return console.log(currentInput);
+    default:
+      throw new Error();
+  }
+};
+
 // indiv input groups
 // title - title of the input
 // value - the related value for a graphql request
-// select 
+// select
 const addEmployee = {
-    input1: {
+  input1: {
     title: "Employee Full Name",
     value: "fullName",
     select: false,
-    },
-    input2: {
+  },
+  input2: {
     title: "Employee Title",
     value: "title",
     select: false,
-    },
-    input3: {
+  },
+  input3: {
     title: "Pay Rate",
     value: "pay",
     select: false,
-    },
-    input4: {
+  },
+  input4: {
     title: "Employement Location",
     value: "employeeLocationId",
     select: true,
     // ? options: Locations, do i need this
-    }
+  },
 };
 
-const addLocation ={
-    input1: {
-        title: "City Name",
-        value: "city",
-        select: false,
-    },
-    input2: {
-        title: "Region",
-        value: "region",
-        select: false,
-    },
-    input3: {
-        title: "Address",
-        value: "address",
-        select: false,
-    },
-    input4: {
-        title: "Image",
-        value: "image",
-        select: false,
-    },
+const addLocation = {
+  input1: {
+    title: "City Name",
+    value: "city",
+    select: false,
+  },
+  input2: {
+    title: "Region",
+    value: "region",
+    select: false,
+  },
+  input3: {
+    title: "Address",
+    value: "address",
+    select: false,
+  },
+  input4: {
+    title: "Image",
+    value: "image",
+    select: false,
+  },
 };
-   
-
 
 const newCustomerInput = {
-    input1: {
-        title: "Customer Full Name",
-        value: "fullName",
-        select: false,
-    },
-    input2: {
-        title: "Pester Customer about membership perks",
-        value: "membership",
-        boolean: true,
-    },
-    input3: {
-        title: "Outstanding Payments",
-        value: "outstandingPayments",
-        hidden: true,
-    },
-    input4: {
-        title: "Generated Customer ID",
-        value: "id",
-        genId: newCustomerDefaultId,
-    },
-}
+  input1: {
+    title: "Customer Full Name",
+    value: "fullName",
+    select: false,
+  },
+  input2: {
+    title: "Pester Customer about membership perks",
+    value: "membership",
+    boolean: true,
+  },
+  input3: {
+    title: "Outstanding Payments",
+    value: "outstandingPayments",
+    hidden: true,
+  },
+  input4: {
+    title: "Generated Customer ID",
+    value: "id",
+    genId: newCustomerDefaultId,
+  },
+};
 
 const newItemInput = {
-    input1: {
-      title: "Item Name being Stored",
-      value: "itemName",
-    },
-    input2: {
-      title: "Generated Item ID",
-      value: "id",
-      genId: newItemDefaultId
-    },
-    input3: {
-      title: "Quick Transfer?",
-      value: "quickTransfer",
-    },
-    input4: {
-      title: "Customer ID",
-      value: "customerStoredItemsId",
-    },
-    input5: {
-      title: "Transaction ID",
-      value: "itemTransactionsId",
-    },
-}
+  input1: {
+    title: "Item Name being Stored",
+    value: "itemName",
+  },
+  input2: {
+    title: "Generated Item ID",
+    value: "id",
+    genId: newItemDefaultId,
+  },
+  input3: {
+    title: "Quick Transfer?",
+    value: "quickTransfer",
+  },
+  input4: {
+    title: "Customer ID",
+    value: "customerStoredItemsId",
+  },
+  input5: {
+    title: "Transaction ID",
+    value: "itemTransactionsId",
+  },
+};
 
 const newTransactionInput = {
-    input1: {
-        title: "Generated Transaction ID",
-        value: "id",
-        genId: newTransactionDefaultId
-    },
-    input2: {
-        title: "Customer ID",
-        value: "customerAllTransactionsId",
-    },
-    input3: {
-        title: "Item of transaction ID",
-        value: "transactionsItemIDid",
-    },
-    input4: {
-        title: "Location Withdrawn from ID",
-        value: "transactionsLocationEndId",
-    },
-    input5: {
-        title: "Location Deposited ID",
-        value: "transactionsLocationStartId",
-    },
-    input6: {
-        title: "Location Deposited ID",
-        value: "transactionsLocationStartId",
-    },
-    input7: {
-        title: "Placeholder, might not need isInStorage value",
-        value: "isInStorage",
-    }
-}
+  input1: {
+    title: "Generated Transaction ID",
+    value: "id",
+    genId: newTransactionDefaultId,
+  },
+  input2: {
+    title: "Customer ID",
+    value: "customerAllTransactionsId",
+  },
+  input3: {
+    title: "Item of transaction ID",
+    value: "transactionsItemIDid",
+  },
+  input4: {
+    title: "Location Withdrawn from ID",
+    value: "transactionsLocationEndId",
+  },
+  input5: {
+    title: "Location Deposited ID",
+    value: "transactionsLocationStartId",
+  },
+  input6: {
+    title: "Location Deposited ID",
+    value: "transactionsLocationStartId",
+  },
+  input7: {
+    title: "Placeholder, might not need isInStorage value",
+    value: "isInStorage",
+  },
+};
