@@ -551,8 +551,39 @@ export const listEmployeeTransactions = /* GraphQL */ `
     }
   }
 `;
-export const filterNameAndPay = /* GraphQL */ `
-  query FilterNameAndPay(
+export const locationByCityName = /* GraphQL */ `
+  query LocationByCityName(
+    $city: String
+    $sortDirection: ModelSortDirection
+    $filter: ModelLocationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    locationByCityName(
+      city: $city
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        city
+        region
+        image
+        address
+        employeeList {
+          nextToken
+        }
+        openTime
+        lastestUpdateTime
+      }
+      nextToken
+    }
+  }
+`;
+export const employeeNameAndPay = /* GraphQL */ `
+  query EmployeeNameAndPay(
     $fullName: String
     $payRecentlyHelped: ModelEmployeeByEmployeeNameAndPayCompositeKeyConditionInput
     $sortDirection: ModelSortDirection
@@ -560,7 +591,7 @@ export const filterNameAndPay = /* GraphQL */ `
     $limit: Int
     $nextToken: String
   ) {
-    filterNameAndPay(
+    employeeNameAndPay(
       fullName: $fullName
       payRecentlyHelped: $payRecentlyHelped
       sortDirection: $sortDirection
@@ -589,6 +620,41 @@ export const filterNameAndPay = /* GraphQL */ `
         hireTime
         updatedTime
         locationEmployeeListId
+      }
+      nextToken
+    }
+  }
+`;
+export const customerName = /* GraphQL */ `
+  query CustomerName(
+    $fullName: String
+    $id: ModelIDKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelCustomerFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    customerName(
+      fullName: $fullName
+      id: $id
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        fullName
+        membership
+        outstandingPayments
+        allTransactions {
+          nextToken
+        }
+        storedItems {
+          nextToken
+        }
+        joinTime
+        latestUpdateTime
       }
       nextToken
     }
@@ -640,8 +706,8 @@ export const itemByName = /* GraphQL */ `
     }
   }
 `;
-export const filterTransactionsByStorageTime = /* GraphQL */ `
-  query FilterTransactionsByStorageTime(
+export const transactionsByStorageTime = /* GraphQL */ `
+  query TransactionsByStorageTime(
     $isInStorage: String
     $depositedWithdrawnId: ModelTransactionsByStorageTimeCompositeKeyConditionInput
     $sortDirection: ModelSortDirection
@@ -649,7 +715,7 @@ export const filterTransactionsByStorageTime = /* GraphQL */ `
     $limit: Int
     $nextToken: String
   ) {
-    filterTransactionsByStorageTime(
+    transactionsByStorageTime(
       isInStorage: $isInStorage
       depositedWithdrawnId: $depositedWithdrawnId
       sortDirection: $sortDirection

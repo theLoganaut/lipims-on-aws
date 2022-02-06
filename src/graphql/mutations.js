@@ -1,8 +1,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-// ? might test calling all new customer mutations at once instead
-
 export const createLocation = /* GraphQL */ `
   mutation CreateLocation(
     $input: CreateLocationInput!

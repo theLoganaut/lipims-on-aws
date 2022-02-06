@@ -18,32 +18,6 @@ const GenericCreationModal = ({
   createTransactions,
 }) => {
   //i need to map over the inputs for the form items
-
-  const [preGenID, setPreGenID] = useState(uuidv4());
-
-  const reGenID = (typeArg) => {
-    switch (typeArg) {
-      case "Generated Customer ID":
-        setCustomerPreGenID(uuidv4());
-        console.log("hit");
-        break;
-      case "Generated Item ID":
-        setItemPreGenID(uuidv4());
-        console.log("hit");
-        break;
-      case "Generated Transaction ID":
-        setTransactionPreGenID(uuidv4());
-        console.log("hit");
-        break;
-      default:
-        console.log("nothing to change");
-    }
-  };
-
-  const [customerPreGenID, setCustomerPreGenID] = useState(uuidv4());
-  const [itemPreGenID, setItemPreGenID] = useState(uuidv4());
-  const [transactionPreGenID, setTransactionPreGenID] = useState(uuidv4());
-
   const [formState, setFormState] = useState([]);
 
   async function addNewCustomerAndItem() {
@@ -116,36 +90,6 @@ const GenericCreationModal = ({
       console.log("error creating Location:", err);
     }
   }
-
-  //figuring out the select on change
-  // function handleChange(e) {
-  //   let { name, value } = e.target;
-  //   this.setState({
-  //     [name]: value,
-  //   });
-  // }
-
-  // { value: "", label: "" }
-
-  // for select options in the future
-  // const [selectOptions, setSelectOptions] = useState([]);
-
-  // const setSelected = (selected, value) => {
-  //   console.log(selected, value);
-  //   console.log(currentInputGroup);
-  //   setFormState({ ...formState, [value]: selected.value });
-  //   console.log(formState);
-  // };
-
-  // let newOptions = [];
-
-  // newOptions = Locations.map((l) => {
-  //   return { value: l.id, label: l.city };
-  // });
-
-  console.log(currentInputGroup);
-
-  console.log(customerPreGenID, transactionPreGenID, itemPreGenID);
 
   const closeAndDeleteData = () => {
     setFormState([]);
@@ -221,7 +165,7 @@ const GenericCreationModal = ({
                           <>
                             <Form.Label>{i.title}</Form.Label>
                             <InputGroup className="mb-3">
-                              <Form.Control placeholder={preGenID} />
+                              {/* <Form.Control need a placeholder id /> */}
                               <Button variant="outline-secondary">
                                 Button
                               </Button>

@@ -5,7 +5,7 @@ input AMPLIFY {
 } # FOR TESTING ONLY!
 type Location @model(timestamps: { createdAt: "openTime", updatedAt: "lastestUpdateTime"}) {
   id: ID
-  city: String @index(name: "byCity")
+  city: String @index(name: "byCity", queryField: "locationByCityName", sortKeyFields: [])
   region: String
   image: String
   address: String
@@ -13,7 +13,7 @@ type Location @model(timestamps: { createdAt: "openTime", updatedAt: "lastestUpd
 }
 type Employee @model(timestamps: { createdAt: "hireTime", updatedAt: "updatedTime"}) {
   id: ID
-  fullName: String @index(name: "byEmployeeNameAndPay", queryField: "filterNameAndPay" sortKeyFields: ["pay", "recentlyHelped"])
+  fullName: String @index(name: "byEmployeeNameAndPay", queryField: "employeeNameAndPay" sortKeyFields: ["pay", "recentlyHelped"])
   title: String
   pay: String
   recentlyHelped: Int
@@ -21,8 +21,8 @@ type Employee @model(timestamps: { createdAt: "hireTime", updatedAt: "updatedTim
   transactions: [Transactions] @manyToMany(relationName: "employeeTransactions")
 }
 type Customer @model(timestamps: { createdAt: "joinTime", updatedAt: "latestUpdateTime"}) {
-  id: ID
-  fullName: String @index(name: "customerName", sortKeyFields: "id")
+  id: ID 
+  fullName: String @index(name: "customerName", queryField: "customerName" sortKeyFields: ["id"])
   membership: Boolean
   outstandingPayments: Boolean
 	allTransactions: [Transactions] @hasMany
@@ -38,7 +38,7 @@ type Item @model(timestamps: null) {
 type Transactions @model(timestamps: null) {
 	id: ID
 	itemID: Item @hasOne
-	isInStorage: String @index(name: "byStorageTime", queryField: "filterTransactionsByStorageTime", sortKeyFields: ["deposited", "withdrawn", "id"]) 
+	isInStorage: String @index(name: "byStorageTime", queryField: "transactionsByStorageTime", sortKeyFields: ["deposited", "withdrawn", "id"]) 
 	customerID: Customer @belongsTo
 	employee: [Employee] @manyToMany(relationName: "employeeTransactions")
 	locationStart: Location @hasOne

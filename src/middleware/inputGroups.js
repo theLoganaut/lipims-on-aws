@@ -1,5 +1,9 @@
 import { v4 as uuidv4 } from "uuid";
 import { useReducer, useState } from "react";
+import Amplify, { API, graphqlOperation } from "aws-amplify";
+import awsExports from "./aws-exports";
+import { customerName } from "./graphql/queries";
+Amplify.configure(awsExports);
 
 const newCustomerDefaultId = uuidv4();
 
@@ -7,24 +11,36 @@ const newItemDefaultId = uuidv4();
 
 const newTransactionDefaultId = uuidv4();
 
-// the current input
-let currentInput = [];
 // function to import that returns the input group
-const reducer = (state, action) => {
+export const inputGroupReducer = (state, action) => {
   switch (action.type) {
     case "addEmployee":
-      currentInput = [addEmployee];
-      return console.log(currentInput);
+      return (state.currentInput = [addEmployee]);
     case "addLocation":
-      currentInput = [addLocation];
-      return console.log(currentInput);
-    case "newCustomerWithItem":
-      currentInput = [newCustomerInput, newItemInput, newTransactionInput];
-      return console.log(currentInput);
+      return (state.currentInput = [addLocation]);
+    case "addNewCustomerWithItem":
+      return (state.currentInput = [
+        newCustomerInput,
+        newItemInput,
+        newTransactionInput,
+      ]);
+    case "addExistingCustomerItem":
+      return (state.currentInput = [lookupCustomerInput]);
     default:
       throw new Error();
   }
 };
+
+// call to check for a customer... should i have this here or not?
+
+async function queryForCustomer() {
+  try {
+    const customerInfoAPI = await API.graphql(graphqlOperation(customerName));
+    const CustomerInfo = customerInfoAPI.data.listLocations.items;
+  } catch (err) {
+    console.log(err, "error fetching Locations");
+  }
+}
 
 // indiv input groups
 // title - title of the input
@@ -97,6 +113,18 @@ const newCustomerInput = {
     title: "Generated Customer ID",
     value: "id",
     genId: newCustomerDefaultId,
+  },
+};
+
+const lookupCustomerInput = {
+  input1: {
+    title: "Lookup with Customer Full Name",
+    value: "fullName",
+    check: "put function to check here",
+  },
+  input2: {
+    title: "Lookup with Customer ID",
+    value: "id",
   },
 };
 
