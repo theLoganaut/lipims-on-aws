@@ -22,7 +22,7 @@ const StorageSolution = () => {
 
   const [Items, setItems] = useState([])
 
-  const [Customers, setCustomers] = useState([])
+  const [CustomerData, setCustomerData] = useState([])
 
   const [Transactions, setTransactions] = useState([])
 
@@ -61,12 +61,13 @@ const StorageSolution = () => {
       setItems={setItems}
       Items={Items}
       createItem={createItem}
-      setCustomers={setCustomers}
-      Customers={Customers}
+      setCustomerData={setCustomerData}
+      CustomerData={CustomerData}
       createCustomer={createCustomer}
       setTransactions={setTransactions}
       Transactions={Transactions}
       createTransactions={createTransactions}
+      reduceDispatch={dispatch}
       />
       <Row>
         <Col
@@ -110,7 +111,7 @@ const StorageSolution = () => {
 
           <Button
             style={{ width: "100%", marginBottom: "2%"  }}
-            onClick={() => changeInputGroup("addExistingCustomerItem")}
+            onClick={() => changeInputGroup("lookupCustomer")}
           >
             {" "}
             Add Items for Customer{" "}

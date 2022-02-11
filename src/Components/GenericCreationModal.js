@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Modal, Button, Form, InputGroup, Card } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
 import Select from "react-select";
+import { customerName } from "../graphql/queries";
 
 const GenericCreationModal = ({
   closeCreationModal,
@@ -16,6 +17,9 @@ const GenericCreationModal = ({
   createCustomer,
   createItem,
   createTransactions,
+  reduceDispatch,
+  CustomerData,
+  setCustomerData,
 }) => {
   //i need to map over the inputs for the form items
   const [formState, setFormState] = useState([]);
@@ -23,7 +27,7 @@ const GenericCreationModal = ({
   async function addNewCustomerAndItem() {
     try {
       // needs sets
-      const Customer = { ...formState.customer };
+      const Customer = { ...formState.Customer };
       const Item = { ...formState.Item };
       const Transactions = { ...formState.Transactions };
       console.log(formState);
@@ -35,6 +39,28 @@ const GenericCreationModal = ({
       setFormState([]);
     } catch (err) {
       console.log("error creating New Customer and Item:", err);
+    }
+  }
+
+  async function queryForCustomer() {
+    try {
+      const customerInfo = { ...formState };
+      console.log("formstate", customerInfo);
+      const customerInfoAPI = await API.graphql(
+        graphqlOperation(customerName, customerInfo)
+      );
+      const existingCustomerInfo = customerInfoAPI.data.customerName.items[0];
+      if (existingCustomerInfo != null) {
+        console.log(existingCustomerInfo);
+        reduceDispatch({
+          type: "addExistingCustomerItem",
+          payload: existingCustomerInfo,
+        });
+      } else {
+        reduceDispatch({ type: "lookupCustomer" });
+      }
+    } catch (err) {
+      console.log(err, "error fetching Customer Data");
     }
   }
 
@@ -100,6 +126,26 @@ const GenericCreationModal = ({
     console.log(formState);
   };
 
+  // ! make this a reducer, and throw this in with the 2nd input rework
+  const confirmData = (dataName, data) => {
+    if (dataName === "newItemExistingCustomer") {
+      // setFormState(...formState, formState.Item.data);
+      console.log(data);
+    }
+  };
+
+  const testFunct = (e) => {
+    e.preventDefault();
+    const someFormData = new FormData(e.target.form);
+    const someFormProps = Object.fromEntries(someFormData);
+    console.log("hit!", e.target.form);
+    for (let i = 0; i <= 20; i++) {
+      if (e.target.form[i].value.length !== 0) {
+        console.log(e.target.form[i].value);
+      }
+    }
+  };
+
   return (
     <Modal
       size="lg"
@@ -110,85 +156,78 @@ const GenericCreationModal = ({
       <Modal.Header closeButton></Modal.Header>
       <Modal.Body>
         <Form>
-          {/* working inputs from before */}
-          {/* {Object.values(currentInputGroup).map((i) => {
-            return (
-              <Form.Group key={i.title} className="mb-3">
-                <Form.Label>{i.title}</Form.Label>
-                {i.select ? (
-                  // <Form.Select>
-                  //   {i.options.map((o) => {
-                  //     return (
-                  //       <option
-                  //         key={o.city}
-                  //         // defaultValue={`Select ${i.title}`}
-                  //         onChange={setFormState({
-                  //           ...formState,
-                  //           [i.value]: o,
-                  //         })}
-                  //       >
-                  //         {o.city}
-                  //       </option>
-                  //     );
-                  //   })}
-                  // </Form.Select>
-                  // <Select
-                  //   options={newOptions}
-                  //   onChange={(e) => setSelected(e, i.value)}
-                  // />
-                  <></>
-                ) : (
-                  <Form.Control
-                    type="text"
-                    placeholder=""
-                    onChange={(e) =>
-                      setFormState({ ...formState, [i.value]: e.target.value })
-                    }
-                  />
-                )}
-              </Form.Group>
-            );
-          })} */}
           {currentInputGroup.map((input) => {
             return (
               <Card style={{ marginBottom: "2%" }}>
                 <Card.Title></Card.Title>
                 <Card.Body>
-                  {Object.values(input).map((i) => {
-                    var isID = false;
-                    if (i.value === "id") {
-                      isID = true;
-                    }
-                    return (
-                      <Form.Group key={i.title} className="mb-3">
-                        {isID ? (
-                          <>
-                            <Form.Label>{i.title}</Form.Label>
-                            <InputGroup className="mb-3">
-                              {/* <Form.Control need a placeholder id /> */}
-                              <Button variant="outline-secondary">
-                                Button
-                              </Button>
-                            </InputGroup>
-                          </>
-                        ) : (
-                          <>
-                            <Form.Label>{i.title}</Form.Label>
-                            <Form.Control
-                              type="text"
-                              placeholder=""
-                              onChange={(e) =>
-                                setFormState({
-                                  ...formState,
-                                  [i.value]: e.target.value,
-                                })
-                              }
-                            />
-                          </>
-                        )}
-                      </Form.Group>
-                    );
-                  })}
+                  <Form.Group action={testFunct}>
+                    {Object.values(input).map((i) => {
+                      return (
+                        <Form.Group key={i.title} className="mb-3">
+                          {i.autoGen || i.givenId ? (
+                            <>
+                              <Form.Label>{i.title}</Form.Label>
+                              <InputGroup className="mb-3">
+                                <Form.Control
+                                  type="text"
+                                  defaultValue={i.genId || i.givenId}
+                                />
+                                <Button variant="outline-secondary">
+                                  re-Gen
+                                </Button>
+                              </InputGroup>
+                            </>
+                          ) : (
+                            <></>
+                          )}
+                          {i.boolean ? (
+                            <>
+                              <Form.Label>{i.title}</Form.Label>
+                              <InputGroup className="mb-3">
+                                <Form.Check
+                                  inline
+                                  label="false"
+                                  defaultValue={false}
+                                  name="group1"
+                                  type="radio"
+                                />
+                                <Form.Check
+                                  inline
+                                  label="true"
+                                  value={true}
+                                  name="group1"
+                                  type="radio"
+                                />
+                              </InputGroup>
+                            </>
+                          ) : (
+                            <></>
+                          )}
+                          {!i.boolean && !i.autoGen && !i.givenId ? (
+                            <>
+                              <Form.Label>{i.title}</Form.Label>
+                              <Form.Control
+                                type="text"
+                                defaultValue={i.givenId}
+                                onChange={(e) =>
+                                  setFormState({
+                                    ...formState,
+                                    [i.value]: e.target.value,
+                                  })
+                                }
+                              />
+                            </>
+                          ) : (
+                            <></>
+                          )}
+                        </Form.Group>
+                      );
+                    })}
+                    <Button type="submit" onClick={testFunct}>
+                      Confirm
+                    </Button>
+                  </Form.Group>
                 </Card.Body>
               </Card>
             );
@@ -197,7 +236,7 @@ const GenericCreationModal = ({
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={testItemCreation}> Add Item Test </Button>
-        <Button onClick={addEmployee}>Tester</Button>
+        <Button onClick={queryForCustomer}>Tester</Button>
         <Button onClick={addLocation}>Save?</Button>
         <Button onClick={closeAndDeleteData}>Close?</Button>
       </Modal.Footer>
