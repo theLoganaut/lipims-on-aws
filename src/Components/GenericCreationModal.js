@@ -139,11 +139,24 @@ const GenericCreationModal = ({
     const someFormData = new FormData(e.target.form);
     const someFormProps = Object.fromEntries(someFormData);
     console.log("hit!", e.target.form);
-    for (let i = 0; i <= 20; i++) {
+    let testingFormState = {};
+    for (let i = 0; i <= 19; i++) {
       if (e.target.form[i].value.length !== 0) {
-        console.log(e.target.form[i].value);
+        console.log(e.target.form[i]);
       }
+      // if the id is there, then make a temp form state like the input
+      // if (e.target.form[i].id.length !== 0) {
+      //   testingFormState = {
+      //     ...testingFormState,
+      //     [e.target.form[i].id]: e.target.form[i].value,
+      //   };
+      // how forms look
+      // setFormState({
+      //   ...formState,
+      //   [i.value]: e.target.value,
+      // })
     }
+    console.log(testingFormState);
   };
 
   return (
@@ -172,6 +185,7 @@ const GenericCreationModal = ({
                                 <Form.Control
                                   type="text"
                                   defaultValue={i.genId || i.givenId}
+                                  id={i.value}
                                 />
                                 <Button variant="outline-secondary">
                                   re-Gen
@@ -184,7 +198,7 @@ const GenericCreationModal = ({
                           {i.boolean ? (
                             <>
                               <Form.Label>{i.title}</Form.Label>
-                              <InputGroup className="mb-3">
+                              <InputGroup id={i.value} className="mb-3">
                                 <Form.Check
                                   inline
                                   label="false"
@@ -208,6 +222,7 @@ const GenericCreationModal = ({
                             <>
                               <Form.Label>{i.title}</Form.Label>
                               <Form.Control
+                                id={i.value}
                                 type="text"
                                 defaultValue={i.givenId}
                                 onChange={(e) =>
@@ -224,6 +239,7 @@ const GenericCreationModal = ({
                         </Form.Group>
                       );
                     })}
+                    <div id="cutoff"> cutoff </div>
                     <Button type="submit" onClick={testFunct}>
                       Confirm
                     </Button>
