@@ -205,7 +205,6 @@ export const inputGroupReducer = (state, action) => {
     case "lookupCustomer":
       return (state.currentInput = [lookupCustomerInput]);
     case "addExistingCustomerItem":
-      console.log(action.payload.id);
       newItemExistingCustomer.input4.givenId = action.payload.id;
       newTransactionInput.input2.givenId = action.payload.id;
       return (state.currentInput = [

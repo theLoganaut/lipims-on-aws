@@ -140,22 +140,22 @@ const GenericCreationModal = ({
     const someFormProps = Object.fromEntries(someFormData);
     console.log("hit!", e.target.form);
     let testingFormState = {};
-    for (let i = 0; i <= 19; i++) {
-      if (e.target.form[i].value.length !== 0) {
-        console.log(e.target.form[i]);
-      }
-      // if the id is there, then make a temp form state like the input
-      // if (e.target.form[i].id.length !== 0) {
-      //   testingFormState = {
-      //     ...testingFormState,
-      //     [e.target.form[i].id]: e.target.form[i].value,
-      //   };
-      // how forms look
-      // setFormState({
-      //   ...formState,
-      //   [i.value]: e.target.value,
-      // })
-    }
+    // for (let i = 0; i <= 19; i++) {
+    //   if (e.target.form[i].value.length !== 0) {
+    //     console.log(e.target.form[i]);
+    //   }
+    //   // if the id is there, then make a temp form state like the input
+    //   // if (e.target.form[i].id.length !== 0) {
+    //   //   testingFormState = {
+    //   //     ...testingFormState,
+    //   //     [e.target.form[i].id]: e.target.form[i].value,
+    //   //   };
+    //   // how forms look
+    //   // setFormState({
+    //   //   ...formState,
+    //   //   [i.value]: e.target.value,
+    //   // })
+    // }
     console.log(testingFormState);
   };
 
