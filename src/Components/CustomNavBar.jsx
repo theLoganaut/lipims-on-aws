@@ -1,5 +1,9 @@
 import React from 'react';
 import { Navbar, Container, Nav} from 'react-bootstrap'
+import App from '../App';
+import RouteRequiresLogin from '../middleware/RouteRequiresLogin';
+import StorageSolution from '../routes/StorageSolution';
+import { Route } from 'react-router-dom';
 
 const CustomNavBar = () => {
   return (
@@ -14,6 +18,12 @@ const CustomNavBar = () => {
                 To Business Inteligence
               </Nav.Link>
               <Nav.Link href="/storageSolution">To Storage Solution</Nav.Link>
+              <RouteRequiresLogin path="/storagesolution">
+              <StorageSolution />
+            </RouteRequiresLogin>
+            <Route path="/sign-up">
+              <App />
+            </Route>
             </Nav>
             <Nav.Link href="#link" className="justify-content-end">
               Log Out
