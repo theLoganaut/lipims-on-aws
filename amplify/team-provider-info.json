@@ -10,6 +10,17 @@
       "StackName": "amplify-lipimsonaws-dev-110237",
       "StackId": "arn:aws:cloudformation:us-east-1:099970169462:stack/amplify-lipimsonaws-dev-110237/cde79e40-627f-11ec-bed5-0a41de8661b1",
       "AmplifyAppId": "d3fygypgafjp3b"
+    },
+    "categories": {
+      "auth": {
+        "LIPIMSonAWS": {},
+        "lipimsonaws23ac02c0": {
+          "userPoolId": "us-east-1_Vsl705QxD",
+          "userPoolName": "LIPIMS User Pool",
+          "webClientId": "2hdjajbigqlt1bo05gak7p329f",
+          "nativeClientId": "2hdjajbigqlt1bo05gak7p329f"
+        }
+      }
     }
   }
 }
