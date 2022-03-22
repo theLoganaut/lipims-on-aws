@@ -108,7 +108,11 @@ const LoginSignup = () => {
   let navigate = useNavigate();
 
   const handleLogin = () => {
-    signIn(username, password, "/storageSolution").then(console.log("test"));
+    signIn(username, password).then(
+      // navigate("/storageSolution"),
+      // console.log("nav")
+      (r) => navigate(r)
+    );
   };
 
   return (

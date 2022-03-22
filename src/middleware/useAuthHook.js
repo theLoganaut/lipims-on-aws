@@ -13,39 +13,47 @@ const authContext = React.createContext();
 //   }, [authed]);
 // }
 
-function useStateCallback(initialState) {
-  const [state, setState] = React.useState(initialState);
-  const cbRef = React.useRef(null); // init mutable ref container for callbacks
+// function useStateCallback(initialState) {
+//   const [state, setState] = React.useState(initialState);
+//   const cbRef = React.useRef(null); // init mutable ref container for callbacks
 
-  const setStateCallback = React.useCallback((state, cb) => {
-    cbRef.current = cb; // store current, passed callback in ref
-    setState(state);
-  }, []); // keep object reference stable, exactly like `useState`
+//   const setStateCallback = React.useCallback((state, cb) => {
+//     cbRef.current = cb; // store current, passed callback in ref
+//     setState(state);
+//   }, []); // keep object reference stable, exactly like `useState`
 
-  React.useEffect(() => {
-    // cb.current is `null` on initial render,
-    // so we only invoke callback on state *updates*
-    if (cbRef.current) {
-      cbRef.current(state);
-      cbRef.current = null; // reset callback after execution
-    }
-  }, [state]);
+//   React.useEffect(() => {
+//     // cb.current is `null` on initial render,
+//     // so we only invoke callback on state *updates*
+//     if (cbRef.current) {
+//       cbRef.current(state);
+//       cbRef.current = null; // reset callback after execution
+//     }
+//   }, [state]);
 
-  return [state, setStateCallback];
-}
+//   return [state, setStateCallback];
+// }
 
 export function useAuth() {
   let navigate = useNavigate();
 
   const { state } = useLocation();
 
-  const [authed, setAuthed] = useStateCallback(false);
+  const [authed, setAuthed] = React.useState(false);
+
+  const [user, setUser] = React.useState({});
 
   React.useEffect(() => {
-    if (authed) {
-      navigate();
+    if (user) {
+      setAuthed(true);
     }
-  }, [authed]);
+  }, [user]);
+
+  // React.useEffect(() => {
+  //   if (authed) {
+  //     navigate();
+  //   }
+  // }, [authed]);
 
   return {
     authed,
@@ -54,23 +62,16 @@ export function useAuth() {
     //   setAuthed(true);
     //   res();
     // });
-    async signIn(username, password, route) {
-      await Auth.signIn(username, password).then((r) => {
-        console.log("await test", r);
 
-        if (r) {
-          setAuthed(true, navigate(route));
-          console.log("r true");
-        }
-      });
-      // if (user) {
-      //   return new Promise((res) => {
-      //     console.log(user);
-      //     setAuthed(true);
-      //     res();
-      //   }).then(navigate(route));
-      // }
+    // works but i think it needs to be a promise
+    async signIn(username, password) {
+      const user = await Auth.signIn(username, password);
+      if (user) {
+        setAuthed(true);
+        return "/storageSolution";
+      }
     },
+
     // },
     // logout() {
     //   return new Promise((res) => {
