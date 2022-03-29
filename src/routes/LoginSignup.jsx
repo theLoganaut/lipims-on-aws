@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { API, graphqlOperation, Auth } from "aws-amplify";
 import awsExports from "../aws-exports";
 import { getEmployee } from "../graphql/queries";
@@ -7,6 +7,7 @@ import { Container, Card, Form, Button } from "react-bootstrap";
 import { nanoid } from "nanoid";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../middleware/useAuthHook";
+import { authContext } from "../middleware/AuthContext";
 
 const LoginSignup = () => {
   const { signIn } = useAuth();
@@ -107,13 +108,20 @@ const LoginSignup = () => {
 
   let navigate = useNavigate();
 
+  const { loggedIn } = useContext(authContext);
+
   const handleLogin = () => {
-    signIn(username, password).then(
-      // navigate("/storageSolution"),
-      // console.log("nav")
-      (r) => navigate(r)
-    );
+    // new Promise(() => {
+    signIn(username, password);
+    // const routeRes = signIn(username, password);
+    // setNavTo(routeRes);
   };
+
+  // const [navTo, setNavTo] = useState("/");
+
+  // useEffect(() => {
+  //   navigate(navTo);
+  // }, [navTo, navigate]);
 
   return (
     <Container fluid>
@@ -143,17 +151,15 @@ const LoginSignup = () => {
             >
               New User
             </Button>
-            <Button variant="primary" type="submit">
-              Login
-            </Button>
+            <Button variant="primary">Login</Button>
             <Button
               variant="primary"
-              onClick={() => navigate("/secretRoute")}
+              onClick={() => console.log(loggedIn)}
               type="button"
             >
-              Redirect Test
+              auth check
             </Button>
-            <Button variant="primary" onClick={handleLogin} type="button">
+            <Button variant="primary" type="button" onClick={handleLogin}>
               sign in test
             </Button>
             <Button variant="primary" onClick={signOut} type="button">
@@ -161,10 +167,17 @@ const LoginSignup = () => {
             </Button>
             <Button
               variant="primary"
-              onClick={() => console.log()}
+              onClick={() => navigate("/businessManager")}
               type="button"
             >
-              Show Creds
+              nav check
+            </Button>
+            <Button
+              variant="primary"
+              onClick={() => navigate("/secretRoute")}
+              type="button"
+            >
+              2nd auth check
             </Button>
           </Form>
         ) : (

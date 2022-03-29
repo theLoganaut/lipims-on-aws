@@ -1,62 +1,21 @@
 import * as React from "react";
 import { Auth, nav } from "aws-amplify";
-import { useNavigate, useLocation } from "react-router-dom";
-import useStateWithCallback from "use-state-with-callback";
+import { useLocation, Navigate } from "react-router-dom";
 
-const authContext = React.createContext();
-
-// function useSideEffect(condition, funct) {
-//   React.useEffect(() => {
-//     if (condidtion) {
-//       navigate()
-//     }
-//   }, [authed]);
-// }
-
-// function useStateCallback(initialState) {
-//   const [state, setState] = React.useState(initialState);
-//   const cbRef = React.useRef(null); // init mutable ref container for callbacks
-
-//   const setStateCallback = React.useCallback((state, cb) => {
-//     cbRef.current = cb; // store current, passed callback in ref
-//     setState(state);
-//   }, []); // keep object reference stable, exactly like `useState`
-
-//   React.useEffect(() => {
-//     // cb.current is `null` on initial render,
-//     // so we only invoke callback on state *updates*
-//     if (cbRef.current) {
-//       cbRef.current(state);
-//       cbRef.current = null; // reset callback after execution
-//     }
-//   }, [state]);
-
-//   return [state, setStateCallback];
-// }
+import { authContext } from "./AuthContext";
 
 export function useAuth() {
-  let navigate = useNavigate();
+  const { loggedIn, setLoggedIn } = React.useContext(authContext);
 
-  const { state } = useLocation();
-
-  const [authed, setAuthed] = React.useState(false);
-
-  const [user, setUser] = React.useState({});
-
-  React.useEffect(() => {
-    if (user) {
-      setAuthed(true);
-    }
-  }, [user]);
+  // const handleLogout = () => setLoggedIn(false);
 
   // React.useEffect(() => {
-  //   if (authed) {
-  //     navigate();
-  //   }
-  // }, [authed]);
+  // const handleLogin = () => setLoggedIn(true);
+  //   handleLogin();
+  // }, [user, setLoggedIn]);
 
   return {
-    authed,
+    loggedIn,
     // login(username, password) {
     // return new Promise((res) => {
     //   setAuthed(true);
@@ -66,8 +25,11 @@ export function useAuth() {
     // works but i think it needs to be a promise
     async signIn(username, password) {
       const user = await Auth.signIn(username, password);
+
+      // const user = "Aware";
       if (user) {
-        setAuthed(true);
+        setLoggedIn(true);
+        console.log(user, "test", loggedIn);
         return "/storageSolution";
       }
     },
@@ -82,12 +44,13 @@ export function useAuth() {
   };
 }
 
-export function AuthProvider({ children }) {
-  const auth = useAuth();
+export function RequireAuth({ children }) {
+  const location = useLocation();
+  const { loggedIn } = React.useContext(authContext);
 
-  return <authContext.Provider value={auth}>{children}</authContext.Provider>;
-}
-
-export default function AuthConsumer() {
-  return React.useContext(authContext);
+  return loggedIn === true ? (
+    children
+  ) : (
+    <Navigate to="/" replace state={{ path: location.pathname }} />
+  );
 }

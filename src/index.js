@@ -10,14 +10,22 @@ import Amplify from "aws-amplify";
 import awsExports from "./aws-exports";
 import SecretRoute from "./routes/SecretRoute";
 import BusinessManager from "./routes/BusinessManager";
-import RequireAuth from "./middleware/RequireAuth";
+import { RequireAuth } from "./middleware/useAuthHook";
+import AuthProvider from "./middleware/AuthContext";
 Amplify.configure(awsExports);
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LoginSignup />} />
+        <Route
+          path="/"
+          element={
+            <AuthProvider>
+              <LoginSignup />
+            </AuthProvider>
+          }
+        />
         <Route
           path="/storageSolution"
           element={
@@ -27,7 +35,14 @@ ReactDOM.render(
             </RequireAuth>
           }
         />
-        <Route path="/secretRoute" element={<SecretRoute />} />
+        <Route
+          path="/secretRoute"
+          element={
+            <AuthProvider>
+              <SecretRoute />
+            </AuthProvider>
+          }
+        />
         <Route
           path="/businessManager"
           element={
