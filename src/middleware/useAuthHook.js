@@ -16,13 +16,6 @@ export function useAuth() {
 
   return {
     loggedIn,
-    // login(username, password) {
-    // return new Promise((res) => {
-    //   setAuthed(true);
-    //   res();
-    // });
-
-    // works but i think it needs to be a promise
     async signIn(username, password) {
       const user = await Auth.signIn(username, password);
 
@@ -47,6 +40,8 @@ export function useAuth() {
 export function RequireAuth({ children }) {
   const location = useLocation();
   const { loggedIn } = React.useContext(authContext);
+
+  console.log(loggedIn);
 
   return loggedIn === true ? (
     children

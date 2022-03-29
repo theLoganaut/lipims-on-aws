@@ -110,11 +110,8 @@ const LoginSignup = () => {
 
   const { loggedIn } = useContext(authContext);
 
-  const handleLogin = () => {
-    // new Promise(() => {
-    signIn(username, password);
-    // const routeRes = signIn(username, password);
-    // setNavTo(routeRes);
+  const handleLogin = async () => {
+    await signIn(username, password).then((r) => navigate(r));
   };
 
   // const [navTo, setNavTo] = useState("/");

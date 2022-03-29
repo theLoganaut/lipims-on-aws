@@ -1,11 +1,13 @@
-import React from "react";
-import { Navbar, Container, Nav } from "react-bootstrap";
+import React, { useContext } from "react";
+import { Navbar, Container, Nav, Button } from "react-bootstrap";
+import { authContext } from "../middleware/AuthContext";
 // import App from "../App";
 // import RouteRequiresLogin from "../middleware/useAuthHook";
 // import StorageSolution from "../routes/StorageSolution";
 // import { Route } from "react-router-dom";
 
 const CustomNavBar = () => {
+  const { loggedIn } = useContext(authContext);
   return (
     <Navbar bg="light" expand="lg" style={{ borderBottomStyle: "solid" }}>
       <Container>
@@ -23,6 +25,7 @@ const CustomNavBar = () => {
           <Nav.Link href="" className="justify-content-end">
             PFP/Settings
           </Nav.Link>
+          <Button onClick={console.log(loggedIn)}>Auth Check!</Button>
         </Navbar.Collapse>
       </Container>
     </Navbar>

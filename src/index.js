@@ -17,41 +17,29 @@ Amplify.configure(awsExports);
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <AuthProvider>
-              <LoginSignup />
-            </AuthProvider>
-          }
-        />
-        <Route
-          path="/storageSolution"
-          element={
-            <RequireAuth>
-              {" "}
-              <StorageSolution />{" "}
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/secretRoute"
-          element={
-            <AuthProvider>
-              <SecretRoute />
-            </AuthProvider>
-          }
-        />
-        <Route
-          path="/businessManager"
-          element={
-            <RequireAuth>
-              <BusinessManager />
-            </RequireAuth>
-          }
-        />
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<LoginSignup />} />
+          <Route
+            path="/storageSolution"
+            element={
+              <RequireAuth>
+                {" "}
+                <StorageSolution />{" "}
+              </RequireAuth>
+            }
+          />
+          <Route path="/secretRoute" element={<SecretRoute />} />
+          <Route
+            path="/businessManager"
+            element={
+              <RequireAuth>
+                <BusinessManager />
+              </RequireAuth>
+            }
+          />
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")
