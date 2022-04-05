@@ -1,6 +1,6 @@
 {
   "api": {
-    "LIPIMSgraphQL": {
+    "lipimsonaws": {
       "service": "AppSync",
       "providerPlugin": "awscloudformation",
       "output": {
@@ -8,12 +8,23 @@
           "defaultAuthentication": {
             "authenticationType": "API_KEY",
             "apiKeyConfig": {
-              "apiKeyExpirationDays": 7
+              "apiKeyExpirationDays": 7,
+              "apiKeyExpirationDate": "2022-04-12T16:41:57.832Z",
+              "description": ""
             }
           },
           "additionalAuthenticationProviders": []
         }
       }
+    }
+  },
+  "auth": {
+    "lipimsonaws23ac02c0": {
+      "service": "Cognito",
+      "serviceType": "imported",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
     }
   }
 }

@@ -1,0 +1,2 @@
+#ignore graphql
+amplify/backend/api/lipimsonaws/schema.graphql

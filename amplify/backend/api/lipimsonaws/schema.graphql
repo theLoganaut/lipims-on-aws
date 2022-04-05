@@ -1,0 +1,48 @@
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+input AMPLIFY {
+  globalAuthRule: AuthRule = { allow: public, provider: apiKey }
+} # FOR TESTING ONLY!
+type Location @model(timestamps: { createdAt: "openTime", updatedAt: "lastestUpdateTime"}) {
+  id: ID
+  city: String @index(name: "byCity", queryField: "locationByCityName", sortKeyFields: [])
+  region: String
+  image: String
+  address: String
+  employeeList: [Employee] @hasMany
+}
+type Employee @model(timestamps: { createdAt: "hireTime", updatedAt: "updatedTime"}) {
+  id: ID
+  fullName: String @index(name: "byEmployeeNameAndPay", queryField: "employeeNameAndPay" sortKeyFields: ["pay", "recentlyHelped"])
+  title: String
+  pay: String
+  recentlyHelped: Int
+  workingAt: Location @belongsTo
+  transactions: [Transactions] @manyToMany(relationName: "employeeTransactions")
+}
+type Customer @model(timestamps: { createdAt: "joinTime", updatedAt: "latestUpdateTime"}) {
+  id: ID 
+  fullName: String @index(name: "customerName", queryField: "customerName" sortKeyFields: ["id"])
+  membership: Boolean
+  outstandingPayments: Boolean
+	allTransactions: [Transactions] @hasMany
+  storedItems: [Item] @hasMany
+}
+type Item @model(timestamps: null) {
+  id: ID
+  itemName: String @index(name: "byItemName", queryField: "itemByName", sortKeyFields: ["id"]) 
+  quickTransfer: Boolean
+  owner: Customer @belongsTo
+	transactions: Transactions @hasOne
+}
+type Transactions @model(timestamps: null) {
+	id: ID
+	itemID: Item @hasOne
+	isInStorage: String @index(name: "byStorageTime", queryField: "transactionsByStorageTime", sortKeyFields: ["deposited", "withdrawn", "id"]) 
+	customerID: Customer @belongsTo
+	employee: [Employee] @manyToMany(relationName: "employeeTransactions")
+	locationStart: Location @hasOne
+	locationEnd: Location @hasOne
+	deposited: String 
+	withdrawn: String
+}
