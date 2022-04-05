@@ -1,13 +1,23 @@
 import React, { useContext } from "react";
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
 import { authContext } from "../middleware/AuthContext";
+import { useAuth } from "../middleware/useAuthHook";
+import { useNavigate } from "react-router-dom";
 // import App from "../App";
 // import RouteRequiresLogin from "../middleware/useAuthHook";
 // import StorageSolution from "../routes/StorageSolution";
 // import { Route } from "react-router-dom";
 
 const CustomNavBar = () => {
+  const { signOutUser } = useAuth();
   const { loggedIn } = useContext(authContext);
+  const navigate = useNavigate();
+
+  const handlelogout = async () => {
+    await signOutUser();
+    // .then((r) => navigate(r));
+  };
+
   return (
     <Navbar bg="light" expand="lg" style={{ borderBottomStyle: "solid" }}>
       <Container>
@@ -25,7 +35,7 @@ const CustomNavBar = () => {
           <Nav.Link href="" className="justify-content-end">
             PFP/Settings
           </Nav.Link>
-          <Button onClick={console.log(loggedIn)}>Auth Check!</Button>
+          <Button onClick={handlelogout}>Auth Check!</Button>
         </Navbar.Collapse>
       </Container>
     </Navbar>

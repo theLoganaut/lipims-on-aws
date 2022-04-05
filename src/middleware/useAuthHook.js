@@ -7,33 +7,24 @@ import { authContext } from "./AuthContext";
 export function useAuth() {
   const { loggedIn, setLoggedIn } = React.useContext(authContext);
 
-  // const handleLogout = () => setLoggedIn(false);
-
-  // React.useEffect(() => {
-  // const handleLogin = () => setLoggedIn(true);
-  //   handleLogin();
-  // }, [user, setLoggedIn]);
-
   return {
     loggedIn,
     async signIn(username, password) {
       const user = await Auth.signIn(username, password);
-
-      // const user = "Aware";
       if (user) {
         setLoggedIn(true);
         console.log(user, "test", loggedIn);
         return "/storageSolution";
       }
     },
-
-    // },
-    // logout() {
-    //   return new Promise((res) => {
-    //     setAuthed(false);
-    //     res();
-    //   });
-    // },
+    async signOutUser() {
+      const user = await Auth.signOut();
+      if (user) {
+        setLoggedIn(false);
+        console.log(user, "test", loggedIn);
+        // return "/";
+      }
+    },
   };
 }
 
