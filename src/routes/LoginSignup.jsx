@@ -5,19 +5,15 @@ import { getEmployee } from "../graphql/queries";
 import { updateEmployee } from "../graphql/mutations";
 import { Container, Card, Form, Button } from "react-bootstrap";
 import { nanoid } from "nanoid";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Navigate } from "react-router-dom";
 import { useAuth } from "../middleware/useAuthHook";
 import { authContext } from "../middleware/AuthContext";
+import SignupForm from "../Components/SignupForm";
+import ConfirmCode from "../Components/ConfirmCode";
 
 const LoginSignup = () => {
-  const { signIn } = useAuth();
+  const { signIn, signUpUser } = useAuth();
   const { state } = useLocation();
-
-  const [showNewUserForm, setShowNewUserForm] = useState(false);
-
-  const [showLoginForm, setShowLoginForm] = useState(true);
-
-  const [updateEmployeeForm, setUpdateEmployeeForm] = useState(false);
 
   const [username, setUsername] = useState("adminmiles");
 
@@ -29,32 +25,11 @@ const LoginSignup = () => {
 
   const [role, setRole] = useState("service");
 
-  const [eId, setEId] = useState(nanoid(15));
+  const [eId, setEId] = useState(nanoid(10));
 
-  const [confirmCode, SetConfirmCode] = useState("007240");
+  const [confirmCode, SetConfirmCode] = useState("");
 
-  const [tempCreds, SetTempCreds] = useState();
-
-  async function signOut() {
-    try {
-      await Auth.signOut();
-    } catch (error) {
-      console.log("error signing out: ", error);
-    }
-  }
-
-  // working!
-  async function confirmSignUp() {
-    try {
-      await Auth.confirmSignUp(username, confirmCode);
-    } catch (error) {
-      console.log("error confirming sign up", error);
-    }
-  }
-
-  // mock working!
-  async function signUp() {
-    //first try to lookup employee based on id, if success, signup
+  const handleToConfirm = async () => {
     try {
       console.log(shortId);
       const id = shortId;
@@ -72,41 +47,27 @@ const LoginSignup = () => {
               email: email,
               "custom:sysId": eId, // optional
               "custom:role": role, // optional - E.164 number convention
-              // other custom attributes
             },
           });
-          // if user, sign in
           if (user) {
-            try {
-              // const updatedEmployee = await API.graphql(
-              //   graphqlOperation(updateEmployee, { id: id })
-              // );
-              // const updated = updateEmployee.data;
-              // if (updated) {
-              //   return <Redirect to="/storageSolution" />;
-              // }
-              // return <Redirect to="/storageSolution" />;
-            } catch (e) {
-              console.log("Error Changing Employee ID:", e);
-            }
+            setLoginViewState("confirm");
           }
-        } catch (error) {
-          console.log("error signing up:", error);
+        } catch (e) {
+          console.log("error finding employee shortID:", e);
         }
       }
-    } catch (e) {
-      console.log("error finding employee shortID:", e);
+    } catch (error) {
+      console.log("error signing up:", error);
     }
-  }
-
-  const initLoginView = {
-    loginForm: true,
-    newUserForm: false,
   };
 
-  const [loginViewState, setLoginViewState] = useState(initLoginView);
+  const confirmAndSignIn = async () => {
+    await signUpUser(username, confirmCode).then((r) => navigate(r));
+  };
 
-  let navigate = useNavigate();
+  const [loginViewState, setLoginViewState] = useState("login");
+
+  const navigate = useNavigate();
 
   const { loggedIn } = useContext(authContext);
 
@@ -114,130 +75,66 @@ const LoginSignup = () => {
     await signIn(username, password).then((r) => navigate(r));
   };
 
-  // const [navTo, setNavTo] = useState("/");
-
-  // useEffect(() => {
-  //   navigate(navTo);
-  // }, [navTo, navigate]);
-
   return (
-    <Container fluid>
-      <Card>
-        {loginViewState.loginForm ? (
-          <Form>
+    <Container
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        height: "100vh",
+        position: "absolute",
+      }}
+      fluid
+    >
+      <Card
+        style={{
+          maxWidth: "20rem",
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -70%)",
+        }}
+      >
+        {loginViewState === "signup" ? (
+          <SignupForm
+            setEmail={setEmail}
+            setUsername={setUsername}
+            setPassword={setPassword}
+            setShortId={setShortId}
+            shortId={shortId}
+            setLoginViewState={setLoginViewState}
+            handleToConfirm={handleToConfirm}
+          />
+        ) : loginViewState === "login" ? (
+          <Form style={{ margin: "1rem" }}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>User Name</Form.Label>
-              <Form.Control type="text" placeholder="Enter UserName" />
-              <Form.Text className="text-muted">
-                We'll never share your email with anyone else.
-              </Form.Text>
+              <Form.Label>Username</Form.Label>
+              <Form.Control type="text" placeholder="Username" />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Password</Form.Label>
               <Form.Control type="password" placeholder="Password" />
+              <Form.Text className="text-muted">
+                We'll never share your password with anyone else.
+              </Form.Text>
             </Form.Group>
             <Button
               variant="primary"
-              onClick={() =>
-                setLoginViewState({
-                  loginForm: false,
-                  newUserForm: true,
-                })
-              }
+              onClick={() => setLoginViewState("signup")}
             >
-              New User
-            </Button>
-            <Button variant="primary">Login</Button>
-            <Button
-              variant="primary"
-              onClick={() => console.log(loggedIn)}
-              type="button"
-            >
-              auth check
+              New User?
             </Button>
             <Button variant="primary" type="button" onClick={handleLogin}>
-              sign in test
-            </Button>
-            <Button variant="primary" onClick={signOut} type="button">
-              sign out
-            </Button>
-            <Button
-              variant="primary"
-              onClick={() => navigate("/businessManager")}
-              type="button"
-            >
-              nav check
-            </Button>
-            <Button
-              variant="primary"
-              onClick={() => navigate("/secretRoute")}
-              type="button"
-            >
-              2nd auth check
+              Login
             </Button>
           </Form>
+        ) : loginViewState === "confirm" ? (
+          <ConfirmCode
+            setConfirmCode={SetConfirmCode}
+            handleConfirmation={confirmAndSignIn}
+          />
         ) : (
-          <></>
-        )}
-        {loginViewState.newUserForm ? (
-          <Form>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>User Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter Email"
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <Form.Text className="text-muted">
-                We'll never share your email with anyone else.
-              </Form.Text>
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>User Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter Username"
-                onChange={(e) => setUsername(e.target.value)}
-              />
-              <Form.Text className="text-muted">
-                We'll never share your Username with anyone else.
-              </Form.Text>
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Password"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Short Id</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Short Form ID"
-                onChange={(e) => setShortId(e.target.value)}
-              />
-            </Form.Group>
-            <Button
-              variant="primary"
-              onClick={() =>
-                setLoginViewState({
-                  loginForm: true,
-                  newUserForm: false,
-                })
-              }
-            >
-              Cancel?
-            </Button>
-            <Button variant="primary" onClick={signUp}>
-              Sign Up
-            </Button>
-          </Form>
-        ) : (
+          // put a 405 component here
           <></>
         )}
       </Card>
