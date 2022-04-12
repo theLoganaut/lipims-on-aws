@@ -23,6 +23,7 @@ const ConfirmCode = ({ setConfirmCode, handleConfirmation }) => {
           placeholder="Enter Code"
           onChange={(e) => setConfirmCode(e.target.value)}
         />
+        {/* 884019 current code */}
         <Form.Text className="text-muted">
           Please check your email for a code from AWS!
         </Form.Text>
