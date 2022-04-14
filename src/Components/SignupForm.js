@@ -1,14 +1,18 @@
 import { Form, Button } from "react-bootstrap";
 import { nanoid } from "nanoid";
+import { useState } from "react";
 
 const SignupForm = ({
   setEmail,
   setUsername,
+  username,
   setPassword,
   setShortId,
   setLoginViewState,
   shortId,
   handleToConfirm,
+  needsUsername,
+  checkForUsername,
 }) => {
   return (
     <Form>
@@ -65,7 +69,7 @@ const SignupForm = ({
       <Button variant="primary" onClick={handleToConfirm}>
         Sign Up
       </Button>
-      <Button variant="primary" onClick={() => setLoginViewState("confirm")}>
+      <Button variant="primary" onClick={checkForUsername}>
         Have a code already?
       </Button>
     </Form>

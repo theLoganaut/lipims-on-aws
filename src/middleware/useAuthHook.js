@@ -28,32 +28,31 @@ export function useAuth() {
         return "/";
       }
     },
-    async signUpUser(username, confirmCode) {
-      const newId = nanoid(10);
+    async confirmUser(username, confirmCode) {
+      // const newId = nanoid(10);
+      // since im not sure i cant send both, im not gonna update the id
+      // but instead make the id a 7 digit, and keep it for employee id
+      // try {
+      //   const updatedEmployee = await API.graphql(
+      //     graphqlOperation(updateEmployee, { id: newId })
+      //   );
+      //   console.log("updated", updatedEmployee);
+      // if (updatedEmployee) {
       try {
-        const updatedEmployee = await API.graphql(
-          graphqlOperation(updateEmployee, { id: newId })
-        );
-        console.log("updated", updatedEmployee);
-        if (updatedEmployee) {
-          try {
-            const confirmation = await Auth.confirmSignUp(
-              username,
-              confirmCode
-            );
-            console.log("confirmed", confirmation);
-            if (confirmation) {
-              setLoggedIn(true);
-              return "/storageSolution";
-            }
-          } catch (error) {
-            console.log("Error logging in:", error);
-          }
+        const confirmation = await Auth.confirmSignUp(username, confirmCode);
+        console.log("confirmed", confirmation);
+        if (confirmation) {
+          setLoggedIn(true);
+          return "/storageSolution";
         }
-      } catch (e) {
-        console.log("Error Changing Employee ID:", e);
+      } catch (error) {
+        console.log("Error logging in:", error);
       }
     },
+    // } catch (e) {
+    //   console.log("Error Changing Employee ID:", e);
+    // }
+    // },
     //first try to lookup employee based on id, if success, signup
     //   try {
     //     console.log(shortId);

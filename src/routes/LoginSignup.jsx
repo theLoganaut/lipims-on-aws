@@ -12,7 +12,7 @@ import SignupForm from "../Components/SignupForm";
 import ConfirmCode from "../Components/ConfirmCode";
 
 const LoginSignup = () => {
-  const { signIn, signUpUser } = useAuth();
+  const { signIn, confirmUser } = useAuth();
   const { state } = useLocation();
 
   const [username, setUsername] = useState("adminmiles");
@@ -29,6 +29,17 @@ const LoginSignup = () => {
 
   const [confirmCode, SetConfirmCode] = useState("");
 
+  const [needsUsername, setNeedsUsername] = useState(false);
+
+  const checkForUsername = () => {
+    if (username.length > 1) {
+      console.log("YAP");
+      setNeedsUsername(true);
+      setLoginViewState("confirm");
+    }
+  };
+
+  // maybe move this to auth hook?
   const handleToConfirm = async () => {
     try {
       console.log(shortId);
@@ -61,8 +72,8 @@ const LoginSignup = () => {
     }
   };
 
-  const confirmAndSignIn = async () => {
-    await signUpUser(username, confirmCode).then((r) => navigate(r));
+  const handleConfirmation = async () => {
+    await confirmUser(username, confirmCode).then((r) => navigate(r));
   };
 
   const [loginViewState, setLoginViewState] = useState("login");
@@ -96,6 +107,7 @@ const LoginSignup = () => {
       >
         {loginViewState === "signup" ? (
           <SignupForm
+            username={username}
             setEmail={setEmail}
             setUsername={setUsername}
             setPassword={setPassword}
@@ -103,6 +115,8 @@ const LoginSignup = () => {
             shortId={shortId}
             setLoginViewState={setLoginViewState}
             handleToConfirm={handleToConfirm}
+            checkForUsername={checkForUsername}
+            needsUsername={needsUsername}
           />
         ) : loginViewState === "login" ? (
           <Form style={{ margin: "1rem" }}>
@@ -131,7 +145,9 @@ const LoginSignup = () => {
         ) : loginViewState === "confirm" ? (
           <ConfirmCode
             setConfirmCode={SetConfirmCode}
-            handleConfirmation={confirmAndSignIn}
+            handleConfirmation={handleConfirmation}
+            needsUsername={needsUsername}
+            setUsername={setUsername}
           />
         ) : (
           // put a 405 component here
