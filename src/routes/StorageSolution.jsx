@@ -1,35 +1,47 @@
-import React, {useState, useEffect, useReducer} from 'react';
-import { Container, Dropdown, InputGroup, Form, FormControl, DropdownButton, Row, Col, Button} from 'react-bootstrap'
-import CustomNavBar from '../Components/CustomNavBar';
-import ItemCardList from '../Components/ItemCardList';
-import GenericCreationModal from '../Components/GenericCreationModal'
+import React, { useState, useEffect, useReducer } from "react";
+import {
+  Container,
+  Dropdown,
+  InputGroup,
+  Form,
+  FormControl,
+  DropdownButton,
+  Row,
+  Col,
+  Button,
+} from "react-bootstrap";
+import CustomNavBar from "../Components/CustomNavBar";
+import ItemCardList from "../Components/ItemCardList";
+import GenericCreationModal from "../Components/GenericCreationModal";
 import { inputGroupReducer } from "../middleware/inputGroups";
 import Amplify, { API, graphqlOperation } from "aws-amplify";
-import { listItems, listCustomers, listTransactions } from '../graphql/queries'
-import { createItem, createCustomer, createTransactions } from '../graphql/mutations'
+import { listItems, listCustomers, listTransactions } from "../graphql/queries";
+import {
+  createItem,
+  createCustomer,
+  createTransactions,
+} from "../graphql/mutations";
 import awsExports from "../aws-exports";
+import { jwtVerify, importJWK } from "jose";
 Amplify.configure(awsExports);
 
-
-
 const StorageSolution = () => {
-
   const [showCreationModal, setShowCreationModal] = useState(false);
 
   const closeCreationModal = () => {
     setShowCreationModal(false);
   };
 
-  const [Items, setItems] = useState([])
+  const [Items, setItems] = useState([]);
 
-  const [CustomerData, setCustomerData] = useState([])
+  const [CustomerData, setCustomerData] = useState([]);
 
-  const [Transactions, setTransactions] = useState([])
+  const [Transactions, setTransactions] = useState([]);
 
   async function fetchData() {
     try {
       const itemData = await API.graphql(graphqlOperation(listItems));
-      const Items = itemData.data.listItems.items; 
+      const Items = itemData.data.listItems.items;
       setItems(Items);
       // console.log(Locations);
     } catch (err) {
@@ -49,25 +61,44 @@ const StorageSolution = () => {
     setShowCreationModal(!showCreationModal);
   };
 
+  const verifyJWT = async () => {
+    const token = localStorage.getItem("token");
+    const publicKey = await importJWK(
+      {
+        kty: "RSA",
+        e: "AQAB",
+        n: "uDq7sWTtw35CjbFUo5FApFE0Lj-o5u-X0Byn4j5iimZvVmzQHsZzP4xpYTQchiRV28pV9rzD_uzoaQUkKX4J5f96ffju5pmorGUz-HONMdGEhw9ROBVDuzSDYQ7rwM_9O5vmx40cynZZDStJHKs7cFKS2buTZmKSIlRAarv8u4FsM1LDzeafrsLRVtDcZSrh4rEY9kGmGshtj7lE0J6dZuVVFP6RSqGrghDFsNiJUVIF4NsQuYmLzJXC52D0YXiQVjE2vVeyfygiKK58EZeDxe5LHEsdG5quIL5rHw6PZ8g5xaSKTLAj7qgC233v1RMosEhgme0F47QhIkFP_Jyrgw",
+      },
+      "RS256"
+    );
+    const { payload, protectedHeader } = await jwtVerify(token, publicKey, {
+      issuer: "urn:example:issuer",
+      audience: "urn:example:audience",
+    });
+
+    console.log(protectedHeader);
+    console.log(payload);
+  };
+
   return (
     <Container fluid>
       <CustomNavBar />
-      <GenericCreationModal 
-      closeCreationModal={closeCreationModal}
-      showCreationModal={showCreationModal}
-      API={API}
-      graphqlOperation={graphqlOperation}
-      currentInputGroup={inputGroupState}
-      setItems={setItems}
-      Items={Items}
-      createItem={createItem}
-      setCustomerData={setCustomerData}
-      CustomerData={CustomerData}
-      createCustomer={createCustomer}
-      setTransactions={setTransactions}
-      Transactions={Transactions}
-      createTransactions={createTransactions}
-      reduceDispatch={dispatch}
+      <GenericCreationModal
+        closeCreationModal={closeCreationModal}
+        showCreationModal={showCreationModal}
+        API={API}
+        graphqlOperation={graphqlOperation}
+        currentInputGroup={inputGroupState}
+        setItems={setItems}
+        Items={Items}
+        createItem={createItem}
+        setCustomerData={setCustomerData}
+        CustomerData={CustomerData}
+        createCustomer={createCustomer}
+        setTransactions={setTransactions}
+        Transactions={Transactions}
+        createTransactions={createTransactions}
+        reduceDispatch={dispatch}
       />
       <Row>
         <Col
@@ -110,7 +141,7 @@ const StorageSolution = () => {
           </Button>
 
           <Button
-            style={{ width: "100%", marginBottom: "2%"  }}
+            style={{ width: "100%", marginBottom: "2%" }}
             onClick={() => changeInputGroup("lookupCustomer")}
           >
             {" "}
@@ -123,6 +154,10 @@ const StorageSolution = () => {
             {" "}
             Pull Item From Storage{" "}
           </Button>
+
+          <Button variant="primary" type="button" onClick={verifyJWT}>
+            Login
+          </Button>
         </Col>
 
         <Col>
@@ -131,6 +166,7 @@ const StorageSolution = () => {
         <Col></Col>
       </Row>
     </Container>
-  )};
+  );
+};
 
 export default StorageSolution;

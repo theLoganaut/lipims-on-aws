@@ -15,6 +15,9 @@ export function useAuth() {
     async signIn(username, password) {
       const user = await Auth.signIn(username, password);
       if (user) {
+        const userJWT = user.signInUserSession.idToken.jwtToken;
+        console.log(user);
+        localStorage.setItem("token", userJWT);
         setLoggedIn(true);
         // console.log(user, "test", loggedIn);
         return "/storageSolution";
