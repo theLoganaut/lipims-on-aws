@@ -1,5 +1,5 @@
 import { Auth } from "aws-amplify";
-import { createContext, useState, useRef, useMemo } from "react";
+import { createContext, useState, useMemo, useEffect } from "react";
 
 export const authContext = createContext({
   loggedIn: false,
@@ -9,6 +9,13 @@ export const authContext = createContext({
 function AuthProvider({ children }) {
   const [loggedIn, setLoggedIn] = useState(false);
   const value = useMemo(() => ({ loggedIn, setLoggedIn }), [loggedIn]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token") || false;
+    if (token !== false) {
+      setLoggedIn(true);
+    }
+  }, []);
 
   return <authContext.Provider value={value}>{children}</authContext.Provider>;
 }

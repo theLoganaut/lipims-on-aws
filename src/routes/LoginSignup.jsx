@@ -5,7 +5,7 @@ import { getEmployee } from "../graphql/queries";
 import { updateEmployee } from "../graphql/mutations";
 import { Container, Card, Form, Button } from "react-bootstrap";
 import { nanoid } from "nanoid";
-import { useNavigate, useLocation, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../middleware/useAuthHook";
 import { authContext } from "../middleware/AuthContext";
 import SignupForm from "../Components/SignupForm";
@@ -13,7 +13,8 @@ import ConfirmCode from "../Components/ConfirmCode";
 
 const LoginSignup = () => {
   const { signIn, confirmUser } = useAuth();
-  const { state } = useLocation();
+
+  console.log("TEST");
 
   const [username, setUsername] = useState("adminmiles");
 

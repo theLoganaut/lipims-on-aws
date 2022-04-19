@@ -10,6 +10,11 @@ import { authContext } from "./AuthContext";
 export function useAuth() {
   const { loggedIn, setLoggedIn } = React.useContext(authContext);
 
+  // const token = localStorage.getItem("token");
+  // if (token) {
+  //   setLoggedIn(true, token);
+  // }
+
   return {
     loggedIn,
     async signIn(username, password) {
@@ -18,18 +23,17 @@ export function useAuth() {
         const userJWT = user.signInUserSession.idToken.jwtToken;
         console.log(user);
         localStorage.setItem("token", userJWT);
-        setLoggedIn(true);
+        // setLoggedIn(true);
         // console.log(user, "test", loggedIn);
         return "/storageSolution";
       }
     },
     async signOutUser() {
-      const user = await Auth.signOut();
-      if (user) {
-        setLoggedIn(false);
-        // console.log(user, "test", loggedIn);
-        return "/";
-      }
+      await Auth.signOut();
+      localStorage.removeItem("token");
+      // setLoggedIn(false);
+      // console.log(user, "test", loggedIn);
+      return "/";
     },
     async confirmUser(username, confirmCode) {
       // const newId = nanoid(10);
@@ -45,7 +49,7 @@ export function useAuth() {
         const confirmation = await Auth.confirmSignUp(username, confirmCode);
         console.log("confirmed", confirmation);
         if (confirmation) {
-          setLoggedIn(true);
+          // setLoggedIn(true);
           return "/storageSolution";
         }
       } catch (error) {
@@ -111,5 +115,6 @@ export function RequireAuth({ children }) {
     children
   ) : (
     <Navigate to="/" replace state={{ path: location.pathname }} />
+    // <></>
   );
 }

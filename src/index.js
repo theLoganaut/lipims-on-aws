@@ -20,25 +20,14 @@ ReactDOM.render(
       <AuthProvider>
         <Routes>
           <Route path="/" element={<LoginSignup />} />
-          <Route
-            path="/storageSolution"
-            element={
-              <RequireAuth>
-                {" "}
-                <StorageSolution />{" "}
-              </RequireAuth>
-            }
-          />
           <Route path="/secretRoute" element={<SecretRoute />} />
-          <Route
-            path="/businessManager"
-            element={
-              <RequireAuth>
-                <BusinessManager />
-              </RequireAuth>
-            }
-          />
         </Routes>
+        <RequireAuth>
+          <Routes>
+            <Route path="/storageSolution" element={<StorageSolution />} />
+            <Route path="/businessManager" element={<BusinessManager />} />
+          </Routes>
+        </RequireAuth>
       </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>,

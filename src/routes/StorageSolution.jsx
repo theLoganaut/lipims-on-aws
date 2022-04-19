@@ -71,10 +71,8 @@ const StorageSolution = () => {
       },
       "RS256"
     );
-    const { payload, protectedHeader } = await jwtVerify(token, publicKey, {
-      issuer: "urn:example:issuer",
-      audience: "urn:example:audience",
-    });
+    console.log(publicKey);
+    const { payload, protectedHeader } = await jwtVerify(token, publicKey);
 
     console.log(protectedHeader);
     console.log(payload);
