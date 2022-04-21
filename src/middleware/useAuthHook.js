@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Auth, API, graphqlOperation } from "aws-amplify";
-import { useLocation, Navigate } from "react-router-dom";
+import { useLocation, Navigate, useNavigate } from "react-router-dom";
 import { getEmployee } from "../graphql/queries";
 import { updateEmployee } from "../graphql/mutations";
 import { nanoid } from "nanoid";
@@ -10,10 +10,18 @@ import { authContext } from "./AuthContext";
 export function useAuth() {
   const { loggedIn, setLoggedIn } = React.useContext(authContext);
 
-  // const token = localStorage.getItem("token");
-  // if (token) {
-  //   setLoggedIn(true, token);
-  // }
+  const navigate = useNavigate();
+
+  const location = useLocation();
+
+  React.useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      console.log(token, location.pathname);
+      setLoggedIn(true);
+      // navigate("/storageSolution");
+    }
+  }, [setLoggedIn]);
 
   return {
     loggedIn,
@@ -23,15 +31,14 @@ export function useAuth() {
         const userJWT = user.signInUserSession.idToken.jwtToken;
         console.log(user);
         localStorage.setItem("token", userJWT);
-        // setLoggedIn(true);
-        // console.log(user, "test", loggedIn);
+        setLoggedIn(true);
         return "/storageSolution";
       }
     },
     async signOutUser() {
       await Auth.signOut();
       localStorage.removeItem("token");
-      // setLoggedIn(false);
+      setLoggedIn(false);
       // console.log(user, "test", loggedIn);
       return "/";
     },
@@ -49,7 +56,7 @@ export function useAuth() {
         const confirmation = await Auth.confirmSignUp(username, confirmCode);
         console.log("confirmed", confirmation);
         if (confirmation) {
-          // setLoggedIn(true);
+          setLoggedIn(true);
           return "/storageSolution";
         }
       } catch (error) {

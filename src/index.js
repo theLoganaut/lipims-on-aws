@@ -20,14 +20,25 @@ ReactDOM.render(
       <AuthProvider>
         <Routes>
           <Route path="/" element={<LoginSignup />} />
-          <Route path="/secretRoute" element={<SecretRoute />} />
+          {/* maybe i need to add a 'checking' route so theres no loop? */}
+          <Route path="/checking" element={<SecretRoute />} />
+          <Route
+            path="/storageSolution"
+            element={
+              <RequireAuth>
+                <StorageSolution />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/businessManager"
+            element={
+              <RequireAuth>
+                <BusinessManager />
+              </RequireAuth>
+            }
+          />
         </Routes>
-        <RequireAuth>
-          <Routes>
-            <Route path="/storageSolution" element={<StorageSolution />} />
-            <Route path="/businessManager" element={<BusinessManager />} />
-          </Routes>
-        </RequireAuth>
       </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>,

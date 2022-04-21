@@ -81,8 +81,6 @@ const LoginSignup = () => {
 
   const navigate = useNavigate();
 
-  const { loggedIn } = useContext(authContext);
-
   const handleLogin = async () => {
     await signIn(username, password).then((r) => navigate(r));
   };
