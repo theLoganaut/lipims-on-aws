@@ -5,7 +5,8 @@ import { getEmployee } from "../graphql/queries";
 import { updateEmployee } from "../graphql/mutations";
 import { Container, Card, Form, Button } from "react-bootstrap";
 import { nanoid } from "nanoid";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { createBrowserHistory } from "history";
 import { useAuth } from "../middleware/useAuthHook";
 import { authContext } from "../middleware/AuthContext";
 import SignupForm from "../Components/SignupForm";
@@ -13,8 +14,6 @@ import ConfirmCode from "../Components/ConfirmCode";
 
 const LoginSignup = () => {
   const { signIn, confirmUser } = useAuth();
-
-  console.log("TEST");
 
   const [username, setUsername] = useState("adminmiles");
 
@@ -82,7 +81,9 @@ const LoginSignup = () => {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    await signIn(username, password).then((r) => navigate(r));
+    await signIn(username, password, "/storageSolution").then((r) =>
+      navigate(r)
+    );
   };
 
   return (

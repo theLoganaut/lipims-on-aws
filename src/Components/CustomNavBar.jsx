@@ -13,9 +13,9 @@ const CustomNavBar = () => {
   const { loggedIn } = useContext(authContext);
   const navigate = useNavigate();
 
-  // const handlelogout = async () => {
-  //   await signOutUser().then(navigate("/"));
-  // };
+  const handlelogout = async () => {
+    await signOutUser().then(navigate("/"));
+  };
 
   return (
     <Navbar bg="light" expand="lg" style={{ borderBottomStyle: "solid" }}>
@@ -34,9 +34,9 @@ const CustomNavBar = () => {
               To Storage Solution
             </Link>
           </Nav>
-          {/* <Button onClick={handlelogout} className="justify-content-end">
+          <Button onClick={handlelogout} className="justify-content-end">
             Log Out
-          </Button> */}
+          </Button>
           <Nav.Link href="" className="justify-content-end">
             PFP/Settings
           </Nav.Link>
