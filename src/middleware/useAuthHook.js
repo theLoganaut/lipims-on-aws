@@ -42,7 +42,6 @@ export function useAuth() {
       await Auth.signOut();
       localStorage.removeItem("token");
       setLoggedIn(false);
-      // console.log(user, "test", loggedIn);
       return "/";
     },
     async confirmUser(username, confirmCode, to, from) {
@@ -66,26 +65,14 @@ export function RequireAuth({ children }) {
   const location = useLocation();
   const { loggedIn, setLoggedIn } = React.useContext(authContext);
   const navigate = useNavigate();
+  const prevRoute = useLocation();
 
-  // React.useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   if (token) {
-  //     setLoggedIn(true);
-  //     console.log(loggedIn, "req");
-  //   }
-  // }, [loggedIn, setLoggedIn]);
-  // React.useEffect(() => {
-  //   const token = localStorage.getItem("token") || false;
-  //   if (token !== false) {
-  //     setLoggedIn(true);
-  //     navigate(-1);
-  //   }
-  // }, [navigate, setLoggedIn]);
+  // console.log("hello", prevRoute);
 
   return loggedIn === true ? (
     children
   ) : (
-    <Navigate to="/" state={{ path: location.pathname }} />
+    <Navigate to="/" state={{ from: prevRoute }} />
     // <></>
   );
 }

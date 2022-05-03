@@ -21,12 +21,17 @@ import {
   createCustomer,
   createTransactions,
 } from "../graphql/mutations";
+import { useLocation } from "react-router-dom";
 import awsExports from "../aws-exports";
 import { jwtVerify, importJWK } from "jose";
 Amplify.configure(awsExports);
 
 const StorageSolution = () => {
   const [showCreationModal, setShowCreationModal] = useState(false);
+
+  const location = useLocation();
+
+  localStorage.setItem("prev", location.pathname);
 
   const closeCreationModal = () => {
     setShowCreationModal(false);

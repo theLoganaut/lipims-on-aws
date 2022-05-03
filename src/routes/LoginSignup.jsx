@@ -148,6 +148,7 @@ const LoginSignup = () => {
             handleConfirmation={handleConfirmation}
             needsUsername={needsUsername}
             setUsername={setUsername}
+            username={username}
           />
         ) : (
           // put a 405 component here

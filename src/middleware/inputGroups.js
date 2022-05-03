@@ -189,6 +189,8 @@ const newTransactionInput = {
   },
 };
 
+export const saveEmployeeID = () => {};
+
 // function to import that returns the input group
 export const inputGroupReducer = (state, action) => {
   switch (action.type) {

@@ -1,11 +1,22 @@
 import { Form, Button } from "react-bootstrap";
+import { Auth } from "aws-amplify";
 
 const ConfirmCode = ({
   setConfirmCode,
   handleConfirmation,
   needsUsername,
   setUsername,
+  username,
 }) => {
+  async function resendConfirmationCode() {
+    try {
+      await Auth.resendSignUp(username);
+      console.log("code resent successfully");
+    } catch (err) {
+      console.log("error resending code: ", err);
+    }
+  }
+
   return (
     <Form>
       {/* visible if the user came back after getting conf */}
@@ -39,6 +50,9 @@ const ConfirmCode = ({
       </Form.Group>
       <Button variant="primary" onClick={handleConfirmation}>
         Sign Up
+      </Button>
+      <Button variant="primary" onClick={resendConfirmationCode}>
+        Send New Code
       </Button>
     </Form>
   );
