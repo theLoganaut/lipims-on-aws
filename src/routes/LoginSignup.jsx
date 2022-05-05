@@ -1,14 +1,10 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState } from "react";
 import { API, graphqlOperation, Auth } from "aws-amplify";
-import awsExports from "../aws-exports";
 import { getEmployee } from "../graphql/queries";
-import { updateEmployee } from "../graphql/mutations";
 import { Container, Card, Form, Button } from "react-bootstrap";
 import { nanoid } from "nanoid";
-import { useNavigate, useLocation } from "react-router-dom";
-import { createBrowserHistory } from "history";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../middleware/useAuthHook";
-import { authContext } from "../middleware/AuthContext";
 import SignupForm from "../Components/SignupForm";
 import ConfirmCode from "../Components/ConfirmCode";
 

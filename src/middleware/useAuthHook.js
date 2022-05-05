@@ -1,17 +1,11 @@
 import * as React from "react";
-import { Auth, API, graphqlOperation, navItem } from "aws-amplify";
+import { Auth } from "aws-amplify";
 import { useLocation, Navigate, useNavigate } from "react-router-dom";
-import { createBrowserHistory } from "history";
-import { getEmployee } from "../graphql/queries";
-import { updateEmployee } from "../graphql/mutations";
-import { nanoid } from "nanoid";
 
 import { authContext } from "./AuthContext";
 
 export function useAuth() {
   const { loggedIn, setLoggedIn } = React.useContext(authContext);
-
-  const navigate = useNavigate();
 
   // i think i should store the name in each major route?
   // localStorage.setItem('prev', history.location.pathname)
@@ -21,10 +15,6 @@ export function useAuth() {
       setLoggedIn(true);
     }
   }, [setLoggedIn]);
-
-  let history = createBrowserHistory();
-
-  const location = useLocation();
 
   return {
     loggedIn,
@@ -62,9 +52,7 @@ export function useAuth() {
 }
 
 export function RequireAuth({ children }) {
-  const location = useLocation();
   const { loggedIn, setLoggedIn } = React.useContext(authContext);
-  const navigate = useNavigate();
   const prevRoute = useLocation();
 
   // console.log("hello", prevRoute);
