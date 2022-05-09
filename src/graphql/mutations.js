@@ -114,10 +114,14 @@ export const createEmployee = /* GraphQL */ `
       transactions {
         items {
           id
-          employeeID
-          transactionsID
-          createdAt
-          updatedAt
+          itemID
+          employeeId
+          locationId
+          customerName
+          isStored
+          dateTime
+          employeeTransactionsId
+          customerAllTransactionsId
         }
         nextToken
       }
@@ -153,10 +157,14 @@ export const updateEmployee = /* GraphQL */ `
       transactions {
         items {
           id
-          employeeID
-          transactionsID
-          createdAt
-          updatedAt
+          itemID
+          employeeId
+          locationId
+          customerName
+          isStored
+          dateTime
+          employeeTransactionsId
+          customerAllTransactionsId
         }
         nextToken
       }
@@ -192,10 +200,14 @@ export const deleteEmployee = /* GraphQL */ `
       transactions {
         items {
           id
-          employeeID
-          transactionsID
-          createdAt
-          updatedAt
+          itemID
+          employeeId
+          locationId
+          customerName
+          isStored
+          dateTime
+          employeeTransactionsId
+          customerAllTransactionsId
         }
         nextToken
       }
@@ -218,13 +230,14 @@ export const createCustomer = /* GraphQL */ `
       allTransactions {
         items {
           id
-          isInStorage
-          deposited
-          withdrawn
+          itemID
+          employeeId
+          locationId
+          customerName
+          isStored
+          dateTime
+          employeeTransactionsId
           customerAllTransactionsId
-          transactionsItemIDId
-          transactionsLocationStartId
-          transactionsLocationEndId
         }
         nextToken
       }
@@ -256,13 +269,14 @@ export const updateCustomer = /* GraphQL */ `
       allTransactions {
         items {
           id
-          isInStorage
-          deposited
-          withdrawn
+          itemID
+          employeeId
+          locationId
+          customerName
+          isStored
+          dateTime
+          employeeTransactionsId
           customerAllTransactionsId
-          transactionsItemIDId
-          transactionsLocationStartId
-          transactionsLocationEndId
         }
         nextToken
       }
@@ -294,13 +308,14 @@ export const deleteCustomer = /* GraphQL */ `
       allTransactions {
         items {
           id
-          isInStorage
-          deposited
-          withdrawn
+          itemID
+          employeeId
+          locationId
+          customerName
+          isStored
+          dateTime
+          employeeTransactionsId
           customerAllTransactionsId
-          transactionsItemIDId
-          transactionsLocationStartId
-          transactionsLocationEndId
         }
         nextToken
       }
@@ -344,15 +359,11 @@ export const createItem = /* GraphQL */ `
       }
       transactions {
         id
-        itemID {
-          id
-          itemName
-          quickTransfer
-          customerStoredItemsId
-          itemTransactionsId
-        }
-        isInStorage
-        customerID {
+        itemID
+        employeeId
+        locationId
+        customerName
+        customerData {
           id
           fullName
           membership
@@ -360,33 +371,10 @@ export const createItem = /* GraphQL */ `
           joinTime
           latestUpdateTime
         }
-        employee {
-          nextToken
-        }
-        locationStart {
-          id
-          city
-          region
-          image
-          address
-          openTime
-          lastestUpdateTime
-        }
-        locationEnd {
-          id
-          city
-          region
-          image
-          address
-          openTime
-          lastestUpdateTime
-        }
-        deposited
-        withdrawn
+        isStored
+        dateTime
+        employeeTransactionsId
         customerAllTransactionsId
-        transactionsItemIDId
-        transactionsLocationStartId
-        transactionsLocationEndId
       }
       customerStoredItemsId
       itemTransactionsId
@@ -418,15 +406,11 @@ export const updateItem = /* GraphQL */ `
       }
       transactions {
         id
-        itemID {
-          id
-          itemName
-          quickTransfer
-          customerStoredItemsId
-          itemTransactionsId
-        }
-        isInStorage
-        customerID {
+        itemID
+        employeeId
+        locationId
+        customerName
+        customerData {
           id
           fullName
           membership
@@ -434,33 +418,10 @@ export const updateItem = /* GraphQL */ `
           joinTime
           latestUpdateTime
         }
-        employee {
-          nextToken
-        }
-        locationStart {
-          id
-          city
-          region
-          image
-          address
-          openTime
-          lastestUpdateTime
-        }
-        locationEnd {
-          id
-          city
-          region
-          image
-          address
-          openTime
-          lastestUpdateTime
-        }
-        deposited
-        withdrawn
+        isStored
+        dateTime
+        employeeTransactionsId
         customerAllTransactionsId
-        transactionsItemIDId
-        transactionsLocationStartId
-        transactionsLocationEndId
       }
       customerStoredItemsId
       itemTransactionsId
@@ -492,15 +453,11 @@ export const deleteItem = /* GraphQL */ `
       }
       transactions {
         id
-        itemID {
-          id
-          itemName
-          quickTransfer
-          customerStoredItemsId
-          itemTransactionsId
-        }
-        isInStorage
-        customerID {
+        itemID
+        employeeId
+        locationId
+        customerName
+        customerData {
           id
           fullName
           membership
@@ -508,33 +465,10 @@ export const deleteItem = /* GraphQL */ `
           joinTime
           latestUpdateTime
         }
-        employee {
-          nextToken
-        }
-        locationStart {
-          id
-          city
-          region
-          image
-          address
-          openTime
-          lastestUpdateTime
-        }
-        locationEnd {
-          id
-          city
-          region
-          image
-          address
-          openTime
-          lastestUpdateTime
-        }
-        deposited
-        withdrawn
+        isStored
+        dateTime
+        employeeTransactionsId
         customerAllTransactionsId
-        transactionsItemIDId
-        transactionsLocationStartId
-        transactionsLocationEndId
       }
       customerStoredItemsId
       itemTransactionsId
@@ -548,33 +482,11 @@ export const createTransactions = /* GraphQL */ `
   ) {
     createTransactions(input: $input, condition: $condition) {
       id
-      itemID {
-        id
-        itemName
-        quickTransfer
-        owner {
-          id
-          fullName
-          membership
-          outstandingPayments
-          joinTime
-          latestUpdateTime
-        }
-        transactions {
-          id
-          isInStorage
-          deposited
-          withdrawn
-          customerAllTransactionsId
-          transactionsItemIDId
-          transactionsLocationStartId
-          transactionsLocationEndId
-        }
-        customerStoredItemsId
-        itemTransactionsId
-      }
-      isInStorage
-      customerID {
+      itemID
+      employeeId
+      locationId
+      customerName
+      customerData {
         id
         fullName
         membership
@@ -588,46 +500,10 @@ export const createTransactions = /* GraphQL */ `
         joinTime
         latestUpdateTime
       }
-      employee {
-        items {
-          id
-          employeeID
-          transactionsID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      locationStart {
-        id
-        city
-        region
-        image
-        address
-        employeeList {
-          nextToken
-        }
-        openTime
-        lastestUpdateTime
-      }
-      locationEnd {
-        id
-        city
-        region
-        image
-        address
-        employeeList {
-          nextToken
-        }
-        openTime
-        lastestUpdateTime
-      }
-      deposited
-      withdrawn
+      isStored
+      dateTime
+      employeeTransactionsId
       customerAllTransactionsId
-      transactionsItemIDId
-      transactionsLocationStartId
-      transactionsLocationEndId
     }
   }
 `;
@@ -638,33 +514,11 @@ export const updateTransactions = /* GraphQL */ `
   ) {
     updateTransactions(input: $input, condition: $condition) {
       id
-      itemID {
-        id
-        itemName
-        quickTransfer
-        owner {
-          id
-          fullName
-          membership
-          outstandingPayments
-          joinTime
-          latestUpdateTime
-        }
-        transactions {
-          id
-          isInStorage
-          deposited
-          withdrawn
-          customerAllTransactionsId
-          transactionsItemIDId
-          transactionsLocationStartId
-          transactionsLocationEndId
-        }
-        customerStoredItemsId
-        itemTransactionsId
-      }
-      isInStorage
-      customerID {
+      itemID
+      employeeId
+      locationId
+      customerName
+      customerData {
         id
         fullName
         membership
@@ -678,46 +532,10 @@ export const updateTransactions = /* GraphQL */ `
         joinTime
         latestUpdateTime
       }
-      employee {
-        items {
-          id
-          employeeID
-          transactionsID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      locationStart {
-        id
-        city
-        region
-        image
-        address
-        employeeList {
-          nextToken
-        }
-        openTime
-        lastestUpdateTime
-      }
-      locationEnd {
-        id
-        city
-        region
-        image
-        address
-        employeeList {
-          nextToken
-        }
-        openTime
-        lastestUpdateTime
-      }
-      deposited
-      withdrawn
+      isStored
+      dateTime
+      employeeTransactionsId
       customerAllTransactionsId
-      transactionsItemIDId
-      transactionsLocationStartId
-      transactionsLocationEndId
     }
   }
 `;
@@ -728,33 +546,11 @@ export const deleteTransactions = /* GraphQL */ `
   ) {
     deleteTransactions(input: $input, condition: $condition) {
       id
-      itemID {
-        id
-        itemName
-        quickTransfer
-        owner {
-          id
-          fullName
-          membership
-          outstandingPayments
-          joinTime
-          latestUpdateTime
-        }
-        transactions {
-          id
-          isInStorage
-          deposited
-          withdrawn
-          customerAllTransactionsId
-          transactionsItemIDId
-          transactionsLocationStartId
-          transactionsLocationEndId
-        }
-        customerStoredItemsId
-        itemTransactionsId
-      }
-      isInStorage
-      customerID {
+      itemID
+      employeeId
+      locationId
+      customerName
+      customerData {
         id
         fullName
         membership
@@ -768,292 +564,10 @@ export const deleteTransactions = /* GraphQL */ `
         joinTime
         latestUpdateTime
       }
-      employee {
-        items {
-          id
-          employeeID
-          transactionsID
-          createdAt
-          updatedAt
-        }
-        nextToken
-      }
-      locationStart {
-        id
-        city
-        region
-        image
-        address
-        employeeList {
-          nextToken
-        }
-        openTime
-        lastestUpdateTime
-      }
-      locationEnd {
-        id
-        city
-        region
-        image
-        address
-        employeeList {
-          nextToken
-        }
-        openTime
-        lastestUpdateTime
-      }
-      deposited
-      withdrawn
+      isStored
+      dateTime
+      employeeTransactionsId
       customerAllTransactionsId
-      transactionsItemIDId
-      transactionsLocationStartId
-      transactionsLocationEndId
-    }
-  }
-`;
-export const createEmployeeTransactions = /* GraphQL */ `
-  mutation CreateEmployeeTransactions(
-    $input: CreateEmployeeTransactionsInput!
-    $condition: ModelEmployeeTransactionsConditionInput
-  ) {
-    createEmployeeTransactions(input: $input, condition: $condition) {
-      id
-      employeeID
-      transactionsID
-      employee {
-        id
-        fullName
-        title
-        pay
-        recentlyHelped
-        workingAt {
-          id
-          city
-          region
-          image
-          address
-          openTime
-          lastestUpdateTime
-        }
-        transactions {
-          nextToken
-        }
-        hireTime
-        updatedTime
-        locationEmployeeListId
-      }
-      transactions {
-        id
-        itemID {
-          id
-          itemName
-          quickTransfer
-          customerStoredItemsId
-          itemTransactionsId
-        }
-        isInStorage
-        customerID {
-          id
-          fullName
-          membership
-          outstandingPayments
-          joinTime
-          latestUpdateTime
-        }
-        employee {
-          nextToken
-        }
-        locationStart {
-          id
-          city
-          region
-          image
-          address
-          openTime
-          lastestUpdateTime
-        }
-        locationEnd {
-          id
-          city
-          region
-          image
-          address
-          openTime
-          lastestUpdateTime
-        }
-        deposited
-        withdrawn
-        customerAllTransactionsId
-        transactionsItemIDId
-        transactionsLocationStartId
-        transactionsLocationEndId
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updateEmployeeTransactions = /* GraphQL */ `
-  mutation UpdateEmployeeTransactions(
-    $input: UpdateEmployeeTransactionsInput!
-    $condition: ModelEmployeeTransactionsConditionInput
-  ) {
-    updateEmployeeTransactions(input: $input, condition: $condition) {
-      id
-      employeeID
-      transactionsID
-      employee {
-        id
-        fullName
-        title
-        pay
-        recentlyHelped
-        workingAt {
-          id
-          city
-          region
-          image
-          address
-          openTime
-          lastestUpdateTime
-        }
-        transactions {
-          nextToken
-        }
-        hireTime
-        updatedTime
-        locationEmployeeListId
-      }
-      transactions {
-        id
-        itemID {
-          id
-          itemName
-          quickTransfer
-          customerStoredItemsId
-          itemTransactionsId
-        }
-        isInStorage
-        customerID {
-          id
-          fullName
-          membership
-          outstandingPayments
-          joinTime
-          latestUpdateTime
-        }
-        employee {
-          nextToken
-        }
-        locationStart {
-          id
-          city
-          region
-          image
-          address
-          openTime
-          lastestUpdateTime
-        }
-        locationEnd {
-          id
-          city
-          region
-          image
-          address
-          openTime
-          lastestUpdateTime
-        }
-        deposited
-        withdrawn
-        customerAllTransactionsId
-        transactionsItemIDId
-        transactionsLocationStartId
-        transactionsLocationEndId
-      }
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deleteEmployeeTransactions = /* GraphQL */ `
-  mutation DeleteEmployeeTransactions(
-    $input: DeleteEmployeeTransactionsInput!
-    $condition: ModelEmployeeTransactionsConditionInput
-  ) {
-    deleteEmployeeTransactions(input: $input, condition: $condition) {
-      id
-      employeeID
-      transactionsID
-      employee {
-        id
-        fullName
-        title
-        pay
-        recentlyHelped
-        workingAt {
-          id
-          city
-          region
-          image
-          address
-          openTime
-          lastestUpdateTime
-        }
-        transactions {
-          nextToken
-        }
-        hireTime
-        updatedTime
-        locationEmployeeListId
-      }
-      transactions {
-        id
-        itemID {
-          id
-          itemName
-          quickTransfer
-          customerStoredItemsId
-          itemTransactionsId
-        }
-        isInStorage
-        customerID {
-          id
-          fullName
-          membership
-          outstandingPayments
-          joinTime
-          latestUpdateTime
-        }
-        employee {
-          nextToken
-        }
-        locationStart {
-          id
-          city
-          region
-          image
-          address
-          openTime
-          lastestUpdateTime
-        }
-        locationEnd {
-          id
-          city
-          region
-          image
-          address
-          openTime
-          lastestUpdateTime
-        }
-        deposited
-        withdrawn
-        customerAllTransactionsId
-        transactionsItemIDId
-        transactionsLocationStartId
-        transactionsLocationEndId
-      }
-      createdAt
-      updatedAt
     }
   }
 `;
