@@ -127,12 +127,12 @@ const GenericCreationModal = ({
   };
 
   // ! make this a reducer, and throw this in with the 2nd input rework
-  const confirmData = (dataName, data) => {
-    if (dataName === "newItemExistingCustomer") {
-      // setFormState(...formState, formState.Item.data);
-      console.log(data);
-    }
-  };
+  // const confirmData = (dataName, data) => {
+  //   if (dataName === "newItemExistingCustomer") {
+  //     // setFormState(...formState, formState.Item.data);
+  //     console.log(data);
+  //   }
+  // };
 
   const testFunct = (e) => {
     e.preventDefault();
@@ -178,13 +178,13 @@ const GenericCreationModal = ({
                     {Object.values(input).map((i) => {
                       return (
                         <Form.Group key={i.title} className="mb-3">
-                          {i.autoGen || i.givenId ? (
+                          {i.givenValue ? (
                             <>
                               <Form.Label>{i.title}</Form.Label>
                               <InputGroup className="mb-3">
                                 <Form.Control
                                   type="text"
-                                  defaultValue={i.genId || i.givenId}
+                                  defaultValue={i.givenValue}
                                   id={i.value}
                                 />
                                 <Button variant="outline-secondary">
@@ -218,13 +218,13 @@ const GenericCreationModal = ({
                           ) : (
                             <></>
                           )}
-                          {!i.boolean && !i.autoGen && !i.givenId ? (
+                          {!i.boolean && !i.autoGen && !i.givenValue ? (
                             <>
                               <Form.Label>{i.title}</Form.Label>
                               <Form.Control
                                 id={i.value}
                                 type="text"
-                                defaultValue={i.givenId}
+                                defaultValue={i.givenValue}
                                 onChange={(e) =>
                                   setFormState({
                                     ...formState,
@@ -239,10 +239,6 @@ const GenericCreationModal = ({
                         </Form.Group>
                       );
                     })}
-                    <div id="cutoff"> cutoff </div>
-                    <Button type="submit" onClick={testFunct}>
-                      Confirm
-                    </Button>
                   </Form.Group>
                 </Card.Body>
               </Card>
@@ -251,8 +247,6 @@ const GenericCreationModal = ({
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={testItemCreation}> Add Item Test </Button>
-        <Button onClick={queryForCustomer}>Tester</Button>
         <Button onClick={addLocation}>Save?</Button>
         <Button onClick={closeAndDeleteData}>Close?</Button>
       </Modal.Footer>

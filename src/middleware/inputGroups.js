@@ -93,7 +93,7 @@ const newCustomer = {
   input1: {
     title: "Customer Generated ID",
     value: "id",
-    givenValue: null,
+    givenValue: newCustomerDefaultId,
   },
   input2: {
     title: "Customer Full Name",
@@ -110,9 +110,9 @@ const newCustomer = {
     boolean: true,
   },
   input5: {
-    title: "Generated Customer ID",
-    value: "id",
-    givenValue: newCustomerDefaultId,
+    title: "Previous Transactions",
+    value: "allTransactions",
+    givenValue: null,
   },
   input6: {
     title: "Stored Items",
