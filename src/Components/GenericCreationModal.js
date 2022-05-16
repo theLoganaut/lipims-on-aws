@@ -22,7 +22,7 @@ const GenericCreationModal = ({
   setCustomerData,
 }) => {
   //i need to map over the inputs for the form items
-  const [formState, setFormState] = useState([]);
+  const [formState, setFormState] = useState(currentInputGroup.inputGroup);
 
   async function addNewCustomerAndItem() {
     try {
@@ -134,11 +134,19 @@ const GenericCreationModal = ({
   //   }
   // };
 
-  const testFunct = (e) => {
-    e.preventDefault();
-    const someFormData = new FormData(e.target.form);
-    const someFormProps = Object.fromEntries(someFormData);
-    console.log("hit!", e.target.form);
+  console.log(
+    "function",
+    currentInputGroup.function,
+    currentInputGroup.inputGroup,
+    formState
+  );
+  // console.log("hit!", e.target.form);
+
+  const submitForm = () => {
+    // const someFormData = new FormData(e.target.form);
+    // const someFormProps = Object.fromEntries(someFormData);
+    console.log("function", currentInputGroup.function);
+    console.log("hit!", formState);
     let testingFormState = {};
     // for (let i = 0; i <= 19; i++) {
     //   if (e.target.form[i].value.length !== 0) {
@@ -156,7 +164,7 @@ const GenericCreationModal = ({
     //   //   [i.value]: e.target.value,
     //   // })
     // }
-    console.log(testingFormState);
+    // console.log(testingFormState);
   };
 
   return (
@@ -169,12 +177,12 @@ const GenericCreationModal = ({
       <Modal.Header closeButton></Modal.Header>
       <Modal.Body>
         <Form>
-          {currentInputGroup.map((input) => {
+          {currentInputGroup.inputGroup?.map((input) => {
             return (
               <Card style={{ marginBottom: "2%" }}>
                 <Card.Title></Card.Title>
                 <Card.Body>
-                  <Form.Group action={testFunct}>
+                  <Form.Group>
                     {Object.values(input).map((i) => {
                       return (
                         <Form.Group key={i.title} className="mb-3">
@@ -245,9 +253,10 @@ const GenericCreationModal = ({
             );
           })}
         </Form>
+
+        <Button onClick={submitForm}>Save?</Button>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={addLocation}>Save?</Button>
         <Button onClick={closeAndDeleteData}>Close?</Button>
       </Modal.Footer>
     </Modal>

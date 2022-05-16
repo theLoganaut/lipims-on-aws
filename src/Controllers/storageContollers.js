@@ -3,10 +3,12 @@ import {
   createItem,
   createCustomer,
   createTransactions,
+  createLocation,
+  createEmployee,
 } from "../graphql/mutations";
 import { inputGroupReducer } from "../middleware/inputGroups";
 
-async function addNewCustomerAndItem(formState) {
+export async function addNewCustomerAndItem(formState) {
   try {
     // needs sets
     const Customer = { ...formState.Customer };
@@ -24,7 +26,11 @@ async function addNewCustomerAndItem(formState) {
   }
 }
 
-async function queryForCustomer(formState, customerName) {
+export async function queryForCustomer(
+  formState,
+  customerName,
+  reduceDispatch
+) {
   try {
     const customerInfo = { ...formState };
     console.log("formstate", customerInfo);
@@ -46,7 +52,7 @@ async function queryForCustomer(formState, customerName) {
   }
 }
 
-async function addExistingAndItem() {
+export async function addExistingAndItem(formState) {
   try {
     // needs sets
     const Item = { ...formState.Item };
@@ -74,7 +80,7 @@ async function addExistingAndItem() {
 //   }
 // }
 
-async function addEmployee() {
+export async function addEmployee(formState, setFormState) {
   try {
     if (!formState.fullName) return;
     const Employee = { ...formState };
@@ -87,7 +93,12 @@ async function addEmployee() {
   }
 }
 
-async function addLocation() {
+export async function addLocation(
+  formState,
+  Locations,
+  setLocations,
+  setFormState
+) {
   try {
     if (!formState.city) return;
     const Location = { ...formState };

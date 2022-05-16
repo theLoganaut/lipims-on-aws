@@ -2,6 +2,10 @@ import { v4 as uuidv4 } from "uuid";
 import { useReducer, useState } from "react";
 import Amplify, { API, graphqlOperation, input } from "aws-amplify";
 import { createItem } from "../graphql/mutations";
+import {
+  addEmployee,
+  addNewCustomerAndItem,
+} from "../Controllers/storageContollers";
 import awsExports from "../aws-exports";
 Amplify.configure(awsExports);
 
@@ -28,7 +32,7 @@ const newTransactionDefaultId = uuidv4();
 // value - the related value for a graphql request
 // select
 
-const addEmployee = {
+const addEmployeeInputs = {
   input1: {
     title: "Employee Generated Id",
     value: "id",
@@ -61,7 +65,7 @@ const addEmployee = {
   },
 };
 
-const addLocation = {
+const addLocationInput = {
   input1: {
     title: "City Name",
     value: "city",
@@ -89,7 +93,7 @@ const addLocation = {
   },
 };
 
-const newCustomer = {
+const newCustomerInput = {
   input1: {
     title: "Customer Generated ID",
     value: "id",
@@ -121,7 +125,7 @@ const newCustomer = {
   },
 };
 
-const lookupCustomer = {
+const lookupCustomerInput = {
   input1: {
     title: "Lookup with Customer Full Name",
     value: "fullName",
@@ -187,7 +191,7 @@ const newItemAndCustomerInput = {
   },
 };
 
-const newTransaction = {
+const newTransactionInput = {
   input1: {
     title: "Generated Transaction ID",
     value: "id",
@@ -234,22 +238,37 @@ export const saveEmployeeID = () => {};
 export const inputGroupReducer = (state, action) => {
   switch (action.type) {
     case "addEmployee":
-      return (state.currentInput = [addEmployee]);
+      return (state = {
+        inputGroup: [addEmployeeInputs],
+        function: addEmployee,
+      });
     case "addLocation":
-      return (state.currentInput = [addLocation]);
+      return (state = { inputGroup: [], function: null });
+    // state.currentInput = [addLocation]
     case "addNewCustomerWithItem":
-      return (state.currentInput = [
-        newCustomer,
-        newItemAndCustomerInput,
-        newTransaction,
-      ]);
+      return (state = {
+        inputGroup: [
+          newCustomerInput,
+          newItemAndCustomerInput,
+          newTransactionInput,
+        ],
+        function: addNewCustomerAndItem,
+      });
+    //   state.currentInput = [
+    //   newCustomer,
+    //   newItemAndCustomerInput,
+    //   newTransaction,
+    // ]
     case "lookupCustomer":
-      return (state.currentInput = [lookupCustomer]);
+      return (state = { inputGroup: [], function: null });
+    // state.currentInput = [lookupCustomer]
     case "addExistingCustomerItem":
       newItemExistingCustomer.input4.givenId = action.payload.id;
-      newTransaction.input2.givenId = action.payload.id;
-      return (state.currentInput = [newItemExistingCustomer, newTransaction]);
+      newTransactionInput.input2.givenId = action.payload.id;
+      return (state = { inputGroup: [], function: null });
+    // state.currentInput = [newItemExistingCustomer, newTransaction]
     default:
-      throw new Error();
+      // throw new Error();
+      return (state = { inputGroup: [], function: null });
   }
 };
