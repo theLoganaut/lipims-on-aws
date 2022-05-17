@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, InputGroup, Card } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
 import Select from "react-select";
@@ -22,62 +22,81 @@ const GenericCreationModal = ({
   setCustomerData,
 }) => {
   //i need to map over the inputs for the form items
-  const [formState, setFormState] = useState(currentInputGroup.inputGroup);
+  const [formState, setFormState] = useState([]);
 
-  async function addNewCustomerAndItem() {
-    try {
-      // needs sets
-      const Customer = { ...formState.Customer };
-      const Item = { ...formState.Item };
-      const Transactions = { ...formState.Transactions };
-      console.log(formState);
-      await API.graphql(
-        graphqlOperation(createTransactions, { input: Transactions })
-      );
-      await API.graphql(graphqlOperation(createItem, { input: Item }));
-      await API.graphql(graphqlOperation(createCustomer, { input: Customer }));
-      setFormState([]);
-    } catch (err) {
-      console.log("error creating New Customer and Item:", err);
+  useEffect(() => {
+    if (currentInputGroup.inputGroup) {
+      currentInputGroup.inputGroup?.forEach((input) => {
+        if (input.givenValue) {
+          setFormState(
+            ...formState,
+            (formState[input.value] = input.givenValue)
+          );
+        } else {
+          setFormState(...formState, input.value);
+        }
+      });
     }
-  }
+    // for (let i=currentInputGroup.inputGroup.length; i >= 0; i--) {
+    //   setFormState()
+    // }
+  }, [currentInputGroup.inputGroup, formState]);
 
-  async function queryForCustomer() {
-    try {
-      const customerInfo = { ...formState };
-      console.log("formstate", customerInfo);
-      const customerInfoAPI = await API.graphql(
-        graphqlOperation(customerName, customerInfo)
-      );
-      const existingCustomerInfo = customerInfoAPI.data.customerName.items[0];
-      if (existingCustomerInfo != null) {
-        console.log(existingCustomerInfo);
-        reduceDispatch({
-          type: "addExistingCustomerItem",
-          payload: existingCustomerInfo,
-        });
-      } else {
-        reduceDispatch({ type: "lookupCustomer" });
-      }
-    } catch (err) {
-      console.log(err, "error fetching Customer Data");
-    }
-  }
+  console.log(formState);
+  // async function addNewCustomerAndItem() {
+  //   try {
+  //     // needs sets
+  //     const Customer = { ...formState.Customer };
+  //     const Item = { ...formState.Item };
+  //     const Transactions = { ...formState.Transactions };
+  //     console.log(formState);
+  //     await API.graphql(
+  //       graphqlOperation(createTransactions, { input: Transactions })
+  //     );
+  //     await API.graphql(graphqlOperation(createItem, { input: Item }));
+  //     await API.graphql(graphqlOperation(createCustomer, { input: Customer }));
+  //     setFormState([]);
+  //   } catch (err) {
+  //     console.log("error creating New Customer and Item:", err);
+  //   }
+  // }
 
-  async function addExistingAndItem() {
-    try {
-      // needs sets
-      const Item = { ...formState.Item };
-      const Transactions = { ...formState.Transactions };
-      await API.graphql(
-        graphqlOperation(createTransactions, { input: Transactions })
-      );
-      await API.graphql(graphqlOperation(createItem, { input: Item }));
-      setFormState([]);
-    } catch (err) {
-      console.log("error creating Item for Existing:", err);
-    }
-  }
+  // async function queryForCustomer() {
+  //   try {
+  //     const customerInfo = { ...formState };
+  //     console.log("formstate", customerInfo);
+  //     const customerInfoAPI = await API.graphql(
+  //       graphqlOperation(customerName, customerInfo)
+  //     );
+  //     const existingCustomerInfo = customerInfoAPI.data.customerName.items[0];
+  //     if (existingCustomerInfo != null) {
+  //       console.log(existingCustomerInfo);
+  //       reduceDispatch({
+  //         type: "addExistingCustomerItem",
+  //         payload: existingCustomerInfo,
+  //       });
+  //     } else {
+  //       reduceDispatch({ type: "lookupCustomer" });
+  //     }
+  //   } catch (err) {
+  //     console.log(err, "error fetching Customer Data");
+  //   }
+  // }
+
+  // async function addExistingAndItem() {
+  //   try {
+  //     // needs sets
+  //     const Item = { ...formState.Item };
+  //     const Transactions = { ...formState.Transactions };
+  //     await API.graphql(
+  //       graphqlOperation(createTransactions, { input: Transactions })
+  //     );
+  //     await API.graphql(graphqlOperation(createItem, { input: Item }));
+  //     setFormState([]);
+  //   } catch (err) {
+  //     console.log("error creating Item for Existing:", err);
+  //   }
+  // }
 
   // async function pullItemFromStorage() {
   //   try {
@@ -92,30 +111,30 @@ const GenericCreationModal = ({
   //   }
   // }
 
-  async function addEmployee() {
-    try {
-      if (!formState.fullName) return;
-      const Employee = { ...formState };
-      console.log(Employee);
-      // setEmployees([...Employees, Employee]);
-      setFormState([]);
-      await API.graphql(graphqlOperation(createEmployee, { input: Employee }));
-    } catch (err) {
-      console.log("error creating Location:", err);
-    }
-  }
+  // async function addEmployee() {
+  //   try {
+  //     if (!formState.fullName) return;
+  //     const Employee = { ...formState };
+  //     console.log(Employee);
+  //     // setEmployees([...Employees, Employee]);
+  //     setFormState([]);
+  //     await API.graphql(graphqlOperation(createEmployee, { input: Employee }));
+  //   } catch (err) {
+  //     console.log("error creating Location:", err);
+  //   }
+  // }
 
-  async function addLocation() {
-    try {
-      if (!formState.city) return;
-      const Location = { ...formState };
-      setLocations([...Locations, Location]);
-      setFormState([]);
-      await API.graphql(graphqlOperation(createLocation, { input: Location }));
-    } catch (err) {
-      console.log("error creating Location:", err);
-    }
-  }
+  // async function addLocation() {
+  //   try {
+  //     if (!formState.city) return;
+  //     const Location = { ...formState };
+  //     setLocations([...Locations, Location]);
+  //     setFormState([]);
+  //     await API.graphql(graphqlOperation(createLocation, { input: Location }));
+  //   } catch (err) {
+  //     console.log("error creating Location:", err);
+  //   }
+  // }
 
   const closeAndDeleteData = () => {
     setFormState([]);
