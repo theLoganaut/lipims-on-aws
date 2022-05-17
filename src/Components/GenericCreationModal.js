@@ -25,22 +25,23 @@ const GenericCreationModal = ({
   const [formState, setFormState] = useState([]);
 
   useEffect(() => {
+    console.log(currentInputGroup.inputGroup);
+    let tempForm = [];
     if (currentInputGroup.inputGroup) {
       currentInputGroup.inputGroup?.forEach((input) => {
+        console.log(input.value);
         if (input.givenValue) {
-          setFormState(
-            ...formState,
-            (formState[input.value] = input.givenValue)
-          );
+          tempForm = [...tempForm, (tempForm[input.value] = input.givenValue)];
         } else {
-          setFormState(...formState, input.value);
+          tempForm = [...tempForm, input.value];
         }
       });
     }
+    setFormState(tempForm);
     // for (let i=currentInputGroup.inputGroup.length; i >= 0; i--) {
     //   setFormState()
     // }
-  }, [currentInputGroup.inputGroup, formState]);
+  }, [currentInputGroup.inputGroup]);
 
   console.log(formState);
   // async function addNewCustomerAndItem() {
