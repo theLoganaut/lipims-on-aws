@@ -3,6 +3,7 @@ import { Modal, Button, Form, InputGroup, Card } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
 import Select from "react-select";
 import { customerName } from "../graphql/queries";
+import { ConsoleLogger } from "@aws-amplify/core";
 
 const GenericCreationModal = ({
   closeCreationModal,
@@ -22,120 +23,53 @@ const GenericCreationModal = ({
   setCustomerData,
 }) => {
   //i need to map over the inputs for the form items
-  const [formState, setFormState] = useState([]);
+  const [formNumber, setformNumber] = useState(0);
+
+  const [formData, setFormData] = useState({});
+
+  const [tempForm, setTempForm] = useState([]);
+
+  console.log(
+    currentInputGroup.inputGroup ? currentInputGroup.inputGroup[formNumber] : []
+  );
+
+  const [formState, setFormState] = useState(
+    currentInputGroup.inputGroup ? currentInputGroup.inputGroup[formNumber] : []
+  );
 
   useEffect(() => {
-    console.log(currentInputGroup.inputGroup);
-    let tempForm = [];
-    if (currentInputGroup.inputGroup) {
-      currentInputGroup.inputGroup?.forEach((input) => {
-        console.log(input.value);
-        if (input.givenValue) {
-          tempForm = [...tempForm, (tempForm[input.value] = input.givenValue)];
-        } else {
-          tempForm = [...tempForm, input.value];
-        }
-      });
-    }
-    setFormState(tempForm);
-    // for (let i=currentInputGroup.inputGroup.length; i >= 0; i--) {
-    //   setFormState()
-    // }
-  }, [currentInputGroup.inputGroup]);
+    setFormState(
+      currentInputGroup.inputGroup
+        ? currentInputGroup.inputGroup[formNumber]
+        : []
+    );
+  }, [currentInputGroup.inputGroup, formNumber]);
 
-  console.log(formState);
-  // async function addNewCustomerAndItem() {
-  //   try {
-  //     // needs sets
-  //     const Customer = { ...formState.Customer };
-  //     const Item = { ...formState.Item };
-  //     const Transactions = { ...formState.Transactions };
-  //     console.log(formState);
-  //     await API.graphql(
-  //       graphqlOperation(createTransactions, { input: Transactions })
-  //     );
-  //     await API.graphql(graphqlOperation(createItem, { input: Item }));
-  //     await API.graphql(graphqlOperation(createCustomer, { input: Customer }));
-  //     setFormState([]);
-  //   } catch (err) {
-  //     console.log("error creating New Customer and Item:", err);
+  // useEffect(() => {
+  //   let tempForm = [];
+  //   if (formState.length > 0) {
+  //     formState.forEach((input) => {
+  //       console.log(input);
+  //       if (input.givenValue) {
+  //         tempForm = { ...tempForm, [input.value]: input.givenValue };
+  //       } else {
+  //         tempForm = { ...tempForm, [input.value]: "" };
+  //       }
+  //     });
   //   }
-  // }
+  //   setFormData(tempForm);
+  // }, [formState]);
 
-  // async function queryForCustomer() {
-  //   try {
-  //     const customerInfo = { ...formState };
-  //     console.log("formstate", customerInfo);
-  //     const customerInfoAPI = await API.graphql(
-  //       graphqlOperation(customerName, customerInfo)
-  //     );
-  //     const existingCustomerInfo = customerInfoAPI.data.customerName.items[0];
-  //     if (existingCustomerInfo != null) {
-  //       console.log(existingCustomerInfo);
-  //       reduceDispatch({
-  //         type: "addExistingCustomerItem",
-  //         payload: existingCustomerInfo,
-  //       });
-  //     } else {
-  //       reduceDispatch({ type: "lookupCustomer" });
-  //     }
-  //   } catch (err) {
-  //     console.log(err, "error fetching Customer Data");
-  //   }
-  // }
+  const nextForm = () => {
+    setFormData((formData) => formData, tempForm);
+    setTempForm({});
+    setformNumber((formNumber) => formNumber + 1);
+  };
 
-  // async function addExistingAndItem() {
-  //   try {
-  //     // needs sets
-  //     const Item = { ...formState.Item };
-  //     const Transactions = { ...formState.Transactions };
-  //     await API.graphql(
-  //       graphqlOperation(createTransactions, { input: Transactions })
-  //     );
-  //     await API.graphql(graphqlOperation(createItem, { input: Item }));
-  //     setFormState([]);
-  //   } catch (err) {
-  //     console.log("error creating Item for Existing:", err);
-  //   }
-  // }
-
-  // async function pullItemFromStorage() {
-  //   try {
-  //     if (!formState.fullName) return;
-  //     const Employee = { ...formState };
-  //     console.log(Employee);
-  //     setEmployees([...Employees, Employee]);
-  //     setFormState([]);
-  //     await API.graphql(graphqlOperation(createEmployee, { input: Employee }));
-  //   } catch (err) {
-  //     console.log("error creating Location:", err);
-  //   }
-  // }
-
-  // async function addEmployee() {
-  //   try {
-  //     if (!formState.fullName) return;
-  //     const Employee = { ...formState };
-  //     console.log(Employee);
-  //     // setEmployees([...Employees, Employee]);
-  //     setFormState([]);
-  //     await API.graphql(graphqlOperation(createEmployee, { input: Employee }));
-  //   } catch (err) {
-  //     console.log("error creating Location:", err);
-  //   }
-  // }
-
-  // async function addLocation() {
-  //   try {
-  //     if (!formState.city) return;
-  //     const Location = { ...formState };
-  //     setLocations([...Locations, Location]);
-  //     setFormState([]);
-  //     await API.graphql(graphqlOperation(createLocation, { input: Location }));
-  //   } catch (err) {
-  //     console.log("error creating Location:", err);
-  //   }
-  // }
+  const prevForm = () => {
+    // just make the back button hidden if the form number is 0
+    setformNumber((formNumber) => formNumber - 1);
+  };
 
   const closeAndDeleteData = () => {
     setFormState([]);
@@ -146,21 +80,9 @@ const GenericCreationModal = ({
     console.log(formState);
   };
 
-  // ! make this a reducer, and throw this in with the 2nd input rework
-  // const confirmData = (dataName, data) => {
-  //   if (dataName === "newItemExistingCustomer") {
-  //     // setFormState(...formState, formState.Item.data);
-  //     console.log(data);
-  //   }
-  // };
+  console.log("formdata", formData);
 
-  console.log(
-    "function",
-    currentInputGroup.function,
-    currentInputGroup.inputGroup,
-    formState
-  );
-  // console.log("hit!", e.target.form);
+  console.log("inputs", currentInputGroup.inputGroup, formState);
 
   const submitForm = () => {
     // const someFormData = new FormData(e.target.form);
@@ -186,6 +108,12 @@ const GenericCreationModal = ({
     // }
     // console.log(testingFormState);
   };
+  console.log(tempForm);
+
+  const updateTempForm = (value) => {
+    if (tempForm.some((e) => e.value === !value)) {
+    }
+  };
 
   return (
     <Modal
@@ -197,13 +125,74 @@ const GenericCreationModal = ({
       <Modal.Header closeButton></Modal.Header>
       <Modal.Body>
         <Form>
-          {currentInputGroup.inputGroup?.map((input) => {
+          {formState?.map((input) => {
             return (
               <Card style={{ marginBottom: "2%" }}>
-                <Card.Title></Card.Title>
                 <Card.Body>
+                  {input.givenValue ? (
+                    <>
+                      <Form.Label>{input.title}</Form.Label>
+                      <InputGroup className="mb-3">
+                        <Form.Control
+                          type="text"
+                          defaultValue={input.givenValue}
+                          id={input.value}
+                        />
+                        <Button variant="outline-secondary">re-Gen</Button>
+                      </InputGroup>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  {input.boolean ? (
+                    <>
+                      <Form.Label>{input.title}</Form.Label>
+                      <InputGroup id={input.value} className="mb-3">
+                        <Form.Check
+                          inline
+                          label="false"
+                          defaultValue={false}
+                          name="group1"
+                          type="radio"
+                        />
+                        <Form.Check
+                          inline
+                          label="true"
+                          value={true}
+                          name="group1"
+                          type="radio"
+                        />
+                      </InputGroup>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                  {!input.boolean && !input.autoGen && !input.givenValue ? (
+                    <>
+                      <Form.Label>{input.title}</Form.Label>
+                      <Form.Control
+                        id={input.value}
+                        type="text"
+                        defaultValue={input.givenValue}
+                        onChange={
+                          (e) =>
+                            setTempForm([
+                              {
+                                [input.value]: e.target.value,
+                              },
+                            ])
+
+                          // console.log({
+                          //   [input.value]: e.target.value,
+                          // })
+                        }
+                      />
+                    </>
+                  ) : (
+                    <></>
+                  )}
                   <Form.Group>
-                    {Object.values(input).map((i) => {
+                    {/* {Object.values(input).map((i) => {
                       return (
                         <Form.Group key={i.title} className="mb-3">
                           {i.givenValue ? (
@@ -266,7 +255,7 @@ const GenericCreationModal = ({
                           )}
                         </Form.Group>
                       );
-                    })}
+                    })} */}
                   </Form.Group>
                 </Card.Body>
               </Card>
@@ -274,7 +263,7 @@ const GenericCreationModal = ({
           })}
         </Form>
 
-        <Button onClick={submitForm}>Save?</Button>
+        <Button onClick={nextForm}>next</Button>
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={closeAndDeleteData}>Close?</Button>

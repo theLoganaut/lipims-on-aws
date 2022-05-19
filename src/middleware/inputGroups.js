@@ -93,37 +93,37 @@ const addLocationInput = {
   },
 };
 
-const newCustomerInput = {
-  input1: {
+const newCustomerInput = [
+  {
     title: "Customer Generated ID",
     value: "id",
     givenValue: newCustomerDefaultId,
   },
-  input2: {
+  {
     title: "Customer Full Name",
     value: "fullName",
   },
-  input3: {
+  {
     title: "Pester Customer about membership perks",
     value: "membership",
     boolean: true,
   },
-  input4: {
+  {
     title: "Outstanding Payments",
     value: "outstandingPayments",
     boolean: true,
   },
-  input5: {
+  {
     title: "Previous Transactions",
     value: "allTransactions",
     givenValue: null,
   },
-  input6: {
+  {
     title: "Stored Items",
     value: "storedItems",
     givenValue: null,
   },
-};
+];
 
 const lookupCustomerInput = {
   input1: {
@@ -164,73 +164,73 @@ const newItemExistingCustomer = {
   },
 };
 
-const newItemAndCustomerInput = {
-  input2: {
+const newItemAndCustomerInput = [
+  {
     title: "Generated Item ID",
     value: "id",
     givenValue: newItemDefaultId,
   },
-  input1: {
+  {
     title: "Item Name being Stored",
     value: "itemName",
   },
-  input3: {
+  {
     title: "Quick Transfer?",
     value: "quickTransfer",
     boolean: true,
   },
-  input4: {
+  {
     title: "Customer ID",
     value: "customerStoredItemsId",
     givenValue: newCustomerDefaultId,
   },
-  input5: {
+  {
     title: "Transaction ID",
     value: "itemTransactionsId",
     givenValue: newTransactionDefaultId,
   },
-};
+];
 
-const newTransactionInput = {
-  input1: {
+const newTransactionInput = [
+  {
     title: "Generated Transaction ID",
     value: "id",
     givenValue: newTransactionDefaultId,
   },
-  input2: {
+  {
     title: "Customer ID",
     value: "customerAllTransactionsId",
     givenValue: null,
   },
-  input3: {
+  {
     title: "Customer Name",
     value: "customer Name",
     givenValue: null,
   },
-  input4: {
+  {
     title: "ItemId",
     value: "itemID",
     givenValue: newItemDefaultId,
   },
-  input5: {
+  {
     title: "Employee Id",
     value: "employeeId",
     givenValue: null,
   },
-  input6: {
+  {
     title: "Location Id of Transaction",
     value: "locationId",
     givenValue: null,
   },
-  input7: {
+  {
     title: "Storage Value",
     value: "isStored",
   },
-  input8: {
+  {
     title: "Date/Time of Transaction",
     value: "dateTime",
   },
-};
+];
 
 export const saveEmployeeID = () => {};
 
