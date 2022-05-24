@@ -27,11 +27,13 @@ const GenericCreationModal = ({
 
   const [formData, setFormData] = useState({});
 
-  const [tempForm, setTempForm] = useState([]);
+  const [finalData, setFinalData] = useState([]);
 
-  console.log(
-    currentInputGroup.inputGroup ? currentInputGroup.inputGroup[formNumber] : []
-  );
+  const [tempForm, setTempForm] = useState({});
+
+  // console.log(
+  //   currentInputGroup.inputGroup ? currentInputGroup.inputGroup[formNumber] : []
+  // );
 
   const [formState, setFormState] = useState(
     currentInputGroup.inputGroup ? currentInputGroup.inputGroup[formNumber] : []
@@ -45,23 +47,28 @@ const GenericCreationModal = ({
     );
   }, [currentInputGroup.inputGroup, formNumber]);
 
-  // useEffect(() => {
-  //   let tempForm = [];
-  //   if (formState.length > 0) {
-  //     formState.forEach((input) => {
-  //       console.log(input);
-  //       if (input.givenValue) {
-  //         tempForm = { ...tempForm, [input.value]: input.givenValue };
-  //       } else {
-  //         tempForm = { ...tempForm, [input.value]: "" };
-  //       }
-  //     });
-  //   }
-  //   setFormData(tempForm);
-  // }, [formState]);
+  useEffect(() => {
+    let tempForm = [];
+    if (formState.length > 0) {
+      formState.forEach((input) => {
+        console.log(input);
+        if (input.givenValue) {
+          tempForm = { ...tempForm, [input.value]: input.givenValue };
+        } else {
+          tempForm = { ...tempForm, [input.value]: "" };
+        }
+      });
+    }
+    setFormData(tempForm);
+  }, [formState]);
 
   const nextForm = () => {
-    setFormData((formData) => formData, tempForm);
+    // setFormData((formData) => formData, tempForm);
+    const target = formData;
+    const source = tempForm;
+    Object.assign(target, source);
+    setFormState([]);
+    setFinalData(...finalData, target);
     setTempForm({});
     setformNumber((formNumber) => formNumber + 1);
   };
@@ -82,14 +89,17 @@ const GenericCreationModal = ({
 
   console.log("formdata", formData);
 
+  console.log("tempForm", tempForm);
+
   console.log("inputs", currentInputGroup.inputGroup, formState);
 
-  const submitForm = () => {
+  const sendForm = () => {
+    console.log("final", finalData);
     // const someFormData = new FormData(e.target.form);
     // const someFormProps = Object.fromEntries(someFormData);
-    console.log("function", currentInputGroup.function);
-    console.log("hit!", formState);
-    let testingFormState = {};
+    // console.log("function", currentInputGroup.function);
+    // console.log("hit!", formState);
+    // let testingFormState = {};
     // for (let i = 0; i <= 19; i++) {
     //   if (e.target.form[i].value.length !== 0) {
     //     console.log(e.target.form[i]);
@@ -107,12 +117,6 @@ const GenericCreationModal = ({
     //   // })
     // }
     // console.log(testingFormState);
-  };
-  console.log(tempForm);
-
-  const updateTempForm = (value) => {
-    if (tempForm.some((e) => e.value === !value)) {
-    }
   };
 
   return (
@@ -175,16 +179,30 @@ const GenericCreationModal = ({
                         type="text"
                         defaultValue={input.givenValue}
                         onChange={
-                          (e) =>
-                            setTempForm([
-                              {
+                          // !("key" in obj)
+                          (e) => {
+                            // if input key is not in tempform, add
+                            if (!("input.value" in tempForm)) {
+                              setTempForm({
+                                ...tempForm,
                                 [input.value]: e.target.value,
-                              },
-                            ])
+                              });
+                            }
+                            const target = tempForm;
+                            const source = { [input.value]: e.target.value };
+                            Object.assign(target, source);
+                            setTempForm(target);
 
-                          // console.log({
-                          //   [input.value]: e.target.value,
-                          // })
+                            // [
+                            //   {
+                            //     [input.value]: e.target.value,
+                            //   },
+                            // ])
+
+                            // console.log({
+                            //   [input.value]: e.target.value,
+                            // })
+                          }
                         }
                       />
                     </>
@@ -264,6 +282,21 @@ const GenericCreationModal = ({
         </Form>
 
         <Button onClick={nextForm}>next</Button>
+
+        {currentInputGroup.inputGroup &&
+        formNumber === currentInputGroup.inputGroup.length ? (
+          <Button onClick={sendForm}>next</Button>
+        ) : (
+          <></>
+        )}
+
+        {/* {
+        currentInputGroup.inputGroup ? true && formNumber ? (
+            (<Button onClick={sendForm}>next</Button>)
+        ) : (
+          <></>
+        )
+      } */}
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={closeAndDeleteData}>Close?</Button>

@@ -17,7 +17,7 @@ function AuthProvider({ children }) {
     const token = localStorage.getItem("token");
     if (token) {
       setLoggedIn(true);
-      console.log(loggedIn, location);
+      // console.log(loggedIn, location);
       navigate("/storageSolution");
     }
   }, [loggedIn]);
