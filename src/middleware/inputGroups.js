@@ -32,66 +32,66 @@ const newTransactionDefaultId = uuidv4();
 // value - the related value for a graphql request
 // select
 
-const addEmployeeInputs = {
-  input1: {
+const addEmployeeInputs = [
+  {
     title: "Employee Generated Id",
     value: "id",
   },
-  input2: {
+  {
     title: "Employee Full Name",
     value: "fullName",
   },
-  input3: {
+  {
     title: "Employee Title",
     value: "title",
   },
-  input4: {
+  {
     title: "Pay Rate",
     value: "pay",
   },
-  input5: {
+  {
     title: "Recently Helped",
     value: "recentlyHelped",
     givenValue: 0,
   },
-  input6: {
+  {
     title: "Employement Location",
     value: "workingAt",
   },
-  input7: {
+  {
     title: "Employement Transactions",
     value: "transactions",
     givenValue: null,
   },
-};
+];
 
-const addLocationInput = {
-  input1: {
+const addLocationInput = [
+  {
     title: "City Name",
     value: "city",
   },
-  input2: {
+  {
     title: "City Name",
     value: "city",
   },
-  input3: {
+  {
     title: "Region",
     value: "region",
   },
-  input4: {
+  {
     title: "Address",
     value: "address",
   },
-  input5: {
+  {
     title: "Image, Placeholder currently",
     value: "image",
   },
-  input6: {
+  {
     title: "Employee List",
     value: "employeeList",
     givenValue: newCustomerDefaultId,
   },
-};
+];
 
 const newCustomerInput = [
   {
@@ -125,44 +125,44 @@ const newCustomerInput = [
   },
 ];
 
-const lookupCustomerInput = {
-  input1: {
+const lookupCustomerInput = [
+  {
     title: "Lookup with Customer Full Name",
     value: "fullName",
   },
-  input2: {
+  {
     title: "Lookup with Customer ID",
     value: "id",
   },
-};
+];
 
 // adds an item and updates a customer
-const newItemExistingCustomer = {
-  input2: {
+const newItemExistingCustomer = [
+  {
     title: "Generated Item ID",
     value: "id",
     givenValue: newItemDefaultId,
   },
-  input1: {
+  {
     title: "Item Name being Stored",
     value: "itemName",
   },
-  input3: {
+  {
     title: "Quick Transfer?",
     value: "quickTransfer",
     boolean: true,
   },
-  input4: {
+  {
     title: "Customer ID",
     value: "customerStoredItemsId",
     givenValue: null,
   },
-  input5: {
+  {
     title: "Transaction ID",
     value: "itemTransactionsId",
     givenValue: newTransactionDefaultId,
   },
-};
+];
 
 const newItemAndCustomerInput = [
   {

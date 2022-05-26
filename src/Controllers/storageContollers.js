@@ -11,15 +11,28 @@ import { inputGroupReducer } from "../middleware/inputGroups";
 export async function addNewCustomerAndItem(formState) {
   try {
     // needs sets
-    const Customer = { ...formState.Customer };
-    const Item = { ...formState.Item };
-    const Transactions = { ...formState.Transactions };
-    console.log(formState);
-    await API.graphql(
-      graphqlOperation(createTransactions, { input: Transactions })
-    );
-    await API.graphql(graphqlOperation(createItem, { input: Item }));
-    await API.graphql(graphqlOperation(createCustomer, { input: Customer }));
+    const Customer = { ...formState[0] };
+    const Item = { ...formState[1] };
+    const Transactions = { ...formState[2] };
+    console.log(Customer, Item, Transactions);
+
+    try {
+      await API.graphql(graphqlOperation(createItem, { input: Item }));
+    } catch (error) {
+      console.log("error creating New Customer and Item:", error);
+    }
+    try {
+      await API.graphql(graphqlOperation(createCustomer, { input: Customer }));
+    } catch (error) {
+      console.log("error creating New Customer and Item:", error);
+    }
+    try {
+      await API.graphql(
+        graphqlOperation(createTransactions, { input: Transactions })
+      );
+    } catch (error) {
+      console.log("error with :", error);
+    }
     // setFormState([]); moved to state
   } catch (err) {
     console.log("error creating New Customer and Item:", err);

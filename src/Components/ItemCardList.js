@@ -22,13 +22,14 @@ const ItemCardList = ({ Items }) => {
         return (
           <Card style={{ marginRight: "1em", background: "#dee2e6" }}>
             <Card.Body>
-              <Card.Title>{i.itemName}</Card.Title>
+              {/* deprecated  */}
+              {/* <Card.Title>{i.itemName}</Card.Title>
               <Card.Subtitle className="mb-2 text-muted">
                 {i.owner.fullName}
               </Card.Subtitle>
               <Card.Subtitle className="mb-2 text-muted">
-                {/* {i.transaction} */}transaction id here
-              </Card.Subtitle>
+                transaction id here
+              </Card.Subtitle> */}
             </Card.Body>
           </Card>
         );
